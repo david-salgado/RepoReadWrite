@@ -1,0 +1,39 @@
+Package: RepoReadWrite
+Title: Reading and writing files of the microdata repository
+Version: 0.2
+Author: David Salgado
+Maintainer: David Salgado <david.salgado.fernandez@ine.es>
+Description: This package contains the functions necessary to read and write
+    files of the microdata repository
+Depends:
+    R (>= 3.2.0)
+Imports:
+    haven,
+    data.table (>= 1.9.0),
+    gdata (>= 2.12.0),
+    StQ (>= 0.2)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Collate:
+    'ExampleDD.R'
+    'ExampleDM.R'
+    'ExampleQ.R'
+    'FirstLine.R'
+    'IntegrityCheck.R'
+    'ReadRepoFile.R'
+    'ReadSASFile.R'
+    'RepoDD.R'
+    'RepoDDToDD.R'
+    'RepoFileVersion.R'
+    'RepoNextFileVerNumber.R'
+    'RepoPeriodRange.R'
+    'RepoTopn.R'
+    'WriteRepoFile.R'
+    'XLS.R'
+    'xmlDDToDD.R'
+    'xmlRepoFile.R'
+    'xmlRepoFilePrueba.R'
+RoxygenNote: 5.0.1
+URL: https://github.com/david-salgado/RepoReadWrite
+BugReports: https://github.com/david-salgado/RepoReadWrite/issues
