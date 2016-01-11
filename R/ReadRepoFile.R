@@ -1,27 +1,22 @@
-#' Lectura de un fichero del repositorio
+#' @title Write a file with a key-value
 #' 
-#' \code{ReadRepoFile} devuelve un \code{\link{data.table}} con el 
-#' contenido del fichero del repositorio especificado.
+#' @description \code{ReadRepoFile} returns a \linkS4class{data.table} with the 
+#' content of the file corresponding to the input name.
 #' 
-#' Esta función permite la lectura del ficheros ASCII ubicados en el repositorio 
-#' de la encuesta.
+#' @param FileName Character vector of length 1 with the name of the file to 
+#' read. The file will be read from the working directory (see 
+#' \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param FileName \code{\link{vector}} de tipo \code{character} de longitud 1 
-#' con el nombre del fichero que se desea leer. El nombre debe incluir la ruta
-#' completa de ubicación del fichero (directorio en el que se encuentra el
-#' fichero y su nombre). 
-#' 
-#' @return \code{data.table} con los datos del fichero leído.
+#' @return \linkS4class{data.table} with all data from the read file.
 #' 
 #' @examples
-#' # Se asume que el fichero con estructura par clave-valor, 
-#' # ASCII \code{E30183.FF_V1.MM032014.D_1}, se encuentra en el escritorio del 
-#' # administrador:
+#' # We assume that the key-value ASCII file \code{E30183.FF_V1.MM032014.D_1} is 
+#' in the administrator desktop (change accordingly otherwise): 
 #' RepoName <- 'C:/Users/Administrador/Desktop/E30183.FF_V1.MM032014.D_1'
 #' Example.kv <- ReadRepoFile(RepoName)
 #' str(Example.kv)
 #' 
-#' @seealso \link{ReadSASFile}, \link{WriteRepoFile}
+#' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
 #'
@@ -64,7 +59,8 @@
     Lengths <- unlist(Lengths[-length(Lengths)])
     # Se determinan las posiciones inicial y final de cada variable en cada línea
     Pos1 <- c(1L)
-    for (i in seq(along = Lengths)){Pos1 <- c(Pos1, Lengths[i] + Pos1[length(Pos1)])}
+    for (i in seq(along = Lengths)){Pos1 <- c(Pos1, 
+                                              Lengths[i] + Pos1[length(Pos1)])}
     Pos2 <- Pos1[-1] - 1L
     Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
     Pos1 <- Pos1[-length(Pos1)]
@@ -79,7 +75,7 @@
     DupRows <- duplicated(FileDT)
     if (sum(DupRows) > 0) {
 
-        cat('Las siguientes filas estaban duplicadas y han sido eliminadas.\n')
+        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:\n\n')
         print(FileDT[DupRows])
         FileDT <- FileDT[!DupRows]
     }
@@ -87,10 +83,14 @@
     if ('DESC' %in% names(FileDT)) {
         
         FileDT <- FileDT[, DESC := NULL]
-        cat('[ReadRepoFile] El campo DESC se ha eliminado.\n')   
+        cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
     }
     
-    if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), c('IDDD', 'Valor')))
+    if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) {
+        
+        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), 
+                              c('IDDD', 'Valor')))
     
+    }
     return(FileDT)
 }
