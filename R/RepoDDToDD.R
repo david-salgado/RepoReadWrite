@@ -1,41 +1,32 @@
-#' Transforma el fichero DD del repositorio a su formato para R
+#' @title Produce an object of class \linkS4class{DD} from a DD file
 #' 
-#' Esta función es un constructor para la clase \linkS4class{DD} a partir del 
-#' contenido del fichero DD correspondiente en el repositorio.
+#' @description This function is a constructor for the class \linkS4class{DD} 
+#' using the contents of a DD file in the original ASCII format.
 #' 
-#' \code{RepoDDToDD} transforma un \code{\linkS4class{data.frame}} con el contenido
-#' del fichero DD de definición de datos ubicado en el repositorio de microdatos
-#' de la encuesta, en un \code{\linkS4class{data.table}} con el formato requerido para 
-#' su inclusión como slot \code{DD} de un objeto de clase \code{\linkS4class{StQ}}.
+#' \code{RepoDDToDD} transforms a \link{data.frame} with the content of a DD 
+#' file with the original ASCII fixed-width columnwise format into an object of 
+#' class \linkS4class{DD}. 
 #' 
-#' Esta función toma el contenido del \code{data.frame} de entrada y 
-#' construye un \code{data.table} con las columnas \code{Variable}, 
-#' \code{Sort}, \code{Class} and \code{Qual\code{1}} to \code{Qual\code{q}}. 
+#' This function internally builds a \linkS4class{data.table} with columns
+#'  \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
+#'  \code{Qual\emph{q}}. The column \code{Variable} contains the names of all 
+#'  variables, both questionnaire variables and metadata. This internal 
+#'  \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
+#'  object.
 #' 
-#' La columna \code{Variable} contiene los nombres de todas las variables, tanto
-#' de las del cuestionario como de las creadas durante el proceso.
+#' The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or 
+#' \code{'IDDD'}, for statistical unit qualifiers, variable name qualifiers and
+#' variable names, respectively.
 #' 
-#' La columna \code{Sort} toma los valores \code{'IDQual'}, \code{'NonIDQual'}, 
-#' e \code{'IDDD'}, para calificadores de identificación de las unidades 
-#' estadísticas, para calificadores de nombres de variables y para nombres de
-#' variables otras variables en el cuestionario.
+#' The column \code{Class} specifies the class of the variable and takes values
+#' \code{numeric} or \code{character}. 
 #' 
-#' La columna \code{Class} especifica la clase de la variable, y toma los valores
-#' \code{numeric} o \code{character}. 
+#' The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the 
+#' qualifiers of every variable name (row).
 #' 
-#' Las columnas \code{Qual\code{1}} a \code{Qual\code{q}} contienen los nombres de los 
-#' calificadores de cada variable (fila).
-#' 
-#' Se transforma el fichero de definición de datos para que su tratamiento desde
-#' el punto de vista de la programación sea más eficiente.
-#' 
-#' @param RepoDD \code{data.frame} con el contenido del fichero 
-#' \code{DD} de definición de datos ubicado en el repositorio de microdatos de 
-#' la encuesta en su formato para R.
+#' @param RepoDD \link{data.frame} with the content of the file \code{DD}.
 #'  
-#' @return \code{data.table} con los datos del fichero \code{DD} 
-#' en el formato adecuado para su inclusión como slot \code{DD} de un objeto de
-#' clase \code{StQ}.
+#' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
 #' data(RepoDD)
@@ -64,7 +55,9 @@ RepoDDToDD <- function(RepoDD){
     output[NOMIDDD != '', Variable := NOMIDDD]
     output[NOMIDDD != '', Sort := 'IDDD']
 
-    output[, Class := ifelse(TIPO == 'NUMBER', 'numeric', ifelse(TIPO == 'STRING', 'character', ''))]
+    output[, Class := ifelse(TIPO == 'NUMBER', 
+                             'numeric', 
+                             ifelse(TIPO == 'STRING', 'character', ''))]
 
     # Eliminamos columnas innecesarias
     output[, c('NOMID', 'NOMCALIFICADOR', 'NOMIDDD', 'TIPO') := NULL, with = F]
@@ -120,7 +113,8 @@ RepoDDToDD <- function(RepoDD){
         
     }
 
-    nCalif <- (length(names(NonUnitDT)) - length(c('Variable', 'Sort', 'Class'))) / 2
+    nCalif <- (length(names(NonUnitDT)) - 
+               length(c('Variable', 'Sort', 'Class'))) / 2
     if (nCalif >= 1) {
         
         for (i in 1:nCalif){
@@ -129,7 +123,8 @@ RepoDDToDD <- function(RepoDD){
         }
     }
 
-    nCalif <- (length(names(output))  - length(c('Variable', 'Sort', 'Class', NomID))) / 2
+    nCalif <- (length(names(output))  - 
+               length(c('Variable', 'Sort', 'Class', NomID))) / 2
 
     if (nCalif >= 1) {
       
@@ -153,7 +148,11 @@ RepoDDToDD <- function(RepoDD){
     
     for (col in names(output)){
         
-      if (all(is.na(output[[col]])) | all(output[[col]] == '')) output[, col := NULL, with = F]
+      if (all(is.na(output[[col]])) | all(output[[col]] == '')) {
+          
+          output[, col := NULL, with = F]
+      }
+        
       output[is.na(get(col)), col := '', with = F]
         
     }

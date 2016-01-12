@@ -40,10 +40,10 @@
 #' @examples
 #' FileName<-"N:/UDMTD/UDTMDCOM/DepSel.SoftwareR/INE.Packages.v2/Ejemplo_v2.xml"
 #' DD <- xmlToDD(FileName)
-#' @include DD-class.R
+#' 
+#' @importFrom StQ DD-class.R
 #' 
 #' @import data.table XML 
-#'
 #' 
 #' @export
     xmlToDD <- function(FileName){

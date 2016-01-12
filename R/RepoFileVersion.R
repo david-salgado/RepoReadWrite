@@ -1,25 +1,23 @@
-#' Número de la última versión de un fichero en un directorio
+#' @title Return index number of the last version of a file
 #'
-#' \code{RepoTopn} obtiene el número de la última versión que existe de un fichero
-#' en un determinado directorio.
+#' @description \code{RepoTopn} returns the index number of the last version of 
+#' a file in an input directory.
 #' 
-#' Esta función busca en el directorio especificado en el parámetro de entrada
-#' \code{Path}, la última versión que existe del fichero indicado en \code{FileNameString}
-#' y devuelve el número correspondiente a dicha versión.
+#' This function searches in the input directory \code{Path} the last version of 
+#' the input file name \code{FileNameString} and returns the corresponding index
+#' number of such version.
 #' 
-#' Esta función está pensada para ficheros que tiene anexada la versión a la
-#' que corresponden sus datos al final de su nombre (versión definitiva o parcial).
+#' This function is thought for files whose names has a suffix the version 
+#' corresponding to its contents (either definitive or partial version).
 #'
-#' @param Path \code{Vector} de tipo \code{character} de longitud uno con la 
-#' ruta del directorio en el que queremos buscar el fichero.
+#' @param Path Character vector of length 1 with the path of the search 
+#' directory.
 #' 
-#' @param FileNameString \code{Vector} de tipo \code{character} de longitud uno con
-#' el nombre del fichero para el que queremos determinar el número de la última  
-#' versión disponible en el directorio indicado en \code{Path}.
+#' @param FileNameString Character vector of length 1 with the name of the file
+#' whose last version is queried.
 #'  
-#' @return \code{Vector} de tipo \code{integer} de longitud uno con el número de
-#' la última versión del fichero especificado que existe en el directorio de
-#' entrada.
+#' @return Integer vector of length 1 expressing the last version index number
+#' of the input file name in the input search directory.
 #'
 #' @examples
 #' \dontrun{
@@ -31,7 +29,7 @@ RepoFileVersion <- function(Path, FileNameString){
   
   Files <- list.files(Path)
   Files <- Files[grep(FileNameString, Files)]
-  if (length(Files) == 0) stop('[RepoTopn RepoReadWrite] No existen ficheros con este nombre.')
+  if (length(Files) == 0) stop('[RepoReadWrite::RepoTopn] No files with this name in this directory.')
   
   nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
   out <- max(nVer)
