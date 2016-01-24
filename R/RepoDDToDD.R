@@ -30,12 +30,18 @@
 #' 
 #' @examples
 #' data(RepoDD)
-#' RepoDDToDD(RepoDD)
+#' data(XLS)
+#' library(data.table)
+#' setnames(XLS, 
+#'          c('CalificadoresID', 'CalificadoresNoID', 'Variables', 'SP', 'SGMRD'),
+#'          c('IDQual', 'NonIDQual', 'IDDD', 'Unit1', 'Unit2'))
+#' VarNameCorresp <- new(Class = 'VarNameCorresp', VarNameCorresp = list(XLS))
+#' RepoDDToDD(RepoDD, VarNameCorresp)
 #' 
 #' @import data.table
 #'       
 #' @export
-RepoDDToDD <- function(RepoDD){
+RepoDDToDD <- function(RepoDD, VarNameCorresp){
     
     RepoDD <- as.data.table(RepoDD)
     output <- copy(RepoDD)
@@ -158,7 +164,9 @@ RepoDDToDD <- function(RepoDD){
     }
     
     # Otorgamos la clase DD a la data.table final
-    output <- new(Class = 'DD', Data = output)
+    output <- new(Class = 'DD', 
+                  VarNameCorresp = VarNameCorresp, 
+                  MicroData = output)
     
     return(output)
 }

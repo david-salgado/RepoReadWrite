@@ -103,7 +103,7 @@
       
       
       # Otorgamos la clase DD a la data.table final
-      output <- new(Class = 'DD', Data = DDData)
+      output <- new(Class = 'DD', MicroData = DDData)
       
       return(output)
 

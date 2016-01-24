@@ -39,7 +39,7 @@
       nomQual <- lapply(nomQual,function(x) x[,1][!is.na(x[,1])])
       nummaxQual <- max(unlist(lapply(nomQual,length)))
       
-      Qual <- vector('character',length(xmlDD) * nummaxQual)
+      Qual <- vector('character', length(xmlDD) * nummaxQual)
       
       for (i in seq(along = xmlDD)){
         
