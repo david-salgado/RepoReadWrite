@@ -1,24 +1,28 @@
-#' Hoja de Excel en formato data.frame
+#' \title \link{data.frame} with the content of the variable names 
+#' correspondence Excel sheet
 #'
-#' \code{XLS} es un \code{\link{data.frame}} con la equivalencia entre los nombres
-#' de las variables de la encuesta en la SGMRD y los nombres de las mismas 
-#' en el servicio promotor.
+#' \code{XLS} is a \link{data.frame} with the content of the corresponding Excel
+#' sheet containing the correspondence between the variable names used by 
+#' different production units of the Service Sector Activity Indicator surveys.
 #' 
-#' Las columnas del \code{data.frame} son las siguientes:
+#' The columns of this \link{data.frame} are:
 #'\itemize{
-#'   \item CalificadoresID. Calificadores identificativos de unidad.
-#'   \item CalificadoresNoID. Calificadores de variable.
-#'   \item Variables. Nombres de las variables en el repositorio.
-#'   \item NOrden. Calificador de unidad. Aparece por completitud.
-#'   \item CCAA. Comunidad autonoma (valores 01-17).
-#'   \item EsRemuner. Remunerado (1) or no remunerado (0).
-#'   \item TipoRem. Tipo de remuneracion (1 Fijo, 2 Eventual, 3 ETT, 4 Otros).
-#'   \item SP. Nombres de las variables en el servicio promotor de la encuesta.
-#'   \item SGMRD. Nombres de las variables en la SGRMD.
+#'   \item CalificadoresID: Statistical unit qualifiers.
+#'   \item CalificadoresNoID: Variable name qualifiers.
+#'   \item Variables: Variable names.
+#'   \item NOrden: First statistical unit qualifier.
+#'   \item CCAA: First variable name qualifier (values 01-17).
+#'   \item EsRemuner: Second variable name qualifier ('Remunerado': 1 or 'No 
+#'   remunerado': 0).
+#'   \item TipoRem: Third variable name qualifier ('Fijo' : 1, 'Eventual': 2, 
+#'   'ETT': 3, 'Otros': 4).
+#'   \item SP: Variable names used by the conducting unit (\emph{unidad 
+#'   promotora}).
+#'   \item SGMRD: Variable names used by the data collection unit.
 #' }
 #'
 #' @docType data
 #' @name XLS
 #' @usage data(XLS)
-#' @format \code{data.frame} con 68 filas y 9 columnas.
+#' @format \link{data.frame} with 68 rows and 9 columns.
 NULL

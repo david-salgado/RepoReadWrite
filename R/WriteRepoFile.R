@@ -1,46 +1,34 @@
-#' Escritura de un fichero con estructura par clave-valor
+#' @title Write a key-value pair ASCII file
 #' 
-#' \code{WriteRepoFile} reescribe el objeto de entrada con una estructura par
-#' clave-valor y lo guarda en un fichero ASCII. 
+#' @description \code{WriteRepoFile} writes the input key-value object in a 
+#' fixed-width column ASCII file. 
 #' 
-#' Esta función lee el objeto de entrada \code{object} y reescribe su contenido
-#' con una estructura par clave-valor. Esta nueva estructura se graba en un 
-#' fichero ASCII con nombre \code{Name} especificado como argumento de entrada,
-#' el cual debe definir la ruta completa de acceso al fichero (directorio y nombre
-#' que queremos asignarle). 
+#' This method reads the input object \code{object} and writes its content as a 
+#' fixed-width column ASCII file with key-value pair structure with the 
+#' specified input name \code{Name}. 
 #' 
-#' También es necesario incluir como input de la función el número de 
-#' calificadores de identificación (\code{NIV}) para que se incluya en la 
-#' primera línea del fichero ASCII generado.
+#' @param object Objecto to be written in the output file.
 #' 
+#' @param Name Character vectorof length 1 specifying the name of the output 
+#' file. The file will be written in the working directory 
+#' (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param object Objeto que se desea escribir con estructura par clave-valor en
-#' un fichero ASCII.
-#' 
-#' @param Name \code{\link{vector}} de tipo \code{character} de longitud 1 con el
-#' nombre del fichero ASCII a escribir. Debe incluir la ruta completa en la que 
-#' se quiere ubicar el mismo (directorio y nombre del fichero que se va a crear).
-#' 
-#' @param NIV \code{Vector} de tipo \code{integer} de longitud uno con el número
-#' de niveles del fichero que se va a generar. Corresponde al número total de 
-#' calificadores que aparecen en el fichero.Por defecto toma el valor 
-#' \code{NIV} = \code{1}.
-#' 
-#' 
-#' @return Fichero ASCII con los datos del objeto de entrada con estructura par
-#' clave-valor y de nombre el especificado como input.
+#' @return These methods return the invisible \code{\link{NULL}} object writing 
+#' as a side-effect the corresponding output file.
 #' 
 #' @examples
-#' # Se escribirá un fichero ASCII en el escritorio del administrador:
-#' Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1' # Cambiar a discreción
+#' # To write the outpu file in the administrator desktop:
+#' Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1'
 #' WriteRepoFile(Example.Q, Name)
 #' 
-#' @seealso \link{ReadSASFile}, \link{ReadRepoFile}, \link{FirstLine}
+#' @seealso \code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, 
+#' \code{\link{FirstLine}}
 #' 
 #' @include FirstLine.R
 #' 
 #' @export
-setGeneric("WriteRepoFile", function(object, Name){standardGeneric("WriteRepoFile")})
+setGeneric("WriteRepoFile", 
+           function(object, Name){standardGeneric("WriteRepoFile")})
 
 #' @rdname WriteRepoFile
 #' 
@@ -62,19 +50,27 @@ setMethod(
         Widths <- Widths[2:(length(Widths) - 1)]
         Widths <- unlist(lapply(strsplit(Widths, '='), '[', 2))
         Widths <- unlist(lapply(strsplit(Widths, '.', fixed = TRUE), '[', 1))
-        Widths <- ifelse(substr(Widths, 1, 1) == '$', substr(Widths, 2, nchar(Widths)), Widths)
+        Widths <- ifelse(substr(Widths, 1, 1) == '$', 
+                         substr(Widths, 2, nchar(Widths)), 
+                         Widths)
         Widths <- as.integer(Widths)
     
         write(x = FL, file = Name)
         auxData <- object
-        gdata::write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, justify = 'right', na = '', width = Widths)
-        cat(paste0('Key-value pair file ', match.call()[['object']], ' written in ', Name, '\n')) 
+        write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
+                  justify = 'right', na = '', width = Widths)
+        cat(paste0('Key-value pair file ', 
+                   match.call()[['object']], 
+                   ' written in ', 
+                   Name, 
+                   '\n')
+        ) 
         return(invisible(NULL))
     }
 )
 #' @rdname WriteRepoFile
 #' 
-#' @import StQ
+#' @importFrom StQ getData
 #' 
 #' @export
 setMethod(
@@ -83,7 +79,7 @@ setMethod(
     function(object, Name){
         
         
-        WriteRepoFile(StQ::getData(object), Name = Name)
+        WriteRepoFile(object = getData(object), Name = Name)
         return(invisible(NULL))
         
     }

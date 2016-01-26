@@ -1,4 +1,5 @@
-#' @title Produce an object of class \linkS4class{DD} from a DD file
+#' @title Produce an object of class \linkS4class{DD} from a fixed-width column 
+#' ASCII DD file
 #' 
 #' @description This function is a constructor for the class \linkS4class{DD} 
 #' using the contents of a DD file in the original ASCII format.
