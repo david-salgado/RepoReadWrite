@@ -1,33 +1,27 @@
-#' Obtención de los períodos de un tipo dado de ficheros en un directorio
+#' @title Obtain the time periods of a given input file type
 #'
-#' \code{RepoPeriodRange} obtiene los periodos que existen de un tipo concreto de
-#' ficheros en un determinado directorio.
+#' @description \code{RepoPeriodRange} returns the time periods of files of a 
+#' given input file type \code{Type} (FF, FD, FG, FL, FT) in an input directory
+#'  \code{Path} up to a last given input time period \code{Last} (included). By 
+#'  default, it returns all time periods in the queried directory unless the 
+#'  input parameter \code{Last} is specified.
 #' 
-#' Esta función obtiene para el tipo de ficheros indicado en el input \code{Type},
-#' los distintos periodos que existen en el directorio especificado en el parámetro
-#' de entrada \code{Path}. 
+#' @param Path Character vector of length 1 specifying the path of the searching 
+#' directory.
 #' 
-#' Por defecto devuelve todos los periodos del fichero que haya ubicados en el 
-#' directorio. El parámetro \code{Last} nos permite solicitar los periodos hasta
-#' uno concreto de ellos.
+#' @param Type Character vector of length 1 specifying the type of file whose 
+#' time periods are queried. It can take values \code{FF}, \code{FG}, \code{FD}, 
+#' \code{FL} or \code{FT}.
 #' 
-#' @param Path \code{Vector} de tipo \code{character} de longitud uno, con la 
-#' ruta del directorio en el que queremos buscar los ficheros del tipo \code{Type}.
-#' 
-#' @param Type \code{Vector} de tipo \code{character} de longitud uno con el 
-#' tipo del fichero del que queremos saber los periodos en el directorio indicado
-#' en \code{Path}. Puede tomar los valores \code{FF}, \code{FG}, \code{FD}, 
-#' \code{FL} o \code{FT}.
-#' 
-#' @param Last \code{Vector} de tipo \code{character} de longitud uno con el último
-#' periodo que queremos obtener del tipo de fichero especificado.
+#' @param Last Character vector of length 1 specifying the last time period. By 
+#' default it is the last of all of them.
 #'  
-#' @return \code{Vector} de tipo \code{character} con los distintos periodos que
-#' existen en el directorio de entrada del tipo de fichero especificado.
+#' @return Character vector with as many components as time periods present in 
+#' the input directory up to the last one specified (included).
 #'
 #' @examples
 #' \dontrun{
-#' RepoPeriodRange('R:/E30183', 'FF', 'MM102014')
+#' RepoPeriodRange(Path = 'R:/E30183', Type = 'FF', Last = 'MM102014')
 #' }
 #' 
 #' @export

@@ -1,22 +1,22 @@
-#' Data.table con el contenido del fichero DD (excepto la columna descripcion)
+#' @title \linkS4class{data.table} with the content of the file DD
 #'
-#' \code{RepoDD} es un \code{\link{data.table}} con el contenido del fichero \code{DD}
-#' de definición de datos ubicado en el repositorio de la encuesta de IASS.
+#' @description \code{RepoDD} is a \linkS4class{data.table} with the content of 
+#' the file DD containing the definition and properties of every variable for
+#' the Service Sector Activity Indicators survey.
 #' 
-#' Las columnas del \code{data.table} \code{RepoDD} son las siguientes:
+#' The columns of \code{RepoDD} are:
 #' \itemize{
-#'   \item NOMID. Nombres de los calificadores identificadores de unidad.
-#'   \item NOMCALIFICADOR. Nombres de los calificadores de nombre de variables.
-#'   \item NOMIDDD. Nombres de las variables en el repositorio.
-#'   \item TIPO. \code{STRING} para variables de tipo \code{character} o 
-#'   \code{NUMBER} para variables de tipo \code{double} o \code{integer}.
-#'   \item FORM. Formato SAS de la variable.
-#'   \item CALIFj. Nombre del calificador \code{j} para cada variable (los calificadores
-#'   de identificación no están incluidos por defecto para las variables del 
-#'   cuestionario; son excepciones los índices ponderados, impuestos, ...)
-#'   \item TIPOCALIFj. Tipo del calificador \code{j} (toma el valor \code{1} para
-#'   calificadores identificadores de unidad y el valor \code{2} para calificadores
-#'   de variables).
+#'   \item NOMID: Names of the statistical unit qualifiers.
+#'   \item NOMCALIFICADOR: Names of the variable qualifiers.
+#'   \item NOMIDDD: Names of the variables for the microdata repository.
+#'   \item TIPO: \code{STRING} for \code{character} class variables or 
+#'   \code{NUMBER} for \code{double} or \code{integer} class variables.
+#'   \item FORM: SAS format of the variables.
+#'   \item CALIF\emph{j}: Name of the qualifier \emph{j} for each variable (note
+#'   that unit qualifiers are not included by assumption; an exception occurs 
+#'   with indices weights, taxes, ...).
+#'   \item TIPOCALIF\emph{j}: Sort of qualifier \emph{j} (value \code{1} for 
+#'   unit qualifiers and value \code{2} variable qualifiers).
 #' }
 #' 
 #' 
@@ -24,5 +24,4 @@
 #' @docType data
 #' @name RepoDD
 #' @usage data(RepoDD)
-#' @format \link{data.table} con 54 filas y 22 columnas.
-NULL
+#' @format \linkS4class{data.table} with 53 rows and 22 columns.

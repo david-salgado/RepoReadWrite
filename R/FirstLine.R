@@ -1,30 +1,27 @@
-#' Generación de la primera línea de un fichero del repositorio
+#' @title Generate the first line of a file
 #' 
-#' \code{FirstLine} devuelve un \code{vector} alfanumérico de longitud 1 
-#' con la información que aparece en la primera línea de los ficheros ubicados
-#' en el repositorio.
+#' @description \code{FirstLine} returns a character \code{vector} of length 1
+#' with the first line to appear in the file for the input object.
 #' 
-#' Esta función toma un objeto de clase \code{\linkS4class{StQ}} como parámetro
-#' de entrada y devuelve la primera línea que el objeto debe contener cuando es  
-#' incluido en el repositorio de microdatos de la encuesta. La información que 
-#' contiene hace referencia al diseño de registro del fichero. 
-#' 
-#' Además del objeto cuyos datos vamos a incluir en el fichero, es necesario
-#' especificar como argumento de entrada el número de calificadores 
-#' utilizados en el fichero (\code{NIV}).
-#' 
+#' This function takes an object of class \linkS4class{StQ} as an input 
+#' parameter and returns the first line to appear in the corresponding file when
+#' the input object is to be written (see function \link{WriteRepoFile}). The 
+#' information contained in this first line is essentially the schema of the 
+#' file. 
 #' 
 #' @param object Objeto de clase \code{\linkS4class{StQ}}.
 #' 
-#' @param NIV \code{\link{vector}} de longitud 1 con el número de niveles en el fichero. 
+#' @param NIV \code{\link{vector}} de longitud 1 con el número de niveles en el
+#' fichero. 
 #' Corresponde al número total de calificadores que aparecen en el fichero.Por 
 #' defecto toma el valor \code{NIV} = \code{1}.
 #' 
-#' @return \code{Vector} de tipo \code{character} de longitud 1 con las variables
-#' que aparecen en el objeto \code{StQ} especificado y sus formatos correspondientes
-#' es decir, con el diseño de registro del fichero. Incluye además como primera 
-#' variable NIV, con el valor especificado en el input, y una última, \code{M},
-#' que corresponde a la máxima longitud de registro en el fichero.
+#' @return \code{Vector} de tipo \code{character} de longitud 1 con las
+#' variables que aparecen en el objeto \code{StQ} especificado y sus formatos
+#' correspondientes, es decir, con el diseño de registro del fichero. Incluye
+#' además como primera variable NIV, con el valor especificado en el input, y
+#' una última, \code{M}, que corresponde a la máxima longitud de registro en el
+#' fichero.
 #' 
 #' @examples
 #' data(ExampleQ)
@@ -50,7 +47,18 @@ setMethod(
                                useBytes = T, fixed = T)}
         
         Types <- lapply(object, class)
-        Types <- unlist(lapply(Types, function(vec){if (vec == 'character') {'$'} else {''}}))
+        Types <- unlist(lapply(Types, 
+                               function(vec){
+                                   if (vec == 'character') {
+                                   
+                                       '$'
+                                       
+                                   } else {
+                                       
+                                   ''
+                                   
+                                   }
+                               }))
         
         NIV <- length(names(object)) - 2
         

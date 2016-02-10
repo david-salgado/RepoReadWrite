@@ -1,31 +1,26 @@
-#' Creación del nombre de una nueva versión de un fichero
+#' @title Create the name of the next version of a file
 #'
-#' \code{RepoNextFileVerNumber} devuelve el nombre que debe tener la siguiente
-#' versión de un fichero.
+#' @description \code{RepoNextFileVerNumber} returns the name of the next 
+#' version of a file in a directory.
 #' 
-#' Esta función toma los ficheros ubicados en el directorio indicado en el 
-#' parámetro \code{Path} correspondientes al tipo especificado en el input \code{FileType}
-#' y para los periodos en \code{Periods} y genera para cada uno de ellos los 
-#' nombres de las siguientes versiones de cada uno de ellos que corresponde 
-#' generar.
+#' This function takes every file corresponding to the input file sort 
+#' \code{FileType} for the input periods \code{Periods} in the input directory 
+#' \code{Path} and generates for each of them the name of their next version.
 #'
-#' @param Periods \code{Vector} de tipo \code{character} con los periodos para
-#' los que queremos generar los nombres de la última versión de los ficheros.
+#' @param Periods Character vector with time periods included in the file names.
 #' 
-#' @param Path \code{Vector} de tipo \code{character} con la ruta donde queremos
-#' buscar los ficheros.
+#' @param Path Character vector with the path of the search directory.
 #' 
-#' @param FileType \code{Vector} de tipo \code{character} con el tipo de fichero 
-#' que queremos buscar.
+#' @param FileType Character vector with the sort (FF, FD, FG, DD, ...) of the
+#' files.
 #'  
-#' @return Devuelve un \code{Vector} de tipo \code{character} de longitud igual 
-#' al número de periodos especificados en \code{Periods} con los nombres completos
-#' de los ficheros de tipo \code{FileType} que corresponde a las siguiente versión
-#' que corresponde escribir para cada uno de periodos.
+#' @return It returns a character vector of length equal to the length of 
+#' \code{Periods} with the full names of the next version of each input file 
+#' name.
 #'
 #' @examples
 #' \dontrun{
-#' RepoNextFileVerNumber(Periods, Path, Type)
+#' RepoTopn(Path, Type)
 #' }
 #' 
 #' @export
@@ -45,8 +40,9 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-      aux <- NA
-        
+      out <- NULL
+      return(out)
+      
     }
     
     
@@ -76,8 +72,8 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     return(nVer)
   })
   
-  out <- unlist(lapply(as.list(names(NextVer)), function(Name){paste0(Name, NextVer[[Name]])}))
-  out <- out[out != "NA"]
+  out <- unlist(lapply(as.list(names(NextVer)), 
+                       function(Name){paste0(Name, NextVer[[Name]])}))
   return(out)  
   
 }

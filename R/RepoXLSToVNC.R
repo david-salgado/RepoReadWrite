@@ -49,7 +49,9 @@
         ExcelSheet <- list()
         for (sName in SheetNames) {
             
-            ExcelSheet[[sName]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = F))
+            ExcelSheet[[sName]] <- as.data.table(read.xlsx2(ExcelName, 
+                                                            heetName = sName,
+                                                            stringsAsFactors = F))
         }
         
         lapply(ExcelSheet, function(SheetName){

@@ -1,4 +1,5 @@
-#' @title Produce an object of class \linkS4class{DD} from a DD file
+#' @title Produce an object of class \linkS4class{DD} from a fixed-width column 
+#' ASCII DD file
 #' 
 #' @description This function is a constructor for the class \linkS4class{DD} 
 #' using the contents of a DD file in the original ASCII format.
@@ -46,7 +47,8 @@
     RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
     
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
-    if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights' & DDslot != 'Other'){
+    if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
+        & DDslot != 'Other'){
       stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
     }
     
@@ -69,7 +71,9 @@
     output[NOMIDDD != '', Variable := NOMIDDD]
     output[NOMIDDD != '', Sort := 'IDDD']
 
-    output[, Class := ifelse(TIPO == 'NUMBER', 'numeric', ifelse(TIPO == 'STRING', 'character', ''))]
+    output[, Class := ifelse(TIPO == 'NUMBER',
+                             'numeric',
+                             ifelse(TIPO == 'STRING', 'character', ''))]
 
     # Eliminamos columnas innecesarias
     output[, c('NOMID', 'NOMCALIFICADOR', 'NOMIDDD', 'TIPO') := NULL, with = F]
@@ -125,7 +129,8 @@
         
     }
 
-    nCalif <- (length(names(NonUnitDT)) - length(c('Variable', 'Sort', 'Class'))) / 2
+    nCalif <- (length(names(NonUnitDT)) -
+                   length(c('Variable', 'Sort', 'Class'))) / 2
     if (nCalif >= 1) {
         
         for (i in 1:nCalif){
@@ -134,7 +139,8 @@
         }
     }
 
-    nCalif <- (length(names(output))  - length(c('Variable', 'Sort', 'Class', NomID))) / 2
+    nCalif <- (length(names(output))  -
+                   length(c('Variable', 'Sort', 'Class', NomID))) / 2
 
     if (nCalif >= 1) {
       

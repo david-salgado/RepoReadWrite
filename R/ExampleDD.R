@@ -1,0 +1,28 @@
+#' @title Object of class \linkS4class{DD}
+#'
+#' @description \code{ExampleDD} is an object of class \linkS4class{DD}.
+#'
+#' The slot \code{VarNameCorresp} is a list with one component (name 
+#' \code{Microdata}) with 9 columns and 65 rows. It belongs to a real 
+#' statistical operation at Statistics Spain (thus the Spanish names).
+#'
+#' The columns of the slot \code{MicroData} are:
+#' \itemize{
+#'   \item Variable: statistical variable name.
+#'   \item Sort: semantic sort of the variable (IDQual, NonIDQual, IDDD).
+#'   \item Class: class of the variable (\code{numeric}, \code{character},...).
+#'   \item Qual1 to Qual8: 1st to 8th variable qualifier.
+#' }
+#' 
+#' The slots \code{Aggregates}, \code{AggWeights}, and \code{Other} are empty.
+#' 
+#' @docType data
+#'
+#' @name ExampleDD
+#'
+#' @usage data(ExampleDD)
+#'
+#' @format Object of class \linkS4class{DD}. Its slot \code{VarNameCorresp} is 
+#' a list of one component with a \linkS4class{data.table} with 65 rows and 
+#' 9 columns. Its slot \code{MicroData} has 52 rows and 11 columns.
+NULL

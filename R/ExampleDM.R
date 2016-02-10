@@ -1,18 +1,14 @@
-#' Conjunto de datos con estructura matricial.
+#' @title \linkS4class{data.table} with a rectangular data set
 #'
-#' \code{ExampleDM} es una \link{data.table} con estructura de datos matricial, 
-#' con los datos correspondientes a un periodo no especificado de la encuesta de
-#'  IASS.
-#' 
-#' Los nombres de las columnas son aquellos de las variables en el repositorio, 
-#' anexando los calificadores con un guión bajo cuando sea necesario (ver 
-#' \code{DD} para más información acerca de sus significados).
-#' 
+#' @description \code{ExampleDM} is a \linkS4class{data.table} with data matrix
+#' structure and severely perturbed data by different methods from a real data 
+#' set.
+#'
 #' @docType data
-#' 
+#'
 #' @name ExampleDM
-#' 
+#'
 #' @usage data(ExampleDM)
-#' 
-#' @format \code{data.table} con 23629 filas y 55 columnas. 
-NULL
+#'
+#' @format \code{data.table} with 23629 rows and 55 columns.
+
