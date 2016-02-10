@@ -25,9 +25,8 @@ de la encuesta.
 }
 \examples{
 # Se asume que el fichero con estructura par clave-valor, 
-# ASCII \\code{E30183.FF_V1.MM032014.D_1}, se encuentra en el escritorio del 
-# administrador:
-RepoName <- 'C:/Users/Administrador/Desktop/E30183.FF_V1.MM032014.D_1'
+# ASCII \\code{E30183.FF_V1.MM032014.D_1}, se encuentra en la siguiente ruta:
+RepoName <- 'R:/E30183/E30183.FF_V1.MM032014.D_1'
 Example.kv <- ReadRepoFile(RepoName)
 str(Example.kv)
 

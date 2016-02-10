@@ -4,8 +4,8 @@
 \name{ExampleQ}
 \alias{ExampleQ}
 \title{Objeto de clase StQ.}
-\format{Objeto de clase \code{StQ}. Su slot \code{Data} tiene 1710942 filas
- y 6 columnas.}
+\format{Objeto de clase \code{StQ}. Su slot \code{Data} tiene 1276194 filas
+ y 8 columnas.}
 \usage{
 data(ExampleQ)
 }

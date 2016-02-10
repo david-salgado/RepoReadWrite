@@ -4,7 +4,7 @@
 \name{ExampleDM}
 \alias{ExampleDM}
 \title{Conjunto de datos con estructura matricial.}
-\format{\code{data.table} con 29499 filas y 59 columnas.}
+\format{\code{data.table} con 23629 filas y 55 columnas.}
 \usage{
 data(ExampleDM)
 }

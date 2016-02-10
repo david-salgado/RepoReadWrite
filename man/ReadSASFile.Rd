@@ -4,7 +4,7 @@
 \alias{ReadSASFile}
 \title{Lectura de un fichero SAS de microdatos}
 \usage{
-ReadSASFile(SASFileName, Exceldf, DD)
+ReadSASFile(SASFileName, Exceldf, DD, DDslot = "MicroData")
 }
 \arguments{
 \item{SASFileName}{\code{\link{vector}} de tipo \code{character} de longitud 1 con
@@ -16,6 +16,9 @@ por las distintas unidades del INE implicadas.}
 
 \item{DD}{\code{\link{data.frame}} con el contenido del fichero \code{DD} de
 definición de datos de la encuesta, en su versión para R.}
+
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which
+variables to read are defined. Its default value is \code{MicroData}.}
 }
 \value{
 \code{\link{data.table}} con los datos del fichero SAS leído, con las
@@ -45,9 +48,11 @@ función \code{\link{RepoDDToDD}} del paquete \code{\linkS4class{StQ}}.
 # Se asume que el fichero \\code{SAS MM032014.sas7bdat} se encuentra en el escritorio
 # del administrador:
 SASName <- 'C:/Users/Administrador/Desktop/MM032014.sas7bdat'
+# We assume data created previosly:
 data(XLS)
 data(RepoDD)
-DD <- RepoDDToDD(RepoDD)
+data(VNC)
+DD <- RepoDDToDD(RepoDD, VNC)
 Example.DM <- ReadSASFile(SASName, XLS, DD)
 
 }

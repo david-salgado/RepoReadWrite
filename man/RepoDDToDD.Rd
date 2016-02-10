@@ -4,12 +4,15 @@
 \alias{RepoDDToDD}
 \title{Produce an object of class \linkS4class{DD} from a DD file}
 \usage{
-RepoDDToDD(RepoDD, VNC)
+RepoDDToDD(RepoDD, VNC, DDslot = "MicroData")
 }
 \arguments{
 \item{RepoDD}{\link{data.frame} with the content of the file \code{DD}.}
 
-\item{VNC}{Object of class \linkS4class{VarNameCorresp}}
+\item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
+
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which
+transformation will be made. Its default value is \code{MicroData}.}
 }
 \value{
 Object of class \linkS4class{DD}.
@@ -40,13 +43,10 @@ The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the
 qualifiers of every variable name (row).
 }
 \examples{
-# We assume that the xlsx file \\code{NombresVariables.E30053.xlsx} whit the
-# appropriate structure
-library(data.table)   
-ExcelName <- 'R:/MacrosSAS.Doc/NombresVariables.E30053.xlsx'
-SheetNames <- c('Datos', paste0(c('poicn0.', 'poicn1.', 'poicn2m.','ponca.',
-                 'pond_divi.', 'ponderas.'),substring(MesInicial,5,8)))
-VNC <- RepoXLSToVNC(ExcelName, SheetNames)
+# An example with data created previosly:
+library(data.table)
+data(RepoDD)
+data(VNC)
 RepoDDToDD(RepoDD, VNC)
 
 }

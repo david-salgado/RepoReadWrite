@@ -4,7 +4,7 @@
 \name{RepoDD}
 \alias{RepoDD}
 \title{Data.table con el contenido del fichero DD (excepto la columna descripcion)}
-\format{\link{data.table} con 53 filas y 22 columnas.}
+\format{\link{data.table} con 54 filas y 22 columnas.}
 \usage{
 data(RepoDD)
 }
