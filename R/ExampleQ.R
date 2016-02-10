@@ -21,5 +21,5 @@
 #'
 #' @usage data(ExampleQ)
 #'
-#' @format Object of class \code{StQ}. Its slot \code{Data} has 1710942 rows and
-#'  6 columns.
+#' @format Object of class \code{StQ}. Its slot \code{Data} has 1276194 rows and
+#'  8 columns.

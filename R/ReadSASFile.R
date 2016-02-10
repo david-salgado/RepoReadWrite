@@ -63,7 +63,6 @@ ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
     ColClasses <- unlist(lapply(out.SP, class))
     
     out.SP <- as.data.table(out.SP)
-    
       
     Exceldf <- as.data.table(Exceldf)
     

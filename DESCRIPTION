@@ -31,10 +31,9 @@ Collate:
     'RepoPeriodRange.R'
     'RepoTopn.R'
     'RepoXLSToVNC.R'
+    'VNC.R'
     'WriteRepoFile.R'
     'XLS.R'
-    'xmlRepoFile.R'
-    'xmlRepoFilePrueba.R'
     'xmlToDD.R'
 RoxygenNote: 5.0.1
 URL: https://github.com/david-salgado/RepoReadWrite

@@ -1,11 +1,11 @@
 #' \title \link{data.frame} with the content of the variable names 
-#' correspondence Excel sheet
+#' correspondence Excel sheet.
 #'
-#' \code{XLS} is a \link{data.frame} with the content of the corresponding Excel
+#' \code{XLS} is a \link{data.table} with the content of the corresponding Excel
 #' sheet containing the correspondence between the variable names used by 
 #' different production units of the Service Sector Activity Indicator surveys.
 #' 
-#' The columns of this \link{data.frame} are:
+#' The columns of this \link{data.table} are:
 #'\itemize{
 #'   \item CalificadoresID: Statistical unit qualifiers.
 #'   \item CalificadoresNoID: Variable name qualifiers.
@@ -18,10 +18,10 @@
 #'   'ETT': 3, 'Otros': 4).
 #'   \item SP: Variable names used by the conducting unit (\emph{unidad 
 #'   promotora}).
-#'   \item SGMRD: Variable names used by the data collection unit.
+#'   \item Unit2: Variable names used by unit2.
 #' }
 #'
 #' @docType data
 #' @name XLS
 #' @usage data(XLS)
-#' @format \link{data.frame} with 68 rows and 9 columns.
+#' @format \link{data.frame} with 67 rows and 9 columns.

@@ -28,7 +28,9 @@ class \linkS4class{DD}.
 
 This function internally builds a \linkS4class{data.table} with columns
  \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
- \code{Qual\emph{q}}. The column \code{Variable} contains the names of all 
+ \code{Qual\emph{q}}.
+ 
+ The column \code{Variable} contains the names of all 
  variables, both questionnaire variables and metadata. This internal 
  \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
  object.
