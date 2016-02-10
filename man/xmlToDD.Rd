@@ -2,30 +2,38 @@
 % Please edit documentation in R/xmlToDD.R
 \name{xmlToDD}
 \alias{xmlToDD}
-\title{Transforma el fichero xml del repositorio a su formato para R}
+\title{Produce an object of class \linkS4class{DD} from a xml file.}
 \usage{
-xmlToDD(FileName)
+xmlToDD(FileName, VNC, DDslot = "MicroData")
 }
 \arguments{
 \item{FileName}{\code{\link{vector}} de tipo \code{character} de longitud 1 
 con el nombre del fichero que se desea leer. El nombre debe incluir la ruta
 completa de ubicación del fichero (directorio en el que se encuentra el
 fichero y su nombre).}
+
+\item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
+
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which
+transformation will be made. Its default value is \code{MicroData}.}
 }
 \value{
 Objeto de clase \code{\linkS4class{DD}}, en el formato adecuado para
 su inclusión como slot \code{DD} de un objeto de clase \code{StQ}.
 }
 \description{
-\code{xmlToDD} lee los ficheros xml ubicados en el repositorio de microdatos 
-de la encuesta y transforma el contenido en un \code{\linkS4class{data.table}}
-con el formato requerido para su inclusión como slot \code{DD} de un objeto
-de clase \code{\linkS4class{StQ}}.
-}
-\details{
-Esta función toma el contenido del fichero xml de entrada y 
-construye un \code{data.table} con las columnas \code{Variable}, 
-\code{Sort}, \code{Class} and \code{Qual\code{1}} to \code{Qual\code{q}}.
+This function is a constructor for the class \linkS4class{DD} 
+using the contents of a xml file.
+
+\code{xmlToDD} read xml files with the definition and properties of every
+variable for the Service Sector Activity Indicators survey and transform this
+content into an object of class \linkS4class{DD}.
+
+This function reads the content of a \linkS4class{data.table} with columns
+ \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
+ \code{Qual\emph{q}}. The column \code{Variable} contains the names of all 
+ variables, both questionnaire variables and metadata. This internal 
+ \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
 
 La columna \code{Variable} contiene los nombres de todas las variables, tanto
 de las del cuestionario como de las creadas durante el proceso.
@@ -35,21 +43,18 @@ e \code{'IDDD'}, para calificadores de identificación de las unidades
 estadísticas, para calificadores de nombres de variables y para nombres de
 variables otras variables en el cuestionario.
 
-La columna \code{Class} especifica la clase de la variable, y toma los valores
-\code{numeric} o \code{character}.
+La columna \code{Class} especifica la clase de la variable, y toma los
+valores \code{numeric} o \code{character}. 
 
-Las columnas \code{Qual\code{1}} a \code{Qual\code{q}} contienen los nombres de los 
-calificadores de cada variable (fila).
+Las columnas \code{Qual\code{1}} a \code{Qual\code{q}} contienen los nombres 
+de los calificadores de cada variable (fila).
 
 Se transforma el fichero de definición de datos para que su tratamiento desde
 el punto de vista de la programación sea más eficiente.
 }
 \examples{
-
 FileName<-"N:/UDMTD/UDTMDCOM/DepSel.SoftwareR/INE.Packages.v2/Ejemplo_v2.xml"
 DD <- xmlToDD(FileName)
-
-#@include DD-class.R
 
 }
 
