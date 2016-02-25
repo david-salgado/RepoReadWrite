@@ -22,10 +22,6 @@
 #' file will be read from the working directory (see \link[base]{getwd}) unless 
 #' the full path is specified.
 #' 
-#' @param Exceldf \code{\link{data.frame}} con el contenido del fichero Excel 
-#' de equivalencias entre los nombres de las variables de la encuesta asignados 
-#' por las distintas unidades del INE implicadas.
-#' 
 #' @param DD Object of class \linkS4class{DD} with the content of the file 
 #' \code{DD} of definitions and properties of every variable.
 #' 
@@ -47,10 +43,10 @@
 #' 
 #' @importFrom haven read_sas
 #' 
-#' @import data.table
+#' @import data.table StQ
 #' 
 #' @export
-ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
+ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData'){
    
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
     if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
@@ -63,19 +59,19 @@ ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
     ColClasses <- unlist(lapply(out.SP, class))
     
     out.SP <- as.data.table(out.SP)
-      
-    Exceldf <- as.data.table(Exceldf)
     
-    CalID <- Exceldf$CalificadoresID
+    Exceldf <- getVNC(DD)@VarNameCorresp[[DDslot]]  
+    
+    CalID <- Exceldf$IDQual
     CalID <- CalID[!is.na(CalID)]
     CalID <- CalID[CalID != '']
     
-    CalNoID <- Exceldf$CalificadoresNoID
+    CalNoID <- Exceldf$NonIDQual
     CalNoID <- CalNoID[!is.na(CalNoID)]
     CalNoID <- CalNoID[CalNoID != '']
     
     Cals <- union(CalID, CalNoID)
-    VarSP <- Exceldf$SP
+    VarSP <- Exceldf$Unit1
     VarSP <- VarSP[!is.na(VarSP) & VarSP !=""]
     MissVar <- setdiff(VarSP, names(out.SP))
 
@@ -84,10 +80,10 @@ ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
     VarSP <- intersect(VarSP, names(out.SP))
     out.SP <- out.SP[, VarSP, with = F]
     
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(CalificadoresID),
-                       Variables:= CalificadoresID]
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(CalificadoresNoID),
-                       Variables:= CalificadoresNoID]
+    Exceldf <- Exceldf[is.na(Variables) & !is.na(IDQual),
+                       Variables:= IDQual]
+    Exceldf <- Exceldf[is.na(Variables) & !is.na(NonIDQual),
+                       Variables:= NonIDQual]
     
     pasteNA <- function(x, y){
         out <- ifelse(is.na(y) | y == '', paste0(x, ''), paste(x, y, sep ="_"))
@@ -95,16 +91,17 @@ ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
     }
     
     Exceldf <- Exceldf[, NewVar := Variables]
-    Exceldf <- Exceldf[CalificadoresID != '' & Variables == '' & SP != '',
-                       NewVar := CalificadoresID]
-    Exceldf <- Exceldf[CalificadoresNoID != '' & Variables == '' & SP != '',
-                       NewVar := CalificadoresNoID]
+    Exceldf <- Exceldf[IDQual != '' & 
+                       Variables == '' & 
+                       Unit1 != '', NewVar := IDQual]
+    Exceldf <- Exceldf[NonIDQual != '' & Variables == '' & Unit1 != '',
+                       NewVar := NonIDQual]
     for (Cal in Cals){
         Exceldf <- copy(Exceldf)[, NewVar:= pasteNA(NewVar, get(Cal))]
     }
 
     EquivalName <- names(out.SP)
-    names(EquivalName) <- Exceldf$NewVar[Exceldf$SP %in% EquivalName]
+    names(EquivalName) <- Exceldf$NewVar[Exceldf$Unit1 %in% EquivalName]
     setnames(out.SP, EquivalName, names(EquivalName))
     
     if (DDslot == 'MicroData'){
@@ -137,7 +134,6 @@ ReadSASFile <- function(SASFileName, Exceldf, DD, DDslot = 'MicroData'){
                          DD[Variable == DDVarNames[Var], Class]), with = F]
       
     }
-    
     return(out.SP)
 
 }
