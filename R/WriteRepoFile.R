@@ -60,7 +60,7 @@ setMethod(
         write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
                   justify = 'right', na = '', width = Widths)
         cat(paste0('Key-value pair file ', 
-                   eval(match.call()[['object']]), 
+                   object, 
                    ' written in ', 
                    Name, 
                    '\n')
@@ -96,10 +96,15 @@ setMethod(
     function(object, Name){
         
         if (Length(object) > 0) {
-        
+            
+            if (Length(object) != length(Name)) {
+                
+                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have the same length.\n'))
+                
+            }
             for (i in 1:Length(object)) {
                 
-                WriteRepoFile(object = object[[i]], Name = Name) 
+                WriteRepoFile(object = object[[i]], Name = Name[i]) 
             }
         }
 
