@@ -156,21 +156,21 @@
     setkeyv(output, CommonVar)
     setkeyv(NonUnitDT, CommonVar)
     output <- merge(output, NonUnitDT, all = T)
-    
+
     # Ordenamos la data.table final
     Qual <- setdiff(names(output), c('Variable', 'Sort', 'Class'))
     nQual <- length(Qual)
     Qual <- paste0('Qual', 1:nQual)
 
     setcolorder(output, c('Variable', 'Sort', 'Class', Qual))
-    
+   
     for (col in names(output)){
         
       if (all(is.na(output[[col]])) | all(output[[col]] == '')) output[, col := NULL, with = F]
-      output[is.na(get(col)), col := '', with = F]
+      output <- output[is.na(get(col)), col := '', with = F]
         
     }
-    
+
     # Otorgamos la clase DD a la data.table final
     if (DDslot == 'MicroData'){
       output <- new(Class = 'DD', MicroData = output, VarNameCorresp = VNC)

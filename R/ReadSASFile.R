@@ -80,21 +80,19 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData'){
     VarSP <- intersect(VarSP, names(out.SP))
     out.SP <- out.SP[, VarSP, with = F]
     
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(IDQual),
-                       Variables:= IDQual]
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(NonIDQual),
-                       Variables:= NonIDQual]
+    Exceldf <- Exceldf[is.na(IDDD) & !is.na(IDQual), IDDD:= IDQual]
+    Exceldf <- Exceldf[is.na(IDDD) & !is.na(NonIDQual), IDDD:= NonIDQual]
     
     pasteNA <- function(x, y){
         out <- ifelse(is.na(y) | y == '', paste0(x, ''), paste(x, y, sep ="_"))
         return(out)
     }
     
-    Exceldf <- Exceldf[, NewVar := Variables]
+    Exceldf <- Exceldf[, NewVar := IDDD]
     Exceldf <- Exceldf[IDQual != '' & 
-                       Variables == '' & 
+                       IDDD == '' & 
                        Unit1 != '', NewVar := IDQual]
-    Exceldf <- Exceldf[NonIDQual != '' & Variables == '' & Unit1 != '',
+    Exceldf <- Exceldf[NonIDQual != '' & IDDD == '' & Unit1 != '',
                        NewVar := NonIDQual]
     for (Cal in Cals){
         Exceldf <- copy(Exceldf)[, NewVar:= pasteNA(NewVar, get(Cal))]
