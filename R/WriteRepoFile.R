@@ -60,7 +60,7 @@ setMethod(
         write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
                   justify = 'right', na = '', width = Widths)
         cat(paste0('Key-value pair file ', 
-                   match.call()[['object']], 
+                   eval(match.call()[['object']]), 
                    ' written in ', 
                    Name, 
                    '\n')
@@ -80,6 +80,29 @@ setMethod(
         
         
         WriteRepoFile(object = getData(object), Name = Name)
+        return(invisible(NULL))
+        
+    }
+)
+
+#' @rdname WriteRepoFile
+#' 
+#' @includeFrom RepoTime Length
+#' 
+#' @export
+setMethod(
+    f = "WriteRepoFile",
+    signature = c("StQList"),
+    function(object, Name){
+        
+        if (Length(object) > 0) {
+        
+            for (i in 1:Length(object)) {
+                
+                WriteRepoFile(object = object[[i]], Name = Name) 
+            }
+        }
+
         return(invisible(NULL))
         
     }
