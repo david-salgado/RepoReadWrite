@@ -59,7 +59,7 @@ setMethod(
         auxData <- object
         write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
                   justify = 'right', na = '', width = Widths)
-        cat(paste0('Key-value pair file written in ', Name, '.\n')
+        cat(paste0('Key-value pair file written in ', getwd(), '/', Name, '.\n')
         ) 
         return(invisible(NULL))
     }
