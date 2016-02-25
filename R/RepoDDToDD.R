@@ -181,6 +181,5 @@
     }else{
       output <- new(Class = 'DD', Other = output, VarNameCorresp = VNC)
     }
-    
     return(output)
 }
