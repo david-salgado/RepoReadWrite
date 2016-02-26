@@ -32,7 +32,8 @@
     FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
     
     FirstLine <- FileVector[[1]]
-    
+    FirstLine <- gsub('Valor', 'Value', FirstLine)
+
     FileDT <- data.table(FileVector = FileVector[-1])
 
     # Se determinan los nombres y longitudes de las variables
