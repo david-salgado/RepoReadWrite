@@ -1,8 +1,8 @@
 Package: RepoReadWrite
 Title: Reading and writing files of the microdata repository
-Version: 0.2
+Version: 0.1.3.9000
 Author: David Salgado
-Maintainer: David Salgado <david.salgado.fernandez@ine.es>
+Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
     files of the microdata repository
 Depends:
@@ -12,7 +12,7 @@ Imports:
     XML,
     data.table (>= 1.9.0),
     gdata (>= 2.12.0),
-    StQ (>= 0.2)
+    StQ (>= 0.1.0)
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -59,11 +59,7 @@ setMethod(
         auxData <- object
         write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
                   justify = 'right', na = '', width = Widths)
-        cat(paste0('Key-value pair file ', 
-                   match.call()[['object']], 
-                   ' written in ', 
-                   Name, 
-                   '\n')
+        cat(paste0('Key-value pair file written in ', getwd(), '/', Name, '.\n')
         ) 
         return(invisible(NULL))
     }
@@ -78,8 +74,35 @@ setMethod(
     signature = c("StQ"),
     function(object, Name){
         
-        
         WriteRepoFile(object = getData(object), Name = Name)
+        return(invisible(NULL))
+        
+    }
+)
+
+#' @rdname WriteRepoFile
+#' 
+#' @includeFrom RepoTime Length
+#' 
+#' @export
+setMethod(
+    f = "WriteRepoFile",
+    signature = c("StQList"),
+    function(object, Name){
+        
+        if (Length(object) > 0) {
+            
+            if (Length(object) != length(Name)) {
+                
+                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have the same length.\n'))
+                
+            }
+            for (i in 1:Length(object)) {
+                
+                WriteRepoFile(object = object[[i]], Name = Name[i]) 
+            }
+        }
+
         return(invisible(NULL))
         
     }

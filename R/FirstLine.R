@@ -103,6 +103,9 @@ setMethod(
         out <- paste0(Var, collapse = ',')
         out <- paste0(paste0('NIV=', as.character(NIV), ','), out)
         out <- paste0(out, paste0(',M=', M))
+        
+        out <- gsub('Valor', 'Value', out)
+        
         return(out) 
     
     }
