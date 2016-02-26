@@ -25,6 +25,12 @@
 #' @param DD Object of class \linkS4class{DD} with the content of the file 
 #' \code{DD} of definitions and properties of every variable.
 #' 
+#' @param DDslot Character vector of length 1 with the name of DD slot in which
+#' data to be read are defined. Its default value is \code{MicroData}.
+#' 
+#' @param VNCName Character vector of length 1 with the name of the element of
+#' the list of slot of VarNameCorresp slot in which data to be read are defined.
+#' 
 #' @return \linkS4class{data.table} with the contents of the \code{DD} file, 
 #' with statistical units in rows and variables as columns.
 #' 
@@ -37,7 +43,7 @@
 #' data(RepoDD)
 #' data(VNC)
 #' DD <- RepoDDToDD(RepoDD, VNC)
-#' Example.DM <- ReadSASFile(SASName, XLS, DD)
+#' Example.DM <- ReadSASFile(SASName, DD, VNCName = 'MicroData')
 #' 
 #' @seealso  \link{RepoDDToDD}, \link{ReadRepoFile}, \link{WriteRepoFile}
 #' 
@@ -46,7 +52,7 @@
 #' @import data.table StQ
 #' 
 #' @export
-ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData'){
+ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName){
    
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
     if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
@@ -60,7 +66,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData'){
     
     out.SP <- as.data.table(out.SP)
     
-    Exceldf <- getVNC(DD)@VarNameCorresp[[DDslot]]  
+    Exceldf <- getVNC(DD)@VarNameCorresp[[VNCName]]  
     
     CalID <- Exceldf$IDQual
     CalID <- CalID[!is.na(CalID)]

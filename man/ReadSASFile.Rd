@@ -4,16 +4,12 @@
 \alias{ReadSASFile}
 \title{Read a SAS file renaming variables as specified in input parameters}
 \usage{
-ReadSASFile(SASFileName, Exceldf, DD, DDslot = "MicroData")
+ReadSASFile(SASFileName, DD, DDslot = "MicroData")
 }
 \arguments{
 \item{SASFileName}{Character vector of length 1 with name of the file. The 
 file will be read from the working directory (see \link[base]{getwd}) unless 
 the full path is specified.}
-
-\item{Exceldf}{\code{\link{data.frame}} con el contenido del fichero Excel 
-de equivalencias entre los nombres de las variables de la encuesta asignados 
-por las distintas unidades del INE implicadas.}
 
 \item{DD}{Object of class \linkS4class{DD} with the content of the file 
 \code{DD} of definitions and properties of every variable.}

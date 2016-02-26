@@ -4,6 +4,7 @@
 \name{WriteRepoFile}
 \alias{WriteRepoFile}
 \alias{WriteRepoFile,StQ-method}
+\alias{WriteRepoFile,StQList-method}
 \alias{WriteRepoFile,data.table-method}
 \title{Write a key-value pair ASCII file}
 \usage{
@@ -12,6 +13,8 @@ WriteRepoFile(object, Name)
 \S4method{WriteRepoFile}{data.table}(object, Name)
 
 \S4method{WriteRepoFile}{StQ}(object, Name)
+
+\S4method{WriteRepoFile}{StQList}(object, Name)
 }
 \arguments{
 \item{object}{Objecto to be written in the output file.}
