@@ -21,7 +21,6 @@ Collate:
     'ExampleDM.R'
     'ExampleQ.R'
     'FirstLine.R'
-    'IntegrityCheck.R'
     'ReadRepoFile.R'
     'ReadSASFile.R'
     'RepoDD.R'

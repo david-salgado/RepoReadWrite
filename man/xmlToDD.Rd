@@ -50,7 +50,8 @@ qualifiers of every variable name (row).
 # We assume that the xml file \\code{Ejemplo_v2.xml} is 
 in the administrator desktop (change accordingly otherwise): 
 FileName<-"C:/Users/Administrador/Desktop/Ejemplo_v2.xml"
-DD <- xmlToDD(FileName)
+data(VNC)
+DD <- xmlToDD(FileName, VNC)
 
 }
 

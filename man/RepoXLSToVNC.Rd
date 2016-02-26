@@ -45,7 +45,7 @@ The column \code{Unit1} specifies the variable names used by production Unit1
 library(data.table)   
 ExcelName <- 'R:/MacrosSAS.Doc/NombresVariables.E30053.xlsx'
 SheetNames <- c('Datos', paste0(c('poicn0.', 'poicn1.', 'poicn2m.','ponca.',
-                 'pond_divi.', 'ponderas.'),substring(MesInicial,5,8)))
+                 'pond_divi.', 'ponderas.'),'2014'))
  
 VNC <- RepoXLSToVNC(ExcelName, SheetNames)
 
