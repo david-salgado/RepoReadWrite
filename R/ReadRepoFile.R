@@ -86,10 +86,10 @@
         cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
     }
     
-    if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) {
+    if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {
         
-        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), 
-                              c('IDDD', 'Valor')))
+        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), 
+                              c('IDDD', 'Value')))
     
     }
     return(FileDT)
