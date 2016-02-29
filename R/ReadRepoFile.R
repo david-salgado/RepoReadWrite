@@ -82,7 +82,7 @@
                                                stop = Pos2[indexVar])), with = F]
     }
     FileDT[, FileVector := NULL]
-return(FileDT)
+
     DupRows <- duplicated(FileDT)
     if (sum(DupRows) > 0) {
 
