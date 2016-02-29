@@ -36,7 +36,10 @@
 
     #FileDT <- data.table(FileVector = FileVector[-1])
     
-    File <- fread(FileName, sep = '|', header = FALSE, skip = 0L)
+    File <- fread(FileName, sep = '|', 
+                  header = FALSE, 
+                  skip = 0L, 
+                  strip.white = FALSE)
     FirstLine <- File[1]
     FirstLine <- gsub('Valor', 'Value', FirstLine)
     
@@ -79,7 +82,7 @@
                                                stop = Pos2[indexVar])), with = F]
     }
     FileDT[, FileVector := NULL]
-
+return(FileDT)
     DupRows <- duplicated(FileDT)
     if (sum(DupRows) > 0) {
 
