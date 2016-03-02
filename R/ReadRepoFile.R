@@ -19,30 +19,29 @@
 #' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
-#'
+#' 
+#' @importFrom gdata trim
+#' 
 #' @export
     ReadRepoFile <- function(FileName) {
-    
-    trim <- function(x){gsub(pattern = " ", replacement = "", x = x, 
-                             useBytes = T, fixed = T)}
     
     ## Se lee todo el fichero en un vector carácter con cada línea en una componente
     #s <- file.info(FileName)$size 
     #buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
     #FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
-    
+
     #FirstLine <- FileVector[[1]]
     #FirstLine <- gsub('Valor', 'Value', FirstLine)
 
     #FileDT <- data.table(FileVector = FileVector[-1])
-    
-    File <- fread(FileName, sep = '|', 
+
+    File <- fread(FileName, sep = '|', sep2 = ' ',
                   header = FALSE, 
                   skip = 0L, 
-                  strip.white = FALSE)
+                  strip.white = FALSE,
+                  stringsAsFactors = FALSE)
     FirstLine <- File[1]
     FirstLine <- gsub('Valor', 'Value', FirstLine)
-    
     FileDT <- File[-1]
     setnames(FileDT, 'FileVector')
     
@@ -75,6 +74,7 @@
     Pos2 <- Pos1[-1] - 1L
     Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
     Pos1 <- Pos1[-length(Pos1)]
+
     # Se construye una columna por cada variable
     for (indexVar in seq(along = Names)){
         FileDT[, Names[indexVar]:= trim(substr(x = FileVector, 
