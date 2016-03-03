@@ -20,8 +20,6 @@
 #'
 #' @import data.table
 #' 
-#' @importFrom gdata trim
-#' 
 #' @export
     ReadRepoFile <- function(FileName) {
     
@@ -77,9 +75,10 @@
 
     # Se construye una columna por cada variable
     for (indexVar in seq(along = Names)){
-        FileDT[, Names[indexVar]:= trim(substr(x = FileVector, 
-                                               start = Pos1[indexVar], 
-                                               stop = Pos2[indexVar])), with = F]
+        FileDT[, Names[indexVar]:= gdata::trim(substr(x = FileVector, 
+                                                      start = Pos1[indexVar], 
+                                                      stop = Pos2[indexVar])), 
+               with = F]
     }
     FileDT[, FileVector := NULL]
 
