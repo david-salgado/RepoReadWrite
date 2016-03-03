@@ -4,7 +4,7 @@
 \alias{ReadSASFile}
 \title{Read a SAS file renaming variables as specified in input parameters}
 \usage{
-ReadSASFile(SASFileName, DD, DDslot = "MicroData")
+ReadSASFile(SASFileName, DD, DDslot = "MicroData", VNCName)
 }
 \arguments{
 \item{SASFileName}{Character vector of length 1 with name of the file. The 
@@ -13,6 +13,12 @@ the full path is specified.}
 
 \item{DD}{Object of class \linkS4class{DD} with the content of the file 
 \code{DD} of definitions and properties of every variable.}
+
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which
+data to be read are defined. Its default value is \code{MicroData}.}
+
+\item{VNCName}{Character vector of length 1 with the name of the element of
+the list of slot of VarNameCorresp slot in which data to be read are defined.}
 }
 \value{
 \linkS4class{data.table} with the contents of the \code{DD} file, 
@@ -46,7 +52,7 @@ data(XLS)
 data(RepoDD)
 data(VNC)
 DD <- RepoDDToDD(RepoDD, VNC)
-Example.DM <- ReadSASFile(SASName, XLS, DD)
+Example.DM <- ReadSASFile(SASName, DD, VNCName = 'MicroData')
 
 }
 \seealso{
