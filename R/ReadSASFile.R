@@ -52,7 +52,7 @@
 #' @import data.table StQ
 #' 
 #' @export
-ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName){
+ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot){
    
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
     if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'

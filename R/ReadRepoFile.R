@@ -21,7 +21,7 @@
 #' @import data.table
 #' 
 #' @export
-    ReadRepoFile <- function(FileName) {
+ReadRepoFile <- function(FileName) {
     
     ## Se lee todo el fichero en un vector carácter con cada línea en una componente
     #s <- file.info(FileName)$size 
