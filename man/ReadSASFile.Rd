@@ -4,7 +4,7 @@
 \alias{ReadSASFile}
 \title{Read a SAS file renaming variables as specified in input parameters}
 \usage{
-ReadSASFile(SASFileName, DD, DDslot = "MicroData", VNCName)
+ReadSASFile(SASFileName, DD, DDslot = "MicroData", VNCName = DDslot)
 }
 \arguments{
 \item{SASFileName}{Character vector of length 1 with name of the file. The 
