@@ -29,7 +29,6 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   Files <- list.files(Path)
   Files <- Files[grep(FileType, Files)]
   if (length(Files) == 0) return(NULL)
-  Periods <- unlist(lapply(Periods, getRepo))
   SelFiles <- c()
   for (Per in Periods){
     aux <- strsplit(Files[grep(Per, Files)], Per)
