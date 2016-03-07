@@ -52,6 +52,8 @@
             ExcelSheet[[sName]] <- as.data.table(read.xlsx2(ExcelName, 
                                                             sheetName = sName,
                                                             stringsAsFactors = F))
+            setkeyv(ExcelSheet[[sName]], names(ExcelSheet[[sName]]))
+            ExcelSheet[[sName]] <- ExcelSheet[[sName]][!duplicated(ExcelSheet[[sName]])]
         }
         
         lapply(ExcelSheet, function(SheetName){
@@ -68,7 +70,6 @@
             UnitsNames <- paste0('Unit', seq(along = Units))
             setnames(SheetName, Units, UnitsNames)
         })
-        
         VNC <- new(Class = 'VarNameCorresp', VarNameCorresp = ExcelSheet)
         
         return(VNC)
