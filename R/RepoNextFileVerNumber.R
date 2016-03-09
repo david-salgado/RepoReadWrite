@@ -39,9 +39,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-      out <- NULL
-      return(out)
-      
+        break
     }
     
     

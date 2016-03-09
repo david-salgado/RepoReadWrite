@@ -100,7 +100,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         return(out)
     }
     
-    Exceldf <- Exceldf[, NewVar := IDDD]
+    Exceldf <- copy(Exceldf)[, NewVar := IDDD]
     Exceldf <- Exceldf[IDQual != '' & 
                        IDDD == '' & 
                        Unit1 != '', NewVar := IDQual]
