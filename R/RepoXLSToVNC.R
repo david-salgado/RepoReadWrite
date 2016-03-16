@@ -53,6 +53,7 @@
                                                             sheetName = sName,
                                                             stringsAsFactors = F))
             setkeyv(ExcelSheet[[sName]], names(ExcelSheet[[sName]]))
+            ExcelSheet[[sName]][ExcelSheet[[sName]] == '.'] <- ''
             ExcelSheet[[sName]] <- ExcelSheet[[sName]][!duplicated(ExcelSheet[[sName]])]
         }
         
