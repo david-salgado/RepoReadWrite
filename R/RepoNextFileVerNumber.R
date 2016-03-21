@@ -39,7 +39,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-        break
+        aux <- list(c(Per, '.D_0'))
     }
     
     
@@ -62,15 +62,16 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   SelFiles <- split(SelFiles, SelFiles[, 1])[OrderedPeriods]
   
   NextVer <- lapply(SelFiles, function(df){
-    
-    nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))
-    nVer[2] <- as.integer(nVer[2]) + 1
-    nVer <- paste0(nVer[1], '_', nVer[2])
-    return(nVer)
+      
+      nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))
+      nVer[2] <- as.integer(nVer[2]) + 1
+      nVer <- paste0(nVer[1], '_', nVer[2])
+      return(nVer)
   })
   
-  out <- unlist(lapply(as.list(names(NextVer)), 
-                       function(Name){paste0(Name, NextVer[[Name]])}))
-  return(out)  
+  names(NextVer) <- Periods
+  NextVer <- unlist(NextVer)
+  
+  return(NextVer)
   
 }
