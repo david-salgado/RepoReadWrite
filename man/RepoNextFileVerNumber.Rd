@@ -16,8 +16,7 @@ files.}
 }
 \value{
 It returns a character vector of length equal to the length of 
-\code{Periods} with the full names of the next version of each input file 
-name.
+\code{Periods} with the next version of each input file name.
 }
 \description{
 \code{RepoNextFileVerNumber} returns the name of the next 
@@ -29,7 +28,7 @@ This function takes every file corresponding to the input file sort
 }
 \examples{
 \dontrun{
-RepoTopn(Path, Type)
+RepoNextFileVerNumber(c('MM012016'), 'R:/E30183', 'FF')
 }
 
 }
