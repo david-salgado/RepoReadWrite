@@ -7,6 +7,10 @@
 #' read. The file will be read from the working directory (see 
 #' \link[base]{getwd}) unless the full path is specified.
 #' 
+#' @param language character vector of length 1 with the language of the file to
+#' read. The values allowed are: 'SP' (Spanish) and 'EN' (English), being the
+#' default value is 'SP'.
+#' 
 #' @return \linkS4class{data.table} with all data from the read file.
 #' 
 #' @examples
@@ -21,7 +25,7 @@
 #' @import data.table
 #' 
 #' @export
-ReadRepoFile <- function(FileName) {
+ReadRepoFile <- function(FileName, language = 'SP') {
     
     ## Se lee todo el fichero en un vector carácter con cada línea en una componente
     #s <- file.info(FileName)$size 
@@ -33,13 +37,24 @@ ReadRepoFile <- function(FileName) {
 
     #FileDT <- data.table(FileVector = FileVector[-1])
 
+    if (language != 'SP' & language != 'EN'){
+        
+        stop('[RepoReadWrite::ReadRepoFile]Parameter "language" must be "SP" or "EN".')
+    }
+    
     File <- fread(FileName, sep = '|', sep2 = ' ',
                   header = FALSE, 
                   skip = 0L, 
                   strip.white = FALSE,
                   stringsAsFactors = FALSE)
     FirstLine <- File[1]
-    FirstLine <- gsub('Valor', 'Value', FirstLine)
+    FirstLine <- FirstLine[['V1']]
+    
+    if (language == 'SP'){
+        
+        FirstLine <- gsub('Valor', 'Value', FirstLine)
+    }
+    
     FileDT <- File[-1]
     setnames(FileDT, 'FileVector')
     
