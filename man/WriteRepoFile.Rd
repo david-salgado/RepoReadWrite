@@ -38,7 +38,7 @@ specified input name \code{Name}.
 \examples{
 # To write the outpu file in the administrator desktop:
 Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1'
-WriteRepoFile(Example.Q, Name)
+WriteRepoFile(ExampleQ, Name)
 
 }
 \seealso{

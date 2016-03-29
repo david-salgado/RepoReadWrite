@@ -4,12 +4,16 @@
 \alias{ReadRepoFile}
 \title{Write a file with a key-value}
 \usage{
-ReadRepoFile(FileName)
+ReadRepoFile(FileName, language = "SP")
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to 
 read. The file will be read from the working directory (see 
 \link[base]{getwd}) unless the full path is specified.}
+
+\item{language}{character vector of length 1 with the language of the file to
+read. The values allowed are: 'SP' (Spanish) and 'EN' (English), being the
+default value is 'SP'.}
 }
 \value{
 \linkS4class{data.table} with all data from the read file.
