@@ -62,7 +62,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
       stop(paste0('[Validity ReadSASFile]"', DDslot, '" is not a slot of the DD input object.'))
     }
   
-    out.SP <- haven::read_sas(SASFileName)    
+    out.SP <- haven::read_sas(SASFileName)
     ColClasses <- unlist(lapply(out.SP, class))
     
     out.SP <- as.data.table(out.SP)
@@ -71,7 +71,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         out.SP[, col := gdata::trim(get(col)), with = FALSE]
         
     }
-    
+      
     Exceldf <- getVNC(DD)@VarNameCorresp[[VNCName]]
     CalID <- Exceldf$IDQual
     CalID <- CalID[!is.na(CalID)]
@@ -92,8 +92,9 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     if (length(MissVar) > 0) cat(paste0('[RepoReadWrite::ReadSASFile] The following variables of the Excel sheet are not present in the SAS file:\n\n', 
                                         paste0(MissVar, collapse = ' '), '\n\n'))
     VarSP <- intersect(VarSP, names(out.SP))
+    if (length(VarSP) == 0) stop('[RepoReadWrite::ReadSASFile] Variables specified in the VNC slot of the input DD object are not present in the SAS file.')
     out.SP <- out.SP[, VarSP, with = F]
-    
+
     Exceldf <- Exceldf[is.na(IDDD) & !is.na(IDQual), IDDD:= IDQual]
     Exceldf <- Exceldf[is.na(IDDD) & !is.na(NonIDQual), IDDD:= NonIDQual]
     
@@ -111,7 +112,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     for (Cal in Cals){
         Exceldf <- copy(Exceldf)[, NewVar:= pasteNA(NewVar, get(Cal))]
     }
-
+    
     EquivalName <- names(out.SP)
     names(EquivalName) <- Exceldf$NewVar[Exceldf$Unit1 %in% EquivalName]
     setnames(out.SP, EquivalName, names(EquivalName))

@@ -39,10 +39,8 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     if (length(aux) == 0) {
       
         aux <- list(c(Per, '.D_0'))
-    }
-    
-    
-    if (length(aux) == 1) {
+        
+    }else if (length(aux) == 1) {
       
       aux <- aux[[1]]
       
@@ -51,7 +49,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
       aux <- Reduce(rbind, aux)
       
     }
-    
+      
     SelFiles <- rbind(SelFiles, aux)
   }
   
@@ -59,7 +57,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   rownames(SelFiles) <- NULL
   SelFiles <- as.data.frame(SelFiles)
   SelFiles <- split(SelFiles, SelFiles[, 1])[OrderedPeriods]
-  
+   
   NextVer <- lapply(SelFiles, function(df){
       
       nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))
