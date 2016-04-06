@@ -64,7 +64,6 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
   
     out.SP <- haven::read_sas(SASFileName)
     ColClasses <- unlist(lapply(out.SP, class))
-    
     out.SP <- as.data.table(out.SP)
     for (col in names(out.SP)){
         
