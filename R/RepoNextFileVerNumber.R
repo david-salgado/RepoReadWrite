@@ -38,7 +38,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-        aux <- list(c(Per, '.D_0'))
+        aux <- matrix(c(Per, '.D_0'), ncol=2)
         
     }else if (length(aux) == 1) {
       
