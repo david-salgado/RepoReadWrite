@@ -56,7 +56,7 @@
             ExcelSheet[[sName]][ExcelSheet[[sName]] == '.'] <- ''
             ExcelSheet[[sName]] <- ExcelSheet[[sName]][!duplicated(ExcelSheet[[sName]])]
         }
-        
+
         lapply(ExcelSheet, function(SheetName){
             
             ColNames <- names(SheetName)
