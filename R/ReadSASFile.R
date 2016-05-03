@@ -71,12 +71,18 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         
     }
       
-    Exceldf <- getVNC(DD)@VarNameCorresp[[VNCName]]
+    Exceldf <- getVNC(DD)[[VNCName]]
     CalID <- Exceldf$IDQual
     CalID <- CalID[!is.na(CalID)]
     CalID <- CalID[CalID != '']
     CalID <- intersect(names(Exceldf), CalID)
     
+    for (IDQual in CalID){
+        
+        Exceldf[get(IDQual) == '.', IDQual := '', with = F]
+        
+    }
+
     CalNoID <- Exceldf$NonIDQual
     CalNoID <- CalNoID[!is.na(CalNoID)]
     CalNoID <- CalNoID[CalNoID != '']
