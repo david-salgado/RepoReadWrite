@@ -163,7 +163,8 @@
     Qual <- paste0('Qual', 1:nQual)
 
     setcolorder(output, c('Variable', 'Sort', 'Class', Qual))
-   
+    output[, ValueRegExp := '.+']
+    
     for (col in names(output)){
         
       if (all(is.na(output[[col]])) | all(output[[col]] == '')) output[, col := NULL, with = F]
@@ -173,13 +174,13 @@
 
     # Otorgamos la clase DD a la data.table final
     if (DDslot == 'MicroData'){
-      output <- new(Class = 'DD', MicroData = output, VarNameCorresp = VNC)
+      output <- new(Class = 'DD', MicroData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
     }else if (DDslot == 'Aggregates'){
-      output <- new(Class = 'DD', Aggregates = output, VarNameCorresp = VNC)
+      output <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', output), VarNameCorresp = VNC)
     }else if (DDslot == 'AggWeights'){
-      output <- new(Class = 'DD', AggWeights = output, VarNameCorresp = VNC)
+      output <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', output), VarNameCorresp = VNC)
     }else{
-      output <- new(Class = 'DD', Other = output, VarNameCorresp = VNC)
+      output <- new(Class = 'DD', Other = new(Class = 'DDdt', output), VarNameCorresp = VNC)
     }
     return(output)
 }
