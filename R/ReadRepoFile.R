@@ -25,14 +25,8 @@
 #' @import data.table
 #' 
 #' @export
-<<<<<<< HEAD
-ReadRepoFile <- function(FileName) {
-||||||| merged common ancestors
-    ReadRepoFile <- function(FileName) {
-=======
 ReadRepoFile <- function(FileName, language = 'SP') {
->>>>>>> dae29b02999d18e85770b4d5f47eef1e05df7bee
-    
+
     ## Se lee todo el fichero en un vector carácter con cada línea en una componente
     #s <- file.info(FileName)$size 
     #buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)

@@ -18,8 +18,6 @@ Encoding: UTF-8
 LazyData: true
 Collate:
     'ExampleDD.R'
-    'ExampleDM.R'
-    'ExampleQ.R'
     'FirstLine.R'
     'ReadRepoFile.R'
     'ReadSASFile.R'
@@ -27,17 +25,11 @@ Collate:
     'RepoDDToDD.R'
     'RepoXLSToVNC.R'
     'RepoFileToStQList.R'
-    'RepoFileToTXT.R'
     'RepoFileVersion.R'
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
     'RepoTopn.R'
-<<<<<<< HEAD
-    'RepoXLSToVNC.R'
-||||||| merged common ancestors
-=======
     'VNC.R'
->>>>>>> dae29b02999d18e85770b4d5f47eef1e05df7bee
     'WriteRepoFile.R'
     'XLS.R'
     'xmlToDD.R'

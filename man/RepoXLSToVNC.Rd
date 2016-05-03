@@ -2,8 +2,7 @@
 % Please edit documentation in R/RepoXLSToVNC.R
 \name{RepoXLSToVNC}
 \alias{RepoXLSToVNC}
-\title{Produce an object of class \linkS4class{VarNameCorresp} from a
-xls file.}
+\title{Produce an object of class \linkS4class{VarNameCorresp} from an xls file.}
 \usage{
 RepoXLSToVNC(ExcelName, SheetNames)
 }
@@ -40,13 +39,11 @@ The column \code{IDDD} contains the names of variables.
 The column \code{Unit1} specifies the variable names used by production Unit1
 }
 \examples{
-# We assume that the xlsx file \\code{NombresVariables.E30053.xlsx} whit the
+# We assume that the xlsx file \\code{NombresVariables.E30053.xlsx} with the
 # appropriate structure
 library(data.table)   
-ExcelName <- 'R:/MacrosSAS.Doc/NombresVariables.E30053.xlsx'
-SheetNames <- c('Datos', paste0(c('poicn0.', 'poicn1.', 'poicn2m.','ponca.',
-                 'pond_divi.', 'ponderas.'),'2014'))
- 
+ExcelName <- 'S:/E30183/E30183.NombresVariables.xlsx'
+SheetNames <- c('MicroData')  
 VNC <- RepoXLSToVNC(ExcelName, SheetNames)
 
 }

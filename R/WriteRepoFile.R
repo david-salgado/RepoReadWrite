@@ -82,7 +82,7 @@ setMethod(
 
 #' @rdname WriteRepoFile
 #' 
-#' @includeFrom RepoTime Length
+#' @import RepoTime
 #' 
 #' @export
 setMethod(
