@@ -11,7 +11,7 @@ Imports:
     haven,
     data.table (>= 1.9.0),
     gdata (>= 2.12.0),
-    StQ (>= 0.2)
+    StQ (>= 0.1.0)
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -29,6 +29,7 @@ Collate:
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
     'RepoTopn.R'
+    'RepoXLSToVNC.R'
     'WriteRepoFile.R'
     'XLS.R'
     'xmlDDToDD.R'

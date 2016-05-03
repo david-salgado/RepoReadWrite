@@ -21,7 +21,7 @@
 #' @import data.table
 #'
 #' @export
-    ReadRepoFile <- function(FileName) {
+ReadRepoFile <- function(FileName) {
     
     trim <- function(x){gsub(pattern = " ", replacement = "", x = x, 
                              useBytes = T, fixed = T)}
