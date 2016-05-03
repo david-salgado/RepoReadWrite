@@ -25,4 +25,3 @@
 #' @name RepoDD
 #' @usage data(RepoDD)
 #' @format \linkS4class{data.table} with 53 rows and 22 columns.
-NULL

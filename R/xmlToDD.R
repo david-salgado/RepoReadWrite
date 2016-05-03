@@ -1,53 +1,61 @@
-#' Transforma el fichero xml del repositorio a su formato para R
+#' @title Produce an object of class \linkS4class{DD} from a xml file.
 #' 
+#' @description This function is a constructor for the class \linkS4class{DD} 
+#' using the contents of a xml file.
 #' 
-#' \code{xmlToDD} lee los ficheros xml ubicados en el repositorio de microdatos 
-#' de la encuesta y transforma el contenido en un \code{\linkS4class{data.table}}
-#' con el formato requerido para su inclusión como slot \code{DD} de un objeto
-#' de clase \code{\linkS4class{StQ}}.
+#' \code{xmlToDD} read xml files with the definition and properties of every
+#' variable for the Service Sector Activity Indicators survey and transform this
+#' content into an object of class \linkS4class{DD}.
 #' 
-#'
-#' Esta función toma el contenido del fichero xml de entrada y 
-#' construye un \code{data.table} con las columnas \code{Variable}, 
-#' \code{Sort}, \code{Class} and \code{Qual\code{1}} to \code{Qual\code{q}}. 
-#' 
-#' La columna \code{Variable} contiene los nombres de todas las variables, tanto
-#' de las del cuestionario como de las creadas durante el proceso.
-#' 
-#' La columna \code{Sort} toma los valores \code{'IDQual'}, \code{'NonIDQual'}, 
-#' e \code{'IDDD'}, para calificadores de identificación de las unidades 
-#' estadísticas, para calificadores de nombres de variables y para nombres de
-#' variables otras variables en el cuestionario.
-#' 
-#' La columna \code{Class} especifica la clase de la variable, y toma los valores
-#' \code{numeric} o \code{character}. 
-#' 
-#' Las columnas \code{Qual\code{1}} a \code{Qual\code{q}} contienen los nombres de los 
-#' calificadores de cada variable (fila).
-#' 
-#' Se transforma el fichero de definición de datos para que su tratamiento desde
-#' el punto de vista de la programación sea más eficiente.
-#' 
-#' @param FileName \code{\link{vector}} de tipo \code{character} de longitud 1 
-#' con el nombre del fichero que se desea leer. El nombre debe incluir la ruta
-#' completa de ubicación del fichero (directorio en el que se encuentra el
-#' fichero y su nombre).
-#' 
-#' @return Objeto de clase \code{\linkS4class{DD}}, en el formato adecuado para
-#' su inclusión como slot \code{DD} de un objeto de clase \code{StQ}.
+#' This function reads the content of a \linkS4class{data.table} with columns
+#'  \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
+#'  \code{Qual\emph{q}}.
 #'  
+#'  The column \code{Variable} contains the names of all 
+#'  variables, both questionnaire variables and metadata. This internal 
+#'  \linkS4class{data.table} is then used to initialize a \linkS4class{DD}
+#'  object.
+#'  
+#' The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or 
+#' \code{'IDDD'}, for statistical unit qualifiers, variable name qualifiers and
+#' variable names, respectively.
 #' 
+#' The column \code{Class} specifies the class of the variable and takes values
+#' \code{numeric} or \code{character}. 
+#' 
+#' The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the 
+#' qualifiers of every variable name (row). 
+#' 
+#' @param FileName Character vector of length 1 with the name of the file to 
+#' read. The file will be read from the working directory (see 
+#' \link[base]{getwd}) unless the full path is specified.
+#' 
+#' @param VNC Object of class \linkS4class{VarNameCorresp}.
+#' 
+#' @param DDslot Character vector of length 1 with the name of DD slot in which
+#' transformation will be made. Its default value is \code{MicroData}.
+#' 
+#' @return Object of class \linkS4class{DD}.
+#'  
 #' @examples
-#' FileName<-"N:/UDMTD/UDTMDCOM/DepSel.SoftwareR/INE.Packages.v2/Ejemplo_v2.xml"
-#' DD <- xmlToDD(FileName)
+#' # We assume that the xml file \code{Ejemplo_v2.xml} is 
+#' in the administrator desktop (change accordingly otherwise): 
+#' FileName<-"C:/Users/Administrador/Desktop/Ejemplo_v2.xml"
+#' data(VNC)
+#' DD <- xmlToDD(FileName, VNC)
 #' 
-#' @importFrom StQ DD-class.R
-#' 
-#' @import data.table XML 
-#' 
+#' @import data.table XML
+#'
 #' @export
-    xmlToDD <- function(FileName){
+    xmlToDD <- function(FileName, VNC, DDslot = 'MicroData'){
       
+      # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
+      if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
+          & DDslot != 'Other'){
+          stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
+      }
+        
+        
       doc <- xmlParse(FileName)
       nodes <- getNodeSet(doc, "//variable[@typeID]") #lista de clases 'XMLInternalElementNode'
       
@@ -101,9 +109,16 @@
         setnames(DDData, 'aux', paste0('Qual', i))
       }
       
-      
       # Otorgamos la clase DD a la data.table final
-      output <- new(Class = 'DD', MicroData = DDData)
+      if (DDslot == 'MicroData'){
+          output <- new(Class = 'DD', MicroData = DDData, VarNameCorresp = VNC)
+      }else if (DDslot == 'Aggregates'){
+          output <- new(Class = 'DD', Aggregates = DDData, VarNameCorresp = VNC)
+      }else if (DDslot == 'AggWeights'){
+          output <- new(Class = 'DD', AggWeights = DDData, VarNameCorresp = VNC)
+      }else{
+          output <- new(Class = 'DD', Other = DDData, VarNameCorresp = VNC)
+      }
       
       return(output)
 

@@ -11,15 +11,17 @@
 #' 
 #' @param object Objeto de clase \code{\linkS4class{StQ}}.
 #' 
-#' @param NIV \code{\link{vector}} de longitud 1 con el número de niveles en el fichero. 
+#' @param NIV \code{\link{vector}} de longitud 1 con el número de niveles en el
+#' fichero. 
 #' Corresponde al número total de calificadores que aparecen en el fichero.Por 
 #' defecto toma el valor \code{NIV} = \code{1}.
 #' 
-#' @return \code{Vector} de tipo \code{character} de longitud 1 con las variables
-#' que aparecen en el objeto \code{StQ} especificado y sus formatos correspondientes
-#' es decir, con el diseño de registro del fichero. Incluye además como primera 
-#' variable NIV, con el valor especificado en el input, y una última, \code{M},
-#' que corresponde a la máxima longitud de registro en el fichero.
+#' @return \code{Vector} de tipo \code{character} de longitud 1 con las
+#' variables que aparecen en el objeto \code{StQ} especificado y sus formatos
+#' correspondientes, es decir, con el diseño de registro del fichero. Incluye
+#' además como primera variable NIV, con el valor especificado en el input, y
+#' una última, \code{M}, que corresponde a la máxima longitud de registro en el
+#' fichero.
 #' 
 #' @examples
 #' data(ExampleQ)
@@ -101,6 +103,9 @@ setMethod(
         out <- paste0(Var, collapse = ',')
         out <- paste0(paste0('NIV=', as.character(NIV), ','), out)
         out <- paste0(out, paste0(',M=', M))
+        
+        out <- gsub('Valor', 'Value', out)
+        
         return(out) 
     
     }

@@ -7,6 +7,10 @@
 #' read. The file will be read from the working directory (see 
 #' \link[base]{getwd}) unless the full path is specified.
 #' 
+#' @param language character vector of length 1 with the language of the file to
+#' read. The values allowed are: 'SP' (Spanish) and 'EN' (English), being the
+#' default value is 'SP'.
+#' 
 #' @return \linkS4class{data.table} with all data from the read file.
 #' 
 #' @examples
@@ -19,22 +23,47 @@
 #' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
-#'
+#' 
 #' @export
+<<<<<<< HEAD
 ReadRepoFile <- function(FileName) {
+||||||| merged common ancestors
+    ReadRepoFile <- function(FileName) {
+=======
+ReadRepoFile <- function(FileName, language = 'SP') {
+>>>>>>> dae29b02999d18e85770b4d5f47eef1e05df7bee
     
-    trim <- function(x){gsub(pattern = " ", replacement = "", x = x, 
-                             useBytes = T, fixed = T)}
-    
-    # Se lee todo el fichero en un vector carácter con cada línea en una componente
-    s <- file.info(FileName)$size 
-    buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
-    FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
-    
-    FirstLine <- FileVector[[1]]
-    
-    FileDT <- data.table(FileVector = FileVector[-1])
+    ## Se lee todo el fichero en un vector carácter con cada línea en una componente
+    #s <- file.info(FileName)$size 
+    #buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
+    #FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
 
+    #FirstLine <- FileVector[[1]]
+    #FirstLine <- gsub('Valor', 'Value', FirstLine)
+
+    #FileDT <- data.table(FileVector = FileVector[-1])
+
+    if (language != 'SP' & language != 'EN'){
+        
+        stop('[RepoReadWrite::ReadRepoFile]Parameter "language" must be "SP" or "EN".')
+    }
+    
+    File <- fread(FileName, sep = '|', sep2 = ' ',
+                  header = FALSE, 
+                  skip = 0L, 
+                  strip.white = FALSE,
+                  stringsAsFactors = FALSE)
+    FirstLine <- File[1]
+    FirstLine <- FirstLine[['V1']]
+    
+    if (language == 'SP'){
+        
+        FirstLine <- gsub('Valor', 'Value', FirstLine)
+    }
+    
+    FileDT <- File[-1]
+    setnames(FileDT, 'FileVector')
+    
     # Se determinan los nombres y longitudes de las variables
     Param <- as.list(unlist(strsplit(x = FirstLine, split = ",")))
     Param <- as.vector(lapply(Param, "[[" , 1L))
@@ -64,11 +93,13 @@ ReadRepoFile <- function(FileName) {
     Pos2 <- Pos1[-1] - 1L
     Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
     Pos1 <- Pos1[-length(Pos1)]
+
     # Se construye una columna por cada variable
     for (indexVar in seq(along = Names)){
-        FileDT[, Names[indexVar]:= trim(substr(x = FileVector, 
-                                               start = Pos1[indexVar], 
-                                               stop = Pos2[indexVar])), with = F]
+        FileDT[, Names[indexVar]:= gdata::trim(substr(x = FileVector, 
+                                                      start = Pos1[indexVar], 
+                                                      stop = Pos2[indexVar])), 
+               with = F]
     }
     FileDT[, FileVector := NULL]
 
@@ -86,10 +117,10 @@ ReadRepoFile <- function(FileName) {
         cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
     }
     
-    if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) {
+    if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {
         
-        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), 
-                              c('IDDD', 'Valor')))
+        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), 
+                              c('IDDD', 'Value')))
     
     }
     return(FileDT)

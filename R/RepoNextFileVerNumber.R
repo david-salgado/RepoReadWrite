@@ -15,12 +15,11 @@
 #' files.
 #'  
 #' @return It returns a character vector of length equal to the length of 
-#' \code{Periods} with the full names of the next version of each input file 
-#' name.
+#' \code{Periods} with the next version of each input file name.
 #'
 #' @examples
 #' \dontrun{
-#' RepoTopn(Path, Type)
+#' RepoNextFileVerNumber(c('MM012016'), 'R:/E30183', 'FF')
 #' }
 #' 
 #' @export
@@ -29,7 +28,6 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   Files <- list.files(Path)
   Files <- Files[grep(FileType, Files)]
   if (length(Files) == 0) return(NULL)
-  Periods <- unlist(lapply(Periods, getRepo))
   SelFiles <- c()
   for (Per in Periods){
     aux <- strsplit(Files[grep(Per, Files)], Per)
@@ -40,13 +38,9 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-      out <- NULL
-      return(out)
-      
-    }
-    
-    
-    if (length(aux) == 1) {
+        aux <- matrix(c(Per, '.D_0'), ncol=2)
+        
+    }else if (length(aux) == 1) {
       
       aux <- aux[[1]]
       
@@ -55,7 +49,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
       aux <- Reduce(rbind, aux)
       
     }
-    
+      
     SelFiles <- rbind(SelFiles, aux)
   }
   
@@ -63,17 +57,18 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   rownames(SelFiles) <- NULL
   SelFiles <- as.data.frame(SelFiles)
   SelFiles <- split(SelFiles, SelFiles[, 1])[OrderedPeriods]
-  
+   
   NextVer <- lapply(SelFiles, function(df){
-    
-    nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))
-    nVer[2] <- as.integer(nVer[2]) + 1
-    nVer <- paste0(nVer[1], '_', nVer[2])
-    return(nVer)
+      
+      nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))
+      nVer[2] <- as.integer(nVer[2]) + 1
+      nVer <- paste0(nVer[1], '_', nVer[2])
+      return(nVer)
   })
   
-  out <- unlist(lapply(as.list(names(NextVer)), 
-                       function(Name){paste0(Name, NextVer[[Name]])}))
-  return(out)  
+  names(NextVer) <- Periods
+  NextVer <- unlist(NextVer)
+  
+  return(NextVer)
   
 }

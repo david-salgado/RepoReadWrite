@@ -22,12 +22,14 @@
 #' file will be read from the working directory (see \link[base]{getwd}) unless 
 #' the full path is specified.
 #' 
-#' @param Exceldf \code{\link{data.frame}} con el contenido del fichero Excel 
-#' de equivalencias entre los nombres de las variables de la encuesta asignados 
-#' por las distintas unidades del INE implicadas.
-#' 
 #' @param DD Object of class \linkS4class{DD} with the content of the file 
 #' \code{DD} of definitions and properties of every variable.
+#' 
+#' @param DDslot Character vector of length 1 with the name of DD slot in which
+#' data to be read are defined. Its default value is \code{MicroData}.
+#' 
+#' @param VNCName Character vector of length 1 with the name of the element of
+#' the list of slot of VarNameCorresp slot in which data to be read are defined.
 #' 
 #' @return \linkS4class{data.table} with the contents of the \code{DD} file, 
 #' with statistical units in rows and variables as columns.
@@ -36,88 +38,114 @@
 #' # We assume that the SAS file \code{MM032014.sas7bdat} is in the 
 #' administrator desktop:
 #' SASName <- 'C:/Users/Administrador/Desktop/MM032014.sas7bdat'
+#' # We assume data created previosly:
 #' data(XLS)
 #' data(RepoDD)
-#' DD <- RepoDDToDD(RepoDD)
-#' Example.DM <- ReadSASFile(SASName, XLS, DD)
+#' data(VNC)
+#' DD <- RepoDDToDD(RepoDD, VNC)
+#' Example.DM <- ReadSASFile(SASName, DD, VNCName = 'MicroData')
 #' 
 #' @seealso  \link{RepoDDToDD}, \link{ReadRepoFile}, \link{WriteRepoFile}
 #' 
 #' @importFrom haven read_sas
 #' 
-#' @import data.table
+#' @importFrom gdata trim
+#' 
+#' @import data.table StQ
 #' 
 #' @export
-ReadSASFile <- function(SASFileName, Exceldf, DD){
-    
-    out.SP <- haven::read_sas(SASFileName)    
-    
+ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot){
+   
+    # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
+    if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
+        & DDslot != 'Other'){
+      stop(paste0('[Validity ReadSASFile]"', DDslot, '" is not a slot of the DD input object.'))
+    }
+  
+    out.SP <- haven::read_sas(SASFileName)
     ColClasses <- unlist(lapply(out.SP, class))
-    
     out.SP <- as.data.table(out.SP)
-    
+    for (col in names(out.SP)){
+        
+        out.SP[, col := gdata::trim(get(col)), with = FALSE]
+        
+    }
       
-    Exceldf <- as.data.table(Exceldf)
-    
-    CalID <- Exceldf$CalificadoresID
+    Exceldf <- getVNC(DD)@VarNameCorresp[[VNCName]]
+    CalID <- Exceldf$IDQual
     CalID <- CalID[!is.na(CalID)]
     CalID <- CalID[CalID != '']
+    CalID <- intersect(names(Exceldf), CalID)
     
-    CalNoID <- Exceldf$CalificadoresNoID
+    CalNoID <- Exceldf$NonIDQual
     CalNoID <- CalNoID[!is.na(CalNoID)]
     CalNoID <- CalNoID[CalNoID != '']
+    CalNoID <- intersect(names(Exceldf), CalNoID)
+    
     
     Cals <- union(CalID, CalNoID)
-    VarSP <- Exceldf$SP
-    VarSP <- VarSP[!is.na(VarSP)]
+    VarSP <- Exceldf$Unit1
+    VarSP <- VarSP[!is.na(VarSP) & VarSP !=""]
     MissVar <- setdiff(VarSP, names(out.SP))
+
     if (length(MissVar) > 0) cat(paste0('[RepoReadWrite::ReadSASFile] The following variables of the Excel sheet are not present in the SAS file:\n\n', 
                                         paste0(MissVar, collapse = ' '), '\n\n'))
     VarSP <- intersect(VarSP, names(out.SP))
+    if (length(VarSP) == 0) stop('[RepoReadWrite::ReadSASFile] Variables specified in the VNC slot of the input DD object are not present in the SAS file.')
     out.SP <- out.SP[, VarSP, with = F]
-    
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(CalificadoresID), 
-                       Variables:= CalificadoresID]
-    Exceldf <- Exceldf[is.na(Variables) & !is.na(CalificadoresNoID), 
-                       Variables:= CalificadoresNoID]
+
+    Exceldf <- Exceldf[is.na(IDDD) & !is.na(IDQual), IDDD:= IDQual]
+    Exceldf <- Exceldf[is.na(IDDD) & !is.na(NonIDQual), IDDD:= NonIDQual]
     
     pasteNA <- function(x, y){
         out <- ifelse(is.na(y) | y == '', paste0(x, ''), paste(x, y, sep ="_"))
         return(out)
     }
     
-    Exceldf <- Exceldf[, NewVar := Variables]
-    Exceldf <- Exceldf[CalificadoresID != '' & Variables == '' & SP != '', 
-                       NewVar := CalificadoresID]
-    Exceldf <- Exceldf[CalificadoresNoID != '' & Variables == '' & SP != '', 
-                       NewVar := CalificadoresNoID]
+    Exceldf <- copy(Exceldf)[, NewVar := IDDD]
+    Exceldf <- Exceldf[IDQual != '' & 
+                       IDDD == '' & 
+                       Unit1 != '', NewVar := IDQual]
+    Exceldf <- Exceldf[NonIDQual != '' & IDDD == '' & Unit1 != '',
+                       NewVar := NonIDQual]
     for (Cal in Cals){
         Exceldf <- copy(Exceldf)[, NewVar:= pasteNA(NewVar, get(Cal))]
     }
-
-    EquivalName <- names(out.SP)
-    names(EquivalName) <- Exceldf$NewVar[Exceldf$SP %in% EquivalName]
-    setnames(out.SP, EquivalName, names(EquivalName))
-        
-    DD <- getData(DD)
     
+    EquivalName <- names(out.SP)
+    names(EquivalName) <- Exceldf$NewVar[Exceldf$Unit1 %in% EquivalName]
+    setnames(out.SP, EquivalName, names(EquivalName))
+    
+    if (DDslot == 'MicroData'){
+      DD <- getData(DD)
+    }else if (DDslot == 'Aggregates'){
+      DD <- getAggr(DD)
+    }else if (DDslot == 'AggWeights'){
+      DD <- getAggWeights(DD)
+    }else{
+      DD <- getOtherDD(DD)
+    }  
+    
+    if (nrow(DD) == 0){
+      stop(paste0('[Validity ReadSASFile]Data to be read are not defined in the slot "', DDslot, '" of the DD input object.'))
+    }
+   
     ExtractNames <- function(NamesVector){
       NamesVector <- as.list(NamesVector)
-      NamesVector <- unlist(lapply(NamesVector, 
+      NamesVector <- unlist(lapply(NamesVector,
                                    function(name){strsplit(name, '_')[[1]][1]}))
       return(NamesVector)
     }
 
     DDVarNames <- unlist(lapply(as.list(names(out.SP)), ExtractNames))
     names(DDVarNames) <- names(out.SP)
-
+    
     for (Var in names(out.SP)){
 
-      out.SP[, Var := as(get(Var), 
+      out.SP[, Var := as(get(Var),
                          DD[Variable == DDVarNames[Var], Class]), with = F]
       
     }
-    
     return(out.SP)
 
 }
