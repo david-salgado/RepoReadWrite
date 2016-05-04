@@ -36,12 +36,12 @@ setGeneric("WriteRepoFile",
 #' 
 #' @import data.table
 #' 
-#' @include FirstLine.R
+#' @include FirstLine.R DatadtToDT.R
 #' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("data.table", "FileName"),
+    signature = c("data.table", "character"),
     function(object, Name){
         
         FL <- FirstLine(object)
@@ -54,10 +54,10 @@ setMethod(
                          substr(Widths, 2, nchar(Widths)), 
                          Widths)
         Widths <- as.integer(Widths)
-    
+   
         write(x = FL, file = Name)
         auxData <- object
-        write.fwf(auxData, Name, append = TRUE, sep='', colnames = FALSE, 
+        write.fwf(DatadtToDT(auxData), Name, append = TRUE, sep='', colnames = FALSE, 
                   justify = 'right', na = '', width = Widths)
         cat(paste0('Key-value pair file written in ', Name, '.\n')    
         ) 
@@ -71,7 +71,7 @@ setMethod(
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("StQ", "FileName"),
+    signature = c("StQ", "character"),
     function(object, Name){
         
         WriteRepoFile(object = getData(object), Name = Name)
