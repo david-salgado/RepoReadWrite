@@ -43,7 +43,7 @@
 #'       
 #' @export
 RepoDDToDD <- function(RepoDD, VarNameCorresp){
-    
+#### Cambiar VarNameCorresp por VNCdt    
     RepoDD <- as.data.table(RepoDD)
     output <- copy(RepoDD)
 

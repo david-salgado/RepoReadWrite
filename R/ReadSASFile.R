@@ -48,7 +48,7 @@
 #' @import data.table
 #' 
 #' @export
-ReadSASFile <- function(SASFileName, Exceldf, DD){
+ReadSASFile <- function(SASFileName, DD){
     
     out.SP <- haven::read_sas(SASFileName)    
     
@@ -57,7 +57,8 @@ ReadSASFile <- function(SASFileName, Exceldf, DD){
     out.SP <- as.data.table(out.SP)
     
       
-    Exceldf <- as.data.table(Exceldf)
+    Exceldf <- getVNC(DD)
+    ###### SEGUIR REFACTORIZANDO
     
     CalID <- Exceldf$CalificadoresID
     CalID <- CalID[!is.na(CalID)]

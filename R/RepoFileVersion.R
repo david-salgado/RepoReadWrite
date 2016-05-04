@@ -21,16 +21,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' RepoTopn('R:/E30183', 'FF_V1.MM122014')
+#' RepoFileVersion('C:/Repo//E30183', 'FF_V1.MM122014')
 #' }
 #' 
 #' @export
-RepoFileVersion <- function(Path, FileNameString){
+RepoFileVersion <- function(Path, FileNamePattern){
   
   Files <- list.files(Path)
-  Files <- Files[grep(FileNameString, Files)]
-  if (length(Files) == 0) stop('[RepoReadWrite::RepoTopn] No files with this name in this directory.')
-  
+  if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] Path not found.')
+  Files <- Files[grep(FileNamePattern, Files)]
+  if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] No files with this name pattern in this path.')
   nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
   out <- max(nVer)
   

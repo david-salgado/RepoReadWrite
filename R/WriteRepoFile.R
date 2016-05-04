@@ -7,7 +7,7 @@
 #' fixed-width column ASCII file with key-value pair structure with the 
 #' specified input name \code{Name}. 
 #' 
-#' @param object Objecto to be written in the output file.
+#' @param object Object to be written in the output file.
 #' 
 #' @param Name Character vectorof length 1 specifying the name of the output 
 #' file. The file will be written in the working directory 
@@ -17,7 +17,7 @@
 #' as a side-effect the corresponding output file.
 #' 
 #' @examples
-#' # To write the outpu file in the administrator desktop:
+#' # To write the output file in the administrator desktop:
 #' Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1'
 #' WriteRepoFile(Example.Q, Name)
 #' 
@@ -41,7 +41,7 @@ setGeneric("WriteRepoFile",
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("data.table"),
+    signature = c("data.table", "FileName"),
     function(object, Name){
         
         FL <- FirstLine(object)
@@ -75,7 +75,7 @@ setMethod(
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("StQ"),
+    signature = c("StQ", "FileName"),
     function(object, Name){
         
         

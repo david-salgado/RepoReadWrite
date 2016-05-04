@@ -28,7 +28,9 @@
 RepoPeriodRange <- function(Path, Type, Last = out[length(out)]){
 
     Files <- list.files(Path)
+    if (length(Files) == 0) stop('[RepoReadWrite::RepoPeriodRange] Path not found.')    
     Files <- Files[grep(Type, Files)]
+    if (length(Files) == 0) stop('[RepoReadWrite::RepoPeriodRange] No file with this type in this path.')    
     Files.desc <- strsplit(Files, ".", fixed = TRUE)
     out <- lapply(Files.desc, '[', i = 3)
     ord <- lapply(out, function(x){
