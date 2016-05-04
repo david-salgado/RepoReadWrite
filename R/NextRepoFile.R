@@ -32,7 +32,7 @@ setGeneric("NextRepoFile",
 #' @export
 setMethod(
     f = "NextRepoFile",
-    signature = c("RepoTimeVector"),
+    signature = c("FileName"),
     function(Periods, Path, FileType){
   
   Files <- list.files(Path)

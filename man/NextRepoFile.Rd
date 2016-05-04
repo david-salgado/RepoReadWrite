@@ -3,12 +3,12 @@
 \docType{methods}
 \name{NextRepoFile}
 \alias{NextRepoFile}
-\alias{NextRepoFile,RepoTimeVector-method}
+\alias{NextRepoFile,FileName-method}
 \title{Create the name of the next version of a file}
 \usage{
 NextRepoFile(Periods, Path, FileType)
 
-\S4method{NextRepoFile}{RepoTimeVector}(Periods, Path, FileType)
+\S4method{NextRepoFile}{FileName}(Periods, Path, FileType)
 }
 \arguments{
 \item{Periods}{Character vector with time periods included in the file names.}
