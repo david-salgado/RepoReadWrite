@@ -54,6 +54,17 @@
 #' @import data.table StQ
 #' 
 #' @export
+<<<<<<< HEAD
+ReadSASFile <- function(SASFileName, DD){
+    
+    out.SP <- haven::read_sas(SASFileName)    
+    
+||||||| merged common ancestors
+ReadSASFile <- function(SASFileName, Exceldf, DD){
+    
+    out.SP <- haven::read_sas(SASFileName)    
+    
+=======
 ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot){
    
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
@@ -63,6 +74,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     }
   
     out.SP <- haven::read_sas(SASFileName)
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     ColClasses <- unlist(lapply(out.SP, class))
     out.SP <- as.data.table(out.SP)
     for (col in names(out.SP)){
@@ -71,8 +83,19 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         
     }
       
+<<<<<<< HEAD
+    Exceldf <- getVNC(DD)
+    ###### SEGUIR REFACTORIZANDO
+    
+    CalID <- Exceldf$CalificadoresID
+||||||| merged common ancestors
+    Exceldf <- as.data.table(Exceldf)
+    
+    CalID <- Exceldf$CalificadoresID
+=======
     Exceldf <- getVNC(DD)[[VNCName]]
     CalID <- Exceldf$IDQual
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     CalID <- CalID[!is.na(CalID)]
     CalID <- CalID[CalID != '']
     CalID <- intersect(names(Exceldf), CalID)

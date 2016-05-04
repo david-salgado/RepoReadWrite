@@ -25,6 +25,36 @@
 #' @import data.table
 #' 
 #' @export
+<<<<<<< HEAD
+setGeneric("ReadRepoFile", function(FileName){standardGeneric("ReadRepoFile")})
+
+#' @rdname ReadRepoFile
+#' 
+#' @include FileName-class.R
+#' 
+#' @export
+setMethod(
+    f = "ReadRepoFile",
+    signature = c("FileName"),
+    definition = function(FileName){
+
+        trim <- function(x){gsub(pattern = " ", replacement = "", x = x, 
+                                 useBytes = T, fixed = T)}
+        
+        # Se lee todo el fichero en un vector carácter con cada línea en una componente
+        s <- file.info(FileName)$size 
+        buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
+        FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
+        
+        FirstLine <- FileVector[[1]]
+        
+        FileDT <- data.table(FileVector = FileVector[-1])
+||||||| merged common ancestors
+    ReadRepoFile <- function(FileName) {
+    
+    trim <- function(x){gsub(pattern = " ", replacement = "", x = x, 
+                             useBytes = T, fixed = T)}
+=======
 ReadRepoFile <- function(FileName, language = 'SP') {
 
     ## Se lee todo el fichero en un vector carácter con cada línea en una componente
@@ -49,15 +79,74 @@ ReadRepoFile <- function(FileName, language = 'SP') {
                   stringsAsFactors = FALSE)
     FirstLine <- File[1]
     FirstLine <- FirstLine[['V1']]
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     
+<<<<<<< HEAD
+        # Se determinan los nombres y longitudes de las variables
+        Param <- as.list(unlist(strsplit(x = FirstLine, split = ",")))
+        Param <- as.vector(lapply(Param, "[[" , 1L))
+        Param <- lapply(lapply(Param, strsplit, split = '='), '[[', 1L)
+        Names <- unlist(lapply(Param, '[', 1)[-c(1, length(Param))])
+        Lengths <- lapply(Param, '[', 2)[-1]
+        Lengths <- lapply(Lengths, function(x){
+            if (substr(x, 1, 1) == '$') {
+                return(substr(x = x, start = 2, stop = nchar(x)))
+            } else {
+                return(x) 
+            }
+        })
+        Lengths <- lapply(Lengths, function(x){
+            if (substr(x = x, start = nchar(x), stop = nchar(x)) == '.') {
+                return(as.integer(substr(x = x, start = 1, stop = nchar(x) - 1)))
+            } else {
+                return(as.integer(x)) 
+            }
+        })
+        Max <- Lengths[[length(Lengths)]]
+        Lengths <- unlist(Lengths[-length(Lengths)])
+        # Se determinan las posiciones inicial y final de cada variable en cada línea
+        Pos1 <- c(1L)
+        for (i in seq(along = Lengths)){Pos1 <- c(Pos1, 
+                                                  Lengths[i] + Pos1[length(Pos1)])}
+        Pos2 <- Pos1[-1] - 1L
+        Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
+        Pos1 <- Pos1[-length(Pos1)]
+        # Se construye una columna por cada variable
+        for (indexVar in seq(along = Names)){
+            FileDT[, Names[indexVar]:= trim(substr(x = FileVector, 
+                                                   start = Pos1[indexVar], 
+                                                   stop = Pos2[indexVar])), with = F]
+        }
+        FileDT[, FileVector := NULL]
+||||||| merged common ancestors
+    # Se lee todo el fichero en un vector carácter con cada línea en una componente
+    s <- file.info(FileName)$size 
+    buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
+    FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
+=======
     if (language == 'SP'){
         
         FirstLine <- gsub('Valor', 'Value', FirstLine)
     }
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     
+<<<<<<< HEAD
+        DupRows <- duplicated(FileDT)
+        if (sum(DupRows) > 0) {
+||||||| merged common ancestors
+    FirstLine <- FileVector[[1]]
+=======
     FileDT <- File[-1]
     setnames(FileDT, 'FileVector')
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     
+<<<<<<< HEAD
+            cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:\n\n')
+            print(FileDT[DupRows])
+            FileDT <- FileDT[!DupRows]
+||||||| merged common ancestors
+    FileDT <- data.table(FileVector = FileVector[-1])
+
     # Se determinan los nombres y longitudes de las variables
     Param <- as.list(unlist(strsplit(x = FirstLine, split = ",")))
     Param <- as.vector(lapply(Param, "[[" , 1L))
@@ -69,14 +158,56 @@ ReadRepoFile <- function(FileName, language = 'SP') {
             return(substr(x = x, start = 2, stop = nchar(x)))
         } else {
             return(x) 
-        }
-    })
+=======
+    # Se determinan los nombres y longitudes de las variables
+    Param <- as.list(unlist(strsplit(x = FirstLine, split = ",")))
+    Param <- as.vector(lapply(Param, "[[" , 1L))
+    Param <- lapply(lapply(Param, strsplit, split = '='), '[[', 1L)
+    Names <- unlist(lapply(Param, '[', 1)[-c(1, length(Param))])
+    Lengths <- lapply(Param, '[', 2)[-1]
     Lengths <- lapply(Lengths, function(x){
-        if (substr(x = x, start = nchar(x), stop = nchar(x)) == '.') {
-            return(as.integer(substr(x = x, start = 1, stop = nchar(x) - 1)))
+        if (substr(x, 1, 1) == '$') {
+            return(substr(x = x, start = 2, stop = nchar(x)))
         } else {
-            return(as.integer(x)) 
+            return(x) 
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
         }
+        
+        if ('DESC' %in% names(FileDT)) {
+            
+            FileDT <- FileDT[, DESC := NULL]
+            cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
+        }
+<<<<<<< HEAD
+||||||| merged common ancestors
+    })
+    Max <- Lengths[[length(Lengths)]]
+    Lengths <- unlist(Lengths[-length(Lengths)])
+    # Se determinan las posiciones inicial y final de cada variable en cada línea
+    Pos1 <- c(1L)
+    for (i in seq(along = Lengths)){Pos1 <- c(Pos1, 
+                                              Lengths[i] + Pos1[length(Pos1)])}
+    Pos2 <- Pos1[-1] - 1L
+    Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
+    Pos1 <- Pos1[-length(Pos1)]
+    # Se construye una columna por cada variable
+    for (indexVar in seq(along = Names)){
+        FileDT[, Names[indexVar]:= trim(substr(x = FileVector, 
+                                               start = Pos1[indexVar], 
+                                               stop = Pos2[indexVar])), with = F]
+    }
+    FileDT[, FileVector := NULL]
+
+    DupRows <- duplicated(FileDT)
+    if (sum(DupRows) > 0) {
+
+        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:\n\n')
+        print(FileDT[DupRows])
+        FileDT <- FileDT[!DupRows]
+    }
+    
+    if ('DESC' %in% names(FileDT)) {
+=======
     })
     Max <- Lengths[[length(Lengths)]]
     Lengths <- unlist(Lengths[-length(Lengths)])
@@ -107,16 +238,40 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     }
     
     if ('DESC' %in% names(FileDT)) {
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
         
+<<<<<<< HEAD
+        if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) {
+            
+            setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), 
+                                  c('IDDD', 'Valor')))
+||||||| merged common ancestors
+        FileDT <- FileDT[, DESC := NULL]
+        cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
+    }
+    
+    if ('IDDD' %in% names(FileDT) && 'Valor' %in% names(FileDT)) {
+=======
         FileDT <- FileDT[, DESC := NULL]
         cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
     }
     
     if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
         
+<<<<<<< HEAD
+        }
+||||||| merged common ancestors
+        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Valor')), 
+                              c('IDDD', 'Valor')))
+    
+    }
+=======
         setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), 
                               c('IDDD', 'Value')))
     
     }
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     return(FileDT)
-}
+    }
+)
