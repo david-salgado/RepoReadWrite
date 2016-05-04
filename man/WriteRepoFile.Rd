@@ -3,21 +3,21 @@
 \docType{methods}
 \name{WriteRepoFile}
 \alias{WriteRepoFile}
-\alias{WriteRepoFile,StQ-method}
-\alias{WriteRepoFile,StQList-method}
-\alias{WriteRepoFile,data.table-method}
+\alias{WriteRepoFile,StQ,FileName-method}
+\alias{WriteRepoFile,StQList,ANY-method}
+\alias{WriteRepoFile,data.table,FileName-method}
 \title{Write a key-value pair ASCII file}
 \usage{
 WriteRepoFile(object, Name)
 
-\S4method{WriteRepoFile}{data.table}(object, Name)
+\S4method{WriteRepoFile}{data.table,FileName}(object, Name)
 
-\S4method{WriteRepoFile}{StQ}(object, Name)
+\S4method{WriteRepoFile}{StQ,FileName}(object, Name)
 
-\S4method{WriteRepoFile}{StQList}(object, Name)
+\S4method{WriteRepoFile}{StQList,ANY}(object, Name)
 }
 \arguments{
-\item{object}{Objecto to be written in the output file.}
+\item{object}{Object to be written in the output file.}
 
 \item{Name}{Character vectorof length 1 specifying the name of the output 
 file. The file will be written in the working directory 
@@ -36,7 +36,7 @@ fixed-width column ASCII file with key-value pair structure with the
 specified input name \code{Name}.
 }
 \examples{
-# To write the outpu file in the administrator desktop:
+# To write the output file in the administrator desktop:
 Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1'
 WriteRepoFile(ExampleQ, Name)
 
