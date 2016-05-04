@@ -54,27 +54,15 @@
 #' @import data.table StQ
 #' 
 #' @export
-<<<<<<< HEAD
-ReadSASFile <- function(SASFileName, DD){
-    
-    out.SP <- haven::read_sas(SASFileName)    
-    
-||||||| merged common ancestors
-ReadSASFile <- function(SASFileName, Exceldf, DD){
-    
-    out.SP <- haven::read_sas(SASFileName)    
-    
-=======
 ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot){
-   
+    
     # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
     if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
         & DDslot != 'Other'){
-      stop(paste0('[Validity ReadSASFile]"', DDslot, '" is not a slot of the DD input object.'))
+        stop(paste0('[Validity ReadSASFile]"', DDslot, '" is not a slot of the DD input object.'))
     }
-  
+    
     out.SP <- haven::read_sas(SASFileName)
->>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     ColClasses <- unlist(lapply(out.SP, class))
     out.SP <- as.data.table(out.SP)
     for (col in names(out.SP)){
@@ -82,20 +70,9 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         out.SP[, col := gdata::trim(get(col)), with = FALSE]
         
     }
-      
-<<<<<<< HEAD
-    Exceldf <- getVNC(DD)
-    ###### SEGUIR REFACTORIZANDO
     
-    CalID <- Exceldf$CalificadoresID
-||||||| merged common ancestors
-    Exceldf <- as.data.table(Exceldf)
-    
-    CalID <- Exceldf$CalificadoresID
-=======
     Exceldf <- getVNC(DD)[[VNCName]]
     CalID <- Exceldf$IDQual
->>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     CalID <- CalID[!is.na(CalID)]
     CalID <- CalID[CalID != '']
     CalID <- intersect(names(Exceldf), CalID)
@@ -105,7 +82,7 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
         Exceldf[get(IDQual) == '.', IDQual := '', with = F]
         
     }
-
+    
     CalNoID <- Exceldf$NonIDQual
     CalNoID <- CalNoID[!is.na(CalNoID)]
     CalNoID <- CalNoID[CalNoID != '']
@@ -116,13 +93,13 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     VarSP <- Exceldf$Unit1
     VarSP <- VarSP[!is.na(VarSP) & VarSP !=""]
     MissVar <- setdiff(VarSP, names(out.SP))
-
+    
     if (length(MissVar) > 0) cat(paste0('[RepoReadWrite::ReadSASFile] The following variables of the Excel sheet are not present in the SAS file:\n\n', 
                                         paste0(MissVar, collapse = ' '), '\n\n'))
     VarSP <- intersect(VarSP, names(out.SP))
     if (length(VarSP) == 0) stop('[RepoReadWrite::ReadSASFile] Variables specified in the VNC slot of the input DD object are not present in the SAS file.')
     out.SP <- out.SP[, VarSP, with = F]
-
+    
     Exceldf <- Exceldf[is.na(IDDD) & !is.na(IDQual), IDDD:= IDQual]
     Exceldf <- Exceldf[is.na(IDDD) & !is.na(NonIDQual), IDDD:= NonIDQual]
     
@@ -133,8 +110,8 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     
     Exceldf <- copy(Exceldf)[, NewVar := IDDD]
     Exceldf <- Exceldf[IDQual != '' & 
-                       IDDD == '' & 
-                       Unit1 != '', NewVar := IDQual]
+                           IDDD == '' & 
+                           Unit1 != '', NewVar := IDQual]
     Exceldf <- Exceldf[NonIDQual != '' & IDDD == '' & Unit1 != '',
                        NewVar := NonIDQual]
     for (Cal in Cals){
@@ -146,35 +123,35 @@ ReadSASFile <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot)
     setnames(out.SP, EquivalName, names(EquivalName))
     
     if (DDslot == 'MicroData'){
-      DD <- getData(DD)
+        DD <- getData(DD)
     }else if (DDslot == 'Aggregates'){
-      DD <- getAggr(DD)
+        DD <- getAggr(DD)
     }else if (DDslot == 'AggWeights'){
-      DD <- getAggWeights(DD)
+        DD <- getAggWeights(DD)
     }else{
-      DD <- getOtherDD(DD)
+        DD <- getOtherDD(DD)
     }  
     
     if (nrow(DD) == 0){
-      stop(paste0('[Validity ReadSASFile]Data to be read are not defined in the slot "', DDslot, '" of the DD input object.'))
+        stop(paste0('[Validity ReadSASFile]Data to be read are not defined in the slot "', DDslot, '" of the DD input object.'))
     }
-   
+    
     ExtractNames <- function(NamesVector){
-      NamesVector <- as.list(NamesVector)
-      NamesVector <- unlist(lapply(NamesVector,
-                                   function(name){strsplit(name, '_')[[1]][1]}))
-      return(NamesVector)
+        NamesVector <- as.list(NamesVector)
+        NamesVector <- unlist(lapply(NamesVector,
+                                     function(name){strsplit(name, '_')[[1]][1]}))
+        return(NamesVector)
     }
-
+    
     DDVarNames <- unlist(lapply(as.list(names(out.SP)), ExtractNames))
     names(DDVarNames) <- names(out.SP)
     
     for (Var in names(out.SP)){
-
-      out.SP[, Var := as(get(Var),
-                         DD[Variable == DDVarNames[Var], Class]), with = F]
-      
+        
+        out.SP[, Var := as(get(Var),
+                           DD[Variable == DDVarNames[Var], Class]), with = F]
+        
     }
     return(out.SP)
-
+    
 }
