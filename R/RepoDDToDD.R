@@ -10,7 +10,9 @@
 #' 
 #' This function internally builds a \linkS4class{data.table} with columns
 #'  \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
-#'  \code{Qual\emph{q}}. The column \code{Variable} contains the names of all 
+#'  \code{Qual\emph{q}}.
+#'  
+#'  The column \code{Variable} contains the names of all 
 #'  variables, both questionnaire variables and metadata. This internal 
 #'  \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
 #'  object.
@@ -26,24 +28,41 @@
 #' qualifiers of every variable name (row).
 #' 
 #' @param RepoDD \link{data.frame} with the content of the file \code{DD}.
+#' 
+#' @param VNC Object of class \linkS4class{VarNameCorresp}.
+#' 
+#' @param DDslot Character vector of length 1 with the name of DD slot in which
+#' transformation will be made. Its default value is \code{MicroData}.
 #'  
 #' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
-#' data(RepoDD)
-#' data(XLS)
+#' # An example with data created previosly:
 #' library(data.table)
-#' setnames(XLS, 
-#'          c('CalificadoresID', 'CalificadoresNoID', 'Variables', 'SP', 'SGMRD'),
-#'          c('IDQual', 'NonIDQual', 'IDDD', 'Unit1', 'Unit2'))
-#' VarNameCorresp <- new(Class = 'VarNameCorresp', VarNameCorresp = list(XLS))
-#' RepoDDToDD(RepoDD, VarNameCorresp)
+#' data(RepoDD)
+#' data(VNC)
+#' RepoDDToDD(RepoDD, VNC)
 #' 
 #' @import data.table
 #'       
 #' @export
+<<<<<<< HEAD
 RepoDDToDD <- function(RepoDD, VarNameCorresp){
 #### Cambiar VarNameCorresp por VNCdt    
+||||||| merged common ancestors
+RepoDDToDD <- function(RepoDD, VarNameCorresp){
+    
+=======
+    RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
+    
+    # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
+    if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
+        & DDslot != 'Other'){
+      stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
+    }
+    
+    
+>>>>>>> 420f6512fa7ccf39b0681e2c3258d96368c3b0c5
     RepoDD <- as.data.table(RepoDD)
     output <- copy(RepoDD)
 
@@ -62,8 +81,8 @@ RepoDDToDD <- function(RepoDD, VarNameCorresp){
     output[NOMIDDD != '', Variable := NOMIDDD]
     output[NOMIDDD != '', Sort := 'IDDD']
 
-    output[, Class := ifelse(TIPO == 'NUMBER', 
-                             'numeric', 
+    output[, Class := ifelse(TIPO == 'NUMBER',
+                             'numeric',
                              ifelse(TIPO == 'STRING', 'character', ''))]
 
     # Eliminamos columnas innecesarias
@@ -120,8 +139,8 @@ RepoDDToDD <- function(RepoDD, VarNameCorresp){
         
     }
 
-    nCalif <- (length(names(NonUnitDT)) - 
-               length(c('Variable', 'Sort', 'Class'))) / 2
+    nCalif <- (length(names(NonUnitDT)) -
+                   length(c('Variable', 'Sort', 'Class'))) / 2
     if (nCalif >= 1) {
         
         for (i in 1:nCalif){
@@ -130,8 +149,8 @@ RepoDDToDD <- function(RepoDD, VarNameCorresp){
         }
     }
 
-    nCalif <- (length(names(output))  - 
-               length(c('Variable', 'Sort', 'Class', NomID))) / 2
+    nCalif <- (length(names(output))  -
+                   length(c('Variable', 'Sort', 'Class', NomID))) / 2
 
     if (nCalif >= 1) {
       
@@ -145,29 +164,31 @@ RepoDDToDD <- function(RepoDD, VarNameCorresp){
     setkeyv(output, CommonVar)
     setkeyv(NonUnitDT, CommonVar)
     output <- merge(output, NonUnitDT, all = T)
-    
+
     # Ordenamos la data.table final
     Qual <- setdiff(names(output), c('Variable', 'Sort', 'Class'))
     nQual <- length(Qual)
     Qual <- paste0('Qual', 1:nQual)
 
     setcolorder(output, c('Variable', 'Sort', 'Class', Qual))
+    output[, ValueRegExp := '.+']
     
     for (col in names(output)){
         
-      if (all(is.na(output[[col]])) | all(output[[col]] == '')) {
-          
-          output[, col := NULL, with = F]
-      }
-        
-      output[is.na(get(col)), col := '', with = F]
+      if (all(is.na(output[[col]])) | all(output[[col]] == '')) output[, col := NULL, with = F]
+      output <- output[is.na(get(col)), col := '', with = F]
         
     }
-    
+
     # Otorgamos la clase DD a la data.table final
-    output <- new(Class = 'DD', 
-                  VarNameCorresp = VarNameCorresp, 
-                  MicroData = output)
-    
+    if (DDslot == 'MicroData'){
+      output <- new(Class = 'DD', MicroData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    }else if (DDslot == 'Aggregates'){
+      output <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    }else if (DDslot == 'AggWeights'){
+      output <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    }else{
+      output <- new(Class = 'DD', Other = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    }
     return(output)
 }
