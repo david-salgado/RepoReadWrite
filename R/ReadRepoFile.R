@@ -80,6 +80,7 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     })
     Max <- Lengths[[length(Lengths)]]
     Lengths <- unlist(Lengths[-length(Lengths)])
+    
     # Se determinan las posiciones inicial y final de cada variable en cada línea
     Pos1 <- c(1L)
     for (i in seq(along = Lengths)){Pos1 <- c(Pos1, 
