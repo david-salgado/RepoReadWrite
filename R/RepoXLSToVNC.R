@@ -86,7 +86,7 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
 
     VNCdts <- lapply(ExcelSheet, new, Class = 'VNCdt')
     
-    VNC <- new(Class = 'VarNameCorresp', VNCdts)
+    VNC <- BuildVNC(VNCdts)
         
     return(VNC)
 }
