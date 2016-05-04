@@ -4,7 +4,7 @@
 \alias{RepoFileVersion}
 \title{Return index number of the last version of a file}
 \usage{
-RepoFileVersion(Path, FileNameString)
+RepoFileVersion(Path, FileNamePattern)
 }
 \arguments{
 \item{Path}{Character vector of length 1 with the path of the search 
@@ -30,7 +30,7 @@ corresponding to its contents (either definitive or partial version).
 }
 \examples{
 \dontrun{
-RepoTopn('R:/E30183', 'FF_V1.MM122014')
+RepoFileVersion('C:/Repo//E30183', 'FF_V1.MM122014')
 }
 
 }
