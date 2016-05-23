@@ -1,20 +1,17 @@
 #' @title Obtain index number of the last version of a file in a directory
 #'
-#' @description \code{RepoTopn} returns the index number of the last version of
-#' a file identified with a file name in a given directory.
+#' @description \code{RepoTopn} returns the index number of the last version of a file identified 
+#' with a file name in a given directory.
 #' 
-#' This function searches in the input directory \code{Path} for the last 
-#' version of a file with file name containing the string \code{FileNameString}
-#' and returns the corresponding index number.
+#' This function searches in the input directory \code{Path} for the last version of a file with 
+#' file name containing the string \code{FileNameString} and returns the corresponding index number.
 #'
-#' @param Path Character vector of length 1 specifying the path of the searching
-#'  directory.
+#' @param Path Character vector of length 1 specifying the path of the searching directory.
 #' 
-#' @param FileNameString Character vector of length 1 specifying the string of
-#' the file name whose last version is to be searched.
+#' @param FileNameString Character vector of length 1 specifying the string of the file name whose 
+#' last version is to be searched.
 #'  
-#' @return Integer vector of length 1 with the index number of the last version
-#' of the file.
+#' @return Integer vector of length 1 with the index number of the last version of the file.
 #'
 #' @examples
 #' \dontrun{
@@ -32,8 +29,7 @@ RepoTopn <- function(Path, FileNameString){
       
   }
   
-  nVer <- unlist(lapply(as.list(Files), 
-                        function(x){substr(x, nchar(x), nchar(x))}))
+  nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
   out <- max(nVer)
   
 return(out)

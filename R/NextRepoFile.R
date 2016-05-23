@@ -1,22 +1,20 @@
 #' @title Create the name of the next version of a file
 #'
-#' @description \code{RepoNextFileVerNumber} returns the name of the next 
-#' version of a file in a directory.
+#' @description \code{RepoNextFileVerNumber} returns the name of the next version of a file in a 
+#' directory.
 #' 
-#' This function takes every file corresponding to the input file sort 
-#' \code{FileType} for the input periods \code{Periods} in the input directory 
-#' \code{Path} and generates for each of them the name of their next version.
+#' This function takes every file corresponding to the input file sort \code{FileType} for the input 
+#' periods \code{Periods} in the input directory \code{Path} and generates for each of them the name 
+#' of their next version.
 #'
 #' @param Periods Character vector with time periods included in the file names.
 #' 
 #' @param Path Character vector with the path of the search directory.
 #' 
-#' @param FileType Character vector with the sort (FF, FD, FG, DD, ...) of the
-#' files.
+#' @param FileType Character vector with the sort (FF, FD, FG, DD, ...) of the files.
 #'  
-#' @return It returns a character vector of length equal to the length of 
-#' \code{Periods} with the full names of the next version of each input file 
-#' name.
+#' @return It returns a character vector of length equal to the length of \code{Periods} with the 
+#' full names of the next version of each input file name.
 #'
 #' @examples
 #' \dontrun{

@@ -2,55 +2,51 @@
 % Please edit documentation in R/RepoDDToDD.R
 \name{RepoDDToDD}
 \alias{RepoDDToDD}
-\title{Produce an object of class \linkS4class{DD} from a fixed-width column 
-ASCII DD file}
+\title{Produce an object of class \linkS4class{DD} from a fixed-width column ASCII DD file}
 \usage{
-RepoDDToDD(RepoDD, VNC, DDslot = "MicroData")
+RepoDDToDD(RepoDD, VNC, DDslot = NULL)
 }
 \arguments{
 \item{RepoDD}{\link{data.frame} with the content of the file \code{DD}.}
 
 \item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
 
-\item{DDslot}{Character vector of length 1 with the name of DD slot in which
-transformation will be made. Its default value is \code{MicroData}.}
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which transformation will 
+be made. Its default value is \code{NULL}. If no DDslot is specified, variables in VNC components 
+are assigned to the corresponding DD slot.}
 }
 \value{
 Object of class \linkS4class{DD}.
 }
 \description{
-This function is a constructor for the class \linkS4class{DD} 
-using the contents of a DD file in the original ASCII format.
+This function is a constructor for the class \linkS4class{DD} using the contents of 
+a DD file in the original ASCII format.
 
-\code{RepoDDToDD} transforms a \link{data.frame} with the content of a DD 
-file with the original ASCII fixed-width columnwise format into an object of 
-class \linkS4class{DD}. 
+\code{RepoDDToDD} transforms a \link{data.frame} with the content of a DD file with the original 
+ASCII fixed-width columnwise format into an object of class \linkS4class{DD}. 
 
-This function internally builds a \linkS4class{data.table} with columns
- \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
- \code{Qual\emph{q}}.
+This function internally builds a \linkS4class{data.table} with columns \code{Variable}, 
+\code{Sort}, \code{Class} and \code{Qual1} to \code{Qual}\emph{q}.
  
- The column \code{Variable} contains the names of all 
- variables, both questionnaire variables and metadata. This internal 
- \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
- object.
+The column \code{Variable} contains the names of all variables, both questionnaire variables and 
+metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
+object.
 
-The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or 
-\code{'IDDD'}, for statistical unit qualifiers, variable name qualifiers and
-variable names, respectively.
+The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or \code{'IDDD'}, for 
+statistical unit qualifiers, variable name qualifiers and variable names, respectively.
 
-The column \code{Class} specifies the class of the variable and takes values
-\code{numeric} or \code{character}. 
+The column \code{Class} specifies the class of the variable and takes values \code{numeric} or 
+\code{character}. 
 
-The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the 
-qualifiers of every variable name (row).
+The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
+variable name (row).
 }
 \examples{
 # An example with data created previosly:
 library(data.table)
-data(RepoDD)
-data(VNC)
-RepoDDToDD(RepoDD, VNC)
+data(ExampleRepoDD)
+data(ExampleVNC)
+RepoDDToDD(ExampleRepoDD, ExampleVNC)
 
 }
 

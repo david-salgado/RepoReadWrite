@@ -25,10 +25,10 @@ The valid names for a file is:
      \code{E}\emph{nnnnn}\code{.FI_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.
@@ -38,10 +38,10 @@ The valid names for a file is:
          \code{E}\emph{nnnnn}\code{.FF_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.
@@ -51,10 +51,10 @@ The valid names for a file is:
          \code{E}\emph{nnnnn}\code{.FD_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.
@@ -64,10 +64,10 @@ The valid names for a file is:
          \code{E}\emph{nnnnn}\code{.FG_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.
@@ -77,10 +77,10 @@ The valid names for a file is:
          \code{E}\emph{nnnnn}\code{.FL_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.
@@ -91,10 +91,10 @@ The valid names for a file is:
          \code{E}\emph{nnnnn}\code{.FT_V}\emph{m}\code{.}\emph{PPp...p}\code{.P_}\emph{n}, where
              \itemize{
                  \item \emph{nnnnn} is the code of the survey the data belongs to;
-                 \item \emph{m} is the version number of the data dictionary 
-         associated to the file;
-                 \item \emph{PPp...p} denotes the reference time period in the notation
-         of the repository;
+                 \item \emph{m} is the version number of the data dictionary associated to the 
+                 file;
+                 \item \emph{PPp...p} denotes the reference time period in the notation of the 
+                 repository;
                  \item \code{D} stands for the \code{d}efinitive version of the data;
                  \item \code{P} stands for the \code{p}rovisional version of the data;
                  \item \emph{n} stands for a correlative version number of the data.

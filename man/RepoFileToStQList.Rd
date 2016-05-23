@@ -2,8 +2,8 @@
 % Please edit documentation in R/RepoFileToStQList.R
 \name{RepoFileToStQList}
 \alias{RepoFileToStQList}
-\title{Produce an object of class \linkS4class{StQList} from files with the
-structure key-value pair.}
+\title{Produce an object of class \linkS4class{StQList} from files with the structure key-value 
+pair.}
 \usage{
 RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
   Rot = FALSE, includeFI = TRUE)
@@ -11,31 +11,34 @@ RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
 \arguments{
 \item{SurveyCode}{Character vector of length 1 with the code of each survey.}
 
-\item{RepoPath}{Character vector of length 1 with the path of the repository
-from which files are to be read.}
+\item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
+to be read.}
 
-\item{FileType}{Character vector of length 1 with the type of the file to
-be read (FF, FG or FD).}
+\item{FileType}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
 
-\item{IniPeriod}{Character vector of length 1 with the initial time period to
-be read (in the repository notation).}
+\item{IniPeriod}{Character vector of length 1 with the initial time period to be read (in the 
+repository notation).}
 
-\item{FinPeriod}{Character vector of length 1 with the final time period to 
-be read (in the repository notation).}
+\item{FinPeriod}{Character vector of length 1 with the final time period to be read (in the 
+repository notation).}
 
-\item{Rot}{Logical vector of length 1 indicating whether rotated sample files
-are to be included (default value FALSE).}
+\item{Rot}{Logical vector of length 1 indicating whether rotated sample files are to be included 
+(default value FALSE).}
+
+\item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
+the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.}
 }
 \value{
 Object of class \linkS4class{StQList}.
 }
 \description{
-\code{RepoFiletoStQList} returns an object of class
-\linkS4class{StQList} from files with the structure key-value pair.
+\code{RepoFiletoStQList} returns an object of class \linkS4class{StQList} from files
+with the structure key-value pair.
 }
 \examples{
 \dontrun{
- RepoFileToStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 'FF', 'MM022016', 'MM022016')
+ RepoFileToStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 
+                    'FF', 'MM022016', 'MM022016')
 }
 
 }

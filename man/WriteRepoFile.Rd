@@ -3,46 +3,51 @@
 \docType{methods}
 \name{WriteRepoFile}
 \alias{WriteRepoFile}
-\alias{WriteRepoFile,StQ,FileName-method}
-\alias{WriteRepoFile,StQList,ANY-method}
-\alias{WriteRepoFile,data.table,FileName-method}
+\alias{WriteRepoFile,StQ-method}
+\alias{WriteRepoFile,StQList-method}
+\alias{WriteRepoFile,data.table-method}
+\alias{WriteRepoFile,rawStQ-method}
+\alias{WriteRepoFile,rawStQList-method}
 \title{Write a key-value pair ASCII file}
 \usage{
 WriteRepoFile(object, Name)
 
-\S4method{WriteRepoFile}{data.table,FileName}(object, Name)
+\S4method{WriteRepoFile}{data.table}(object, Name)
 
-\S4method{WriteRepoFile}{StQ,FileName}(object, Name)
+\S4method{WriteRepoFile}{StQ}(object, Name)
 
-\S4method{WriteRepoFile}{StQList,ANY}(object, Name)
+\S4method{WriteRepoFile}{StQList}(object, Name)
+
+\S4method{WriteRepoFile}{rawStQ}(object, Name)
+
+\S4method{WriteRepoFile}{rawStQList}(object, Name)
 }
 \arguments{
 \item{object}{Object to be written in the output file.}
 
-\item{Name}{Character vectorof length 1 specifying the name of the output 
-file. The file will be written in the working directory 
-(see \link[base]{getwd}) unless the full path is specified.}
+\item{Name}{Character vectorof length 1 specifying the name of the output file. The file will be 
+written in the working directory (see \link[base]{getwd}) unless the full path is specified.}
 }
 \value{
-These methods return the invisible \code{\link{NULL}} object writing 
-as a side-effect the corresponding output file.
+These methods return the invisible \code{\link{NULL}} object writing as a side-effect the 
+corresponding output file.
 }
 \description{
-\code{WriteRepoFile} writes the input key-value object in a 
-fixed-width column ASCII file. 
+\code{WriteRepoFile} writes the input key-value object in a fixed-width column ASCII 
+file. 
 
-This method reads the input object \code{object} and writes its content as a 
-fixed-width column ASCII file with key-value pair structure with the 
-specified input name \code{Name}.
+This method reads the input object \code{object} and writes its content as a fixed-width column 
+ASCII file with key-value pair structure with the specified input name \code{Name}.
 }
 \examples{
+\dontrun{
 # To write the output file in the administrator desktop:
 Name <- 'C:/Users/Administrador/Desktop/E30103.FF_V1.MM032014.D_1'
-WriteRepoFile(ExampleQ, Name)
+WriteRepoFile(ExampleStQ, Name)
+}
 
 }
 \seealso{
-\code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, 
-\code{\link{FirstLine}}
+\code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, \code{\link{FirstLine}}
 }
 

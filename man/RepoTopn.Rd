@@ -7,23 +7,20 @@
 RepoTopn(Path, FileNameString)
 }
 \arguments{
-\item{Path}{Character vector of length 1 specifying the path of the searching
-directory.}
+\item{Path}{Character vector of length 1 specifying the path of the searching directory.}
 
-\item{FileNameString}{Character vector of length 1 specifying the string of
-the file name whose last version is to be searched.}
+\item{FileNameString}{Character vector of length 1 specifying the string of the file name whose 
+last version is to be searched.}
 }
 \value{
-Integer vector of length 1 with the index number of the last version
-of the file.
+Integer vector of length 1 with the index number of the last version of the file.
 }
 \description{
-\code{RepoTopn} returns the index number of the last version of
-a file identified with a file name in a given directory.
+\code{RepoTopn} returns the index number of the last version of a file identified 
+with a file name in a given directory.
 
-This function searches in the input directory \code{Path} for the last 
-version of a file with file name containing the string \code{FileNameString}
-and returns the corresponding index number.
+This function searches in the input directory \code{Path} for the last version of a file with 
+file name containing the string \code{FileNameString} and returns the corresponding index number.
 }
 \examples{
 \dontrun{

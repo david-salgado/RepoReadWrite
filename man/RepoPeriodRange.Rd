@@ -7,26 +7,23 @@
 RepoPeriodRange(Path, Type, Last = out[length(out)])
 }
 \arguments{
-\item{Path}{Character vector of length 1 specifying the path of the searching 
-directory.}
+\item{Path}{Character vector of length 1 specifying the path of the searching directory.}
 
-\item{Type}{Character vector of length 1 specifying the type of file whose 
-time periods are queried. It can take values \code{FF}, \code{FG}, \code{FD}, 
-\code{FL} or \code{FT}.}
+\item{Type}{Character vector of length 1 specifying the type of file whose time periods are 
+queried. It can take values \code{FF}, \code{FG}, \code{FD}, \code{FL} or \code{FT}.}
 
-\item{Last}{Character vector of length 1 specifying the last time period. By 
-default it is the last of all of them.}
+\item{Last}{Character vector of length 1 specifying the last time period. By default it is the 
+last of all of them.}
 }
 \value{
-Character vector with as many components as time periods present in 
-the input directory up to the last one specified (included).
+Character vector with as many components as time periods present in the input directory 
+up to the last one specified (included).
 }
 \description{
-\code{RepoPeriodRange} returns the time periods of files of a 
-given input file type \code{Type} (FF, FD, FG, FL, FT) in an input directory
- \code{Path} up to a last given input time period \code{Last} (included). By 
- default, it returns all time periods in the queried directory unless the 
- input parameter \code{Last} is specified.
+\code{RepoPeriodRange} returns the time periods of files of a given input file type 
+\code{Type} (FF, FD, FG, FL, FT) in an input directory \code{Path} up to a last given input time 
+period \code{Last} (included). By default, it returns all time periods in the queried directory 
+unless the input parameter \code{Last} is specified.
 }
 \examples{
 \dontrun{

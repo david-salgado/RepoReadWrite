@@ -4,55 +4,44 @@
 \alias{ReadSASFile}
 \title{Read a SAS file renaming variables as specified in input parameters}
 \usage{
-ReadSASFile(SASFileName, DD, DDslot = "MicroData", VNCName = DDslot)
+ReadSASFile(SASFileName, DD)
 }
 \arguments{
-\item{SASFileName}{Character vector of length 1 with name of the file. The 
-file will be read from the working directory (see \link[base]{getwd}) unless 
-the full path is specified.}
+\item{SASFileName}{Character vector of length 1 with name of the file. The file will be read from 
+the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{DD}{Object of class \linkS4class{DD} with the content of the file 
-\code{DD} of definitions and properties of every variable.}
-
-\item{DDslot}{Character vector of length 1 with the name of DD slot in which
-data to be read are defined. Its default value is \code{MicroData}.}
-
-\item{VNCName}{Character vector of length 1 with the name of the element of
-the list of slot of VarNameCorresp slot in which data to be read are defined.}
+\item{DD}{Object of class \linkS4class{DD} with the content of the file \code{DD} of definitions 
+and properties of every variable.}
 }
 \value{
-\linkS4class{data.table} with the contents of the \code{DD} file, 
-with statistical units in rows and variables as columns.
+\linkS4class{data.table} with the contents of the \code{DD} file, with statistical units 
+in rows and variables as columns.
 }
 \description{
-\code{ReadSASFile} returns a \linkS4class{data.table} with all 
-data from the input SAS file.
+\code{ReadSASFile} returns a \linkS4class{data.table} with all data from the input 
+SAS file.
 
-This function reads the SAS file specified as input parameter 
-\code{SASFileName} and returns its content in a \linkS4class{data.table} with
-statistical units in rows and variables in columns. The names of the 
-variables are assigned according to the Excel file with variable names 
+This function reads the SAS file specified as input parameter \code{SASFileName} and returns its 
+content in a \linkS4class{data.table} with statistical units in rows and variables in columns. 
+The names of the variables are assigned according to the Excel file with variable names 
 correspondence for each statistical operation.
 
-This correspondence is specified with the input parameters \code{Exceldf}, 
-which is a \link{data.frame} with the content of a sheet of the Excel file, 
-and \code{DD}, which is a \link{data.frame} with the content of the DD file 
-containing the definition and properties of every variable. 
+This correspondence is specified through the input param \code{DD}, which is a \linkS4class{DD} 
+object with the content of the DD file containing the definition and properties of every 
+variable. 
 
-The \link{data.frame} \code{DD} is naturally obtained from the original 
-\code{DD} file as output of functions \code{\link{RepoDDToDD}} or
-\code{\link{xmlToDD}}.
+The object \code{DD} is naturally obtained from the original \code{DD} file as output of 
+functions \code{\link{RepoDDToDD}} or \code{\link{xmlToDD}}.
 }
 \examples{
+\dontrun{
 # We assume that the SAS file \\code{MM032014.sas7bdat} is in the 
-administrator desktop:
+#administrator desktop:
 SASName <- 'C:/Users/Administrador/Desktop/MM032014.sas7bdat'
 # We assume data created previosly:
-data(XLS)
-data(RepoDD)
-data(VNC)
-DD <- RepoDDToDD(RepoDD, VNC)
-Example.DM <- ReadSASFile(SASName, DD, VNCName = 'MicroData')
+data(ExampleDD)
+Example.DM <- ReadSASFile(SASName, ExampleDD)
+}
 
 }
 \seealso{

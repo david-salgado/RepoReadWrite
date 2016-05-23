@@ -1,60 +1,56 @@
-#' @title Produce an object of class \linkS4class{DD} from a fixed-width column 
-#' ASCII DD file
+#' @title Produce an object of class \linkS4class{DD} from a fixed-width column ASCII DD file
 #' 
-#' @description This function is a constructor for the class \linkS4class{DD} 
-#' using the contents of a DD file in the original ASCII format.
+#' @description This function is a constructor for the class \linkS4class{DD} using the contents of 
+#' a DD file in the original ASCII format.
 #' 
-#' \code{RepoDDToDD} transforms a \link{data.frame} with the content of a DD 
-#' file with the original ASCII fixed-width columnwise format into an object of 
-#' class \linkS4class{DD}. 
+#' \code{RepoDDToDD} transforms a \link{data.frame} with the content of a DD file with the original 
+#' ASCII fixed-width columnwise format into an object of class \linkS4class{DD}. 
 #' 
-#' This function internally builds a \linkS4class{data.table} with columns
-#'  \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
-#'  \code{Qual\emph{q}}.
+#' This function internally builds a \linkS4class{data.table} with columns \code{Variable}, 
+#' \code{Sort}, \code{Class} and \code{Qual1} to \code{Qual}\emph{q}.
 #'  
-#'  The column \code{Variable} contains the names of all 
-#'  variables, both questionnaire variables and metadata. This internal 
-#'  \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
-#'  object.
+#' The column \code{Variable} contains the names of all variables, both questionnaire variables and 
+#' metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
+#' object.
 #' 
-#' The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or 
-#' \code{'IDDD'}, for statistical unit qualifiers, variable name qualifiers and
-#' variable names, respectively.
+#' The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or \code{'IDDD'}, for 
+#' statistical unit qualifiers, variable name qualifiers and variable names, respectively.
 #' 
-#' The column \code{Class} specifies the class of the variable and takes values
-#' \code{numeric} or \code{character}. 
+#' The column \code{Class} specifies the class of the variable and takes values \code{numeric} or 
+#' \code{character}. 
 #' 
-#' The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the 
-#' qualifiers of every variable name (row).
+#' The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
+#' variable name (row).
 #' 
 #' @param RepoDD \link{data.frame} with the content of the file \code{DD}.
 #' 
 #' @param VNC Object of class \linkS4class{VarNameCorresp}.
 #' 
-#' @param DDslot Character vector of length 1 with the name of DD slot in which
-#' transformation will be made. Its default value is \code{MicroData}.
+#' @param DDslot Character vector of length 1 with the name of DD slot in which transformation will 
+#' be made. Its default value is \code{NULL}. If no DDslot is specified, variables in VNC components 
+#' are assigned to the corresponding DD slot.
 #'  
 #' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
 #' # An example with data created previosly:
 #' library(data.table)
-#' data(RepoDD)
-#' data(VNC)
-#' RepoDDToDD(RepoDD, VNC)
+#' data(ExampleRepoDD)
+#' data(ExampleVNC)
+#' RepoDDToDD(ExampleRepoDD, ExampleVNC)
 #' 
-#' @import data.table
+#' @import data.table 
 #'       
 #' @export
-RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
+RepoDDToDD <- function(RepoDD, VNC, DDslot = NULL){
     
-    # Comprobamoos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
-    if (DDslot != 'MicroData' & DDslot != 'Aggregates' & DDslot != 'AggWeights'
-        & DDslot != 'Other'){
-        stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
+    # Comprobamos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
+    if (!is.null(DDslot)) {
+        if (!DDslot %in% c('ID', 'MicroData', 'ParaData', 'Aggregates' ,'AggWeights','Other')) {
+           stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
+        }
     }
-    
-    
+  
     RepoDD <- as.data.table(RepoDD)
     output <- copy(RepoDD)
     
@@ -84,15 +80,15 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
     # eliminando columnas en blanco
     index.NonIDQualUnit <- which(output[['TIPOCALIF1']] == 1)
     NonUnitDT <- output[index.NonIDQualUnit]
-    if (dim(NonUnitDT)[1] > 0){
+    if (dim(NonUnitDT)[1] > 0) {
         
         
         nCal <- (length(names(NonUnitDT)) - 3L) / 2
-        if (nCal >= 1){
+        if (nCal >= 1) {
             
-            for (i in 1:nCal){
+            for (i in 1:nCal) {
                 
-                if (all(NonUnitDT[[paste0('CALIF', i)]] == '')){
+                if (all(NonUnitDT[[paste0('CALIF', i)]] == '')) {
                     NonUnitDT[, paste0('CALIF', i) := NULL, with = F]
                     NonUnitDT[, paste0('TIPOCALIF', i) := NULL, with = F]
                 }
@@ -111,11 +107,11 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
     }
     
     nCal <- (length(names(output)) - 3L) / 2
-    if (nCal >= 1){
+    if (nCal >= 1) {
         
-        for (i in 1:nCal){
+        for (i in 1:nCal) {
             
-            if (all(output[[paste0('CALIF', i)]] == '')){
+            if (all(output[[paste0('CALIF', i)]] == '')) {
                 output[, paste0('CALIF', i) := NULL, with = F]
                 output[, paste0('TIPOCALIF', i) := NULL, with = F]
             }
@@ -125,7 +121,7 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
     NomID <- output[Sort == 'IDQual'][['Variable']]
     NomID <- NomID[NomID != '']
     
-    for (i in seq(along = NomID)){
+    for (i in seq(along = NomID)) {
         
         output[Sort == 'IDDD', paste0('Qual', i) := NomID[i], with = F]
         
@@ -135,8 +131,8 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
                    length(c('Variable', 'Sort', 'Class'))) / 2
     if (nCalif >= 1) {
         
-        for (i in 1:nCalif){
-            NonUnitDT[, paste0('TIPOCALIF', i):= NULL, with = F]
+        for (i in 1:nCalif) {
+            NonUnitDT[, paste0('TIPOCALIF', i) := NULL, with = F]
             setnames(NonUnitDT, paste0('CALIF', i), paste0('Qual', i))
         }
     }
@@ -172,15 +168,50 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = 'MicroData'){
         
     }
     
-    # Otorgamos la clase DD a la data.table final
-    if (DDslot == 'MicroData'){
-        output <- new(Class = 'DD', MicroData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
-    }else if (DDslot == 'Aggregates'){
-        output <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', output), VarNameCorresp = VNC)
-    }else if (DDslot == 'AggWeights'){
-        output <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', output), VarNameCorresp = VNC)
-    }else{
-        output <- new(Class = 'DD', Other = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    # Si no se especifica DDslot, cada variable del objeto RepoDD se asigna al 
+    # slot correpondiente a la componente del VNC en el que aparece.
+ 
+    if (is.null(DDslot)) {
+        
+        DD <- new(Class = "DD", VarNameCorresp = VNC)
+        CommonNames <- intersect(names(VNC), slotNames(DD))
+        
+        for (Names in names(VNC)) {
+            
+            Var <- c(getIDQual(VNC[[Names]]), getIDDD(VNC[[Names]]), getNonIDQual(VNC[[Names]]))
+            Var <- unique(Var[Var != ""])
+            
+            DDdt <- output[Variable %in% Var ]
+            
+            if (Names %in% CommonNames) {
+                
+                slot(DD, Names) <- new(Class = "DDdt", DDdt)
+                
+            }else {
+                
+                slot(DD, 'MicroData') <- slot(DD, 'MicroData') + new(Class = "DDdt", DDdt)
+                
+            }
+        }
+        
+    }else if (DDslot == 'MicroData') {
+            
+            DD <- new(Class = 'DD', MicroData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+        
+    }else if (DDslot == 'ParaData') {
+            
+            DD <- new(Class = 'DD', ParaData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+            
+    }else if (DDslot == 'Aggregates') {
+            
+            DD <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+        
+    }else {
+        
+            DD <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', output), VarNameCorresp = VNC)
+    
     }
-    return(output)
+        
+    return(DD)
 }
+

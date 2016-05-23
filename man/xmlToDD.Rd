@@ -4,54 +4,50 @@
 \alias{xmlToDD}
 \title{Produce an object of class \linkS4class{DD} from a xml file.}
 \usage{
-xmlToDD(FileName, VNC, DDslot = "MicroData")
+xmlToDD(FileName, DDslot = "MicroData")
 }
 \arguments{
-\item{FileName}{Character vector of length 1 with the name of the file to 
-read. The file will be read from the working directory (see 
-\link[base]{getwd}) unless the full path is specified.}
+\item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
+read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
-
-\item{DDslot}{Character vector of length 1 with the name of DD slot in which
-transformation will be made. Its default value is \code{MicroData}.}
+\item{DDslot}{Character vector of length 1 with the name of DD slot in which transformation will 
+be made. Its default value is \code{MicroData}.}
 }
 \value{
 Object of class \linkS4class{DD}.
 }
 \description{
-This function is a constructor for the class \linkS4class{DD} 
-using the contents of a xml file.
+This function is a constructor for the class \linkS4class{DD} using the contents of 
+a xml file.
 
-\code{xmlToDD} read xml files with the definition and properties of every
-variable for the Service Sector Activity Indicators survey and transform this
-content into an object of class \linkS4class{DD}.
+\code{xmlToDD} read xml files with the definition and properties of every variable for the 
+Service Sector Activity Indicators survey and transform this content into an object of class 
+\linkS4class{DD}.
 
-This function reads the content of a \linkS4class{data.table} with columns
- \code{Variable}, \code{Sort}, \code{Class} and \code{Qual1} to 
- \code{Qual\emph{q}}.
+This function reads the content of a \linkS4class{data.table} with columns \code{Variable}, 
+\code{Sort}, \code{Class} and \code{Qual1} to \code{Qual}\emph{q}.
  
- The column \code{Variable} contains the names of all 
- variables, both questionnaire variables and metadata. This internal 
- \linkS4class{data.table} is then used to initialize a \linkS4class{DD}
+ The column \code{Variable} contains the names of all variables, both questionnaire variables and 
+ metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD}
  object.
  
-The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or 
-\code{'IDDD'}, for statistical unit qualifiers, variable name qualifiers and
-variable names, respectively.
+The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or \code{'IDDD'}, for 
+statistical unit qualifiers, variable name qualifiers and variable names, respectively.
 
-The column \code{Class} specifies the class of the variable and takes values
-\code{numeric} or \code{character}. 
+The column \code{Class} specifies the class of the variable and takes values \code{numeric} or 
+\code{character}. 
 
-The columns \code{Qual1} to \code{Qual\emph{q}} contain the names of the 
-qualifiers of every variable name (row).
+The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
+variable name (row).
 }
 \examples{
-# We assume that the xml file \\code{Ejemplo_v2.xml} is 
-in the administrator desktop (change accordingly otherwise): 
+\dontrun{
+#We assume that the xml file \\code{Ejemplo_v2.xml} is in the administrator desktop (change 
+#accordingly otherwise): 
 FileName<-"C:/Users/Administrador/Desktop/Ejemplo_v2.xml"
-data(VNC)
-DD <- xmlToDD(FileName, VNC)
+data(ExampleVNC)
+DD <- xmlToDD(FileName)
+}
 
 }
 

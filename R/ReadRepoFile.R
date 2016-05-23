@@ -1,24 +1,24 @@
 #' @title Write a file with a key-value
 #' 
-#' @description \code{ReadRepoFile} returns a \linkS4class{data.table} with the 
-#' content of the file corresponding to the input name.
+#' @description \code{ReadRepoFile} returns a \linkS4class{data.table} with the content of the file 
+#' corresponding to the input name.
 #' 
-#' @param FileName Character vector of length 1 with the name of the file to 
-#' read. The file will be read from the working directory (see 
-#' \link[base]{getwd}) unless the full path is specified.
+#' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
+#' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param language character vector of length 1 with the language of the file to
-#' read. The values allowed are: 'SP' (Spanish) and 'EN' (English), being the
-#' default value is 'SP'.
+#' @param language character vector of length 1 with the language of the file to read. The values 
+#' allowed are: 'SP' (Spanish) and 'EN' (English), being the default value is 'SP'.
 #' 
 #' @return \linkS4class{data.table} with all data from the read file.
 #' 
 #' @examples
-#' # We assume that the key-value ASCII file \code{E30183.FF_V1.MM032014.D_1} is 
-#' in the administrator desktop (change accordingly otherwise): 
+#' \dontrun{
+#' #We assume that the key-value ASCII file \code{E30183.FF_V1.MM032014.D_1} is in the administrator 
+#' desktop (change accordingly otherwise): 
 #' RepoName <- 'C:/Users/Administrador/Desktop/E30183.FF_V1.MM032014.D_1'
 #' Example.kv <- ReadRepoFile(RepoName)
 #' str(Example.kv)
+#' }
 #' 
 #' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
 #'
@@ -27,17 +27,7 @@
 #' @export
 ReadRepoFile <- function(FileName, language = 'SP') {
     
-    ## Se lee todo el fichero en un vector carácter con cada línea en una componente
-    #s <- file.info(FileName)$size 
-    #buf <- readChar(con = FileName, nchars = s, useBytes = TRUE)
-    #FileVector <- strsplit(x = buf, split = "\r\n", fixed = T, useBytes = T)[[1]]
-    
-    #FirstLine <- FileVector[[1]]
-    #FirstLine <- gsub('Valor', 'Value', FirstLine)
-    
-    #FileDT <- data.table(FileVector = FileVector[-1])
-    
-    if (language != 'SP' & language != 'EN'){
+    if (language != 'SP' & language != 'EN') {
         
         stop('[RepoReadWrite::ReadRepoFile]Parameter "language" must be "SP" or "EN".')
     }
@@ -50,7 +40,7 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     FirstLine <- File[1]
     FirstLine <- FirstLine[['V1']]
     
-    if (language == 'SP'){
+    if (language == 'SP') {
         
         FirstLine <- gsub('Valor', 'Value', FirstLine)
     }
@@ -82,25 +72,25 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     Lengths <- unlist(Lengths[-length(Lengths)])
     # Se determinan las posiciones inicial y final de cada variable en cada línea
     Pos1 <- c(1L)
-    for (i in seq(along = Lengths)){Pos1 <- c(Pos1, 
-                                              Lengths[i] + Pos1[length(Pos1)])}
+    for (i in seq(along = Lengths)) {Pos1 <- c(Pos1, Lengths[i] + Pos1[length(Pos1)])}
     Pos2 <- Pos1[-1] - 1L
     Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
     Pos1 <- Pos1[-length(Pos1)]
     
     # Se construye una columna por cada variable
-    for (indexVar in seq(along = Names)){
-        FileDT[, Names[indexVar]:= gdata::trim(substr(x = FileVector, 
+    for (indexVar in seq(along = Names)) {
+        FileDT[, Names[indexVar] := gdata::trim(substr(x = FileVector, 
                                                       start = Pos1[indexVar], 
                                                       stop = Pos2[indexVar])), 
                with = F]
     }
     FileDT[, FileVector := NULL]
-    
+  
     DupRows <- duplicated(FileDT)
     if (sum(DupRows) > 0) {
         
-        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:\n\n')
+        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:
+            \n\n')
         print(FileDT[DupRows])
         FileDT <- FileDT[!DupRows]
     }
@@ -113,8 +103,7 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     
     if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {
         
-        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), 
-                              c('IDDD', 'Value')))
+        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), c('IDDD', 'Value')))
         
     }
     return(FileDT)
