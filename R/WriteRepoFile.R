@@ -70,7 +70,7 @@ setMethod(
     signature = c("StQ"),
     function(object, Name){
         
-        WriteRepoFile(object = object, Name = Name)
+        WriteRepoFile(object = getData(object), Name = Name)
         return(invisible(NULL))
         
     }
