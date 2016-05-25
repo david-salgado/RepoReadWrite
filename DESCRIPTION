@@ -3,7 +3,8 @@ Title: Read and write files from/to the microdata repository
 Version: 0.1.0
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
-Description: This package contains the functions necessary to read and write files of the microdata repository
+Description: This package contains the functions necessary to read and write
+    files of the microdata repository
 Depends:
     R (>= 3.2.0)
 Imports:
@@ -31,6 +32,7 @@ Collate:
     'RepoDDToDD.R'
     'RepoXLSToVNC.R'
     'RepoFileToStQList.R'
+    'RepoFileToTXT.R'
     'RepoFileTorawStQList.R'
     'RepoFileVersion.R'
     'RepoNextFileVerNumber.R'
