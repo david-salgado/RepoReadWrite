@@ -50,7 +50,8 @@
             if (FileType == 'FF'){
                 
                 NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.D_', NewVer)
-            }else{
+            
+            } else {
                 
                 NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.P_', NewVer)
             }
