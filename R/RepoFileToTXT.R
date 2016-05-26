@@ -23,7 +23,7 @@
 #' @examples
 #' \dontrun{
 #'  StQList <- RepoFileToStQList('Z:/', 'XXXXXX', 'C:/', 'E30183', 'MM112014', 'MM122014', 'FF')
-#'  RepoFileToTXT('Z:/', StQList, 'FF', 'C:/')
+#'  RepoFileToTXT('Z:/', StQList, 'E30183', 'FF', 'C:/')
 #' }
 #'       
 #' @export
