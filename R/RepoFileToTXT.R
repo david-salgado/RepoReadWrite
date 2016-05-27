@@ -1,33 +1,41 @@
+<<<<<<< HEAD
 #'  @title Write a key-value pair txt file
+||||||| merged common ancestors
+#'  @title Write a key-value pair txt file.
+=======
+#' @title Write a key-value pair txt file.
+>>>>>>> 8e01eb010734153d31846aada93322b25345ad4e
 #' 
-#'  @description \code{RepoFileToTXT} writes the key-value objects found in the input parameter 
+#' @description \code{RepoFileToTXT} writes the key-value objects found in the input parameter 
 #'  StQList in fixed-width column txt files. 
 #' 
 #'  This method reads the files found with the input parameter StQList and writes their content as a
 #'  fixed-width column txt file with key-value pair structure with the same name as files read, but
 #'  extension .txt.
 #' 
-#'  @param RepoPath Character vector of length 1 with the path of the repository from which files are
+#' @param RepoPath Character vector of length 1 with the path of the repository from which files are
 #'  to be read.
 #'  
-#'  @param StQList Object of class \linkS4class{StQList}.
+#' @param StQList Object of class \linkS4class{StQList}.
+#' 
+#' @param SurveyCode Character vector of lenght 1 with the code of the survey 
 #'  
-#'  @param FileType Character vector of length 1 with the type of the file to be written (FI, FF, FG 
+#' @param FileType Character vector of length 1 with the type of the file to be written (FI, FF, FG 
 #'  or FD).
 #' 
-#'  @param RutaEscritura Character vector of length 1 with the path where files will be written. It
+#' @param OutPath Character vector of length 1 with the path where files will be written. It
 #'  must not be another txt file of the same periods which are being considered.
 #'  
 #' @examples
 #' \dontrun{
 #'  StQList <- RepoFileToStQList('Z:/', 'XXXXXX', 'C:/', 'E30183', 'MM112014', 'MM122014', 'FF')
-#'  RepoFileToTXT('Z:/', StQList, 'FF', 'C:/')
+#'  RepoFileToTXT('Z:/', StQList, 'E30183', 'FF', 'C:/')
 #' }
 #'       
 #' @export
-    RepoFileToTXT <- function(RepoPath, StQList, FileTyPe, RutaEscritura){
+    RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
         
-        if (!FileTyPe %in% c('FI', 'FF', 'FD', 'FG')){
+        if (!FileType %in% c('FI', 'FF', 'FD', 'FG')){
             
             stop('[RepoFiletoTXT] Only FI, FF, FG or FD files are allowed.')
         }
@@ -43,14 +51,15 @@
             UnitNames <- IDDDToUnitNames(getVNC(StQList[[Period.index]]), IDDDNames)
             UnitNames <- UnitNames[[2]]
             setnames(dcastedStQ, IDDDNames, UnitNames)
-            LastFileVersion <- RepoTopn(RepoPath, paste0(FileTyPe, '_V1.', Periods[Period.index]))
+            LastFileVersion <- RepoTopn(RepoPath, paste0(FileType, '_V1.', Periods[Period.index]))
             NewVer <- as.numeric(LastFileVersion) + 1
-            if (FileTyPe == 'FF'){
+            if (FileType == 'FF'){
                 
-                NewFile <- paste0(RutaEscritura, Encuesta, '.', FileTyPe, '_matricial.', Periods[Period.index], '.D_', NewVer)
-            }else{
+                NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.D_', NewVer)
+            
+            } else {
                 
-                NewFile <- paste0(RutaEscritura, Encuesta, '.', FileTyPe, '_matricial.', Periods[Period.index], '.P_', NewVer)
+                NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.P_', NewVer)
             }
             Ficheros[Period.index] <- NewFile
             write.table(dcastedStQ, NewFile, sep='~', row.names = FALSE, quote = FALSE, na = '', dec = '.')
