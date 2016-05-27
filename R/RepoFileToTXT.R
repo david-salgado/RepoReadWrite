@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-#'  @title Write a key-value pair txt file
-||||||| merged common ancestors
-#'  @title Write a key-value pair txt file.
-=======
 #' @title Write a key-value pair txt file.
->>>>>>> 8e01eb010734153d31846aada93322b25345ad4e
 #' 
 #' @description \code{RepoFileToTXT} writes the key-value objects found in the input parameter 
 #'  StQList in fixed-width column txt files. 
@@ -33,36 +27,35 @@
 #' }
 #'       
 #' @export
-    RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
+RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
+    
+    if (!FileType %in% c('FI', 'FF', 'FD', 'FG')){
         
-        if (!FileType %in% c('FI', 'FF', 'FD', 'FG')){
-            
-            stop('[RepoFiletoTXT] Only FI, FF, FG or FD files are allowed.')
-        }
+        stop('[RepoFiletoTXT] Only FI, FF, FG or FD files are allowed.')
+    }
+    
+    Data <- getData(StQList)
+    Periods <- names(Data)
+    Ficheros <- vector('character', length(Periods))
+    for (Period.index in seq(along = Periods)){
         
-        Data <- getData(StQList)
-        Periods <- names(Data)
-        Ficheros <- vector('character', length(Periods))
-        for (Period.index in seq(along = Periods)){
+        RepoVars <- getIDDD(StQList[[Period.index]])
+        dcastedStQ <- dcast_StQ(StQList[[Period.index]], VarNames = RepoVars, 'MicroData')
+        IDDDNames <- names(dcastedStQ)
+        UnitNames <- IDDDToUnitNames(getVNC(StQList[[Period.index]]), IDDDNames)
+        UnitNames <- UnitNames[[2]]
+        setnames(dcastedStQ, IDDDNames, UnitNames)
+        LastFileVersion <- RepoTopn(RepoPath, paste0(FileType, '_V1.', Periods[Period.index]))
+        NewVer <- as.numeric(LastFileVersion) + 1
+        if (FileType == 'FF'){
             
-            RepoVars <- getIDDD(StQList[[Period.index]])
-            dcastedStQ <- dcast_StQ(StQList[[Period.index]], VarNames = RepoVars, 'MicroData')
-            IDDDNames <- names(dcastedStQ)
-            UnitNames <- IDDDToUnitNames(getVNC(StQList[[Period.index]]), IDDDNames)
-            UnitNames <- UnitNames[[2]]
-            setnames(dcastedStQ, IDDDNames, UnitNames)
-            LastFileVersion <- RepoTopn(RepoPath, paste0(FileType, '_V1.', Periods[Period.index]))
-            NewVer <- as.numeric(LastFileVersion) + 1
-            if (FileType == 'FF'){
-                
-                NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.D_', NewVer)
+            NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.D_', NewVer)
             
-            } else {
-                
-                NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.P_', NewVer)
-            }
-            Ficheros[Period.index] <- NewFile
-            write.table(dcastedStQ, NewFile, sep='~', row.names = FALSE, quote = FALSE, na = '', dec = '.')
+        } else {
+            
+            NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.P_', NewVer)
         }
+        Ficheros[Period.index] <- NewFile
+        write.table(dcastedStQ, NewFile, sep='~', row.names = FALSE, quote = FALSE, na = '', dec = '.')
+    }
 }
-
