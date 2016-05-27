@@ -35,6 +35,7 @@ ReadRepoFile <- function(FileName, language = 'SP') {
     File <- fread(FileName, sep = '|', sep2 = ' ',
                   header = FALSE, 
                   skip = 0L, 
+                  strip.white = FALSE,
                   stringsAsFactors = FALSE)
     FirstLine <- File[1]
     FirstLine <- FirstLine[['V1']]
