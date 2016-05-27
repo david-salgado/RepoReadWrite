@@ -1,4 +1,4 @@
-#'  @title Write a key-value pair txt file.
+#'  @title Write a key-value pair txt file
 #' 
 #'  @description \code{RepoFileToTXT} writes the key-value objects found in the input parameter 
 #'  StQList in fixed-width column txt files. 
