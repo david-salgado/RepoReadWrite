@@ -53,7 +53,11 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = NULL){
   
     RepoDD <- as.data.table(RepoDD)
     output <- copy(RepoDD)
-    
+    IDQuals <- RepoDD[NOMID != ''][['NOMID']]
+    NonIDQuals <- RepoDD[NOMCALIFICADOR != ''][['NOMCALIFICADOR']]
+    Quals <- c(IDQuals, NonIDQuals)
+    names(Quals) <- seq(along = Quals)
+
     # Eliminamos columnas innecesarias
     output[, FICHORIG := NULL]
     output[, FORM := NULL]
@@ -152,13 +156,14 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = NULL){
     setkeyv(output, CommonVar)
     setkeyv(NonUnitDT, CommonVar)
     output <- merge(output, NonUnitDT, all = T)
+    output[Variable %in% Quals, QualOrder := names(Quals)[Variable %in% Quals]]
     
     # Ordenamos la data.table final
-    Qual <- setdiff(names(output), c('Variable', 'Sort', 'Class'))
+    Qual <- setdiff(names(output), c('Variable', 'Sort', 'Class', 'QualOrder'))
     nQual <- length(Qual)
     Qual <- paste0('Qual', 1:nQual)
     
-    setcolorder(output, c('Variable', 'Sort', 'Class', Qual))
+    setcolorder(output, c('Variable', 'Sort', 'Class', 'QualOrder', Qual))
     output[, ValueRegExp := '.+']
     
     for (col in names(output)) {
@@ -187,26 +192,26 @@ RepoDDToDD <- function(RepoDD, VNC, DDslot = NULL){
                 
                 slot(DD, Names) <- new(Class = "DDdt", DDdt)
                 
-            }else {
+            } else {
                 
                 slot(DD, 'MicroData') <- slot(DD, 'MicroData') + new(Class = "DDdt", DDdt)
                 
             }
         }
         
-    }else if (DDslot == 'MicroData') {
+    } else if (DDslot == 'MicroData') {
             
             DD <- new(Class = 'DD', MicroData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
         
-    }else if (DDslot == 'ParaData') {
+    } else if (DDslot == 'ParaData') {
             
             DD <- new(Class = 'DD', ParaData = new(Class = 'DDdt', output), VarNameCorresp = VNC)
             
-    }else if (DDslot == 'Aggregates') {
+    } else if (DDslot == 'Aggregates') {
             
             DD <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', output), VarNameCorresp = VNC)
         
-    }else {
+    } else {
         
             DD <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', output), VarNameCorresp = VNC)
     
