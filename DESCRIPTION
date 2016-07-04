@@ -39,6 +39,7 @@ Collate:
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
     'RepoTopn.R'
+    'RepoXLSToRepoDD.R'
     'WriteRepoFile.R'
     'xmlToDD.R'
 RoxygenNote: 5.0.1
