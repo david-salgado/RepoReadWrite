@@ -54,7 +54,6 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
         }
     }
     
-    
     doc <- xmlParse(FileName)
     nodes <- getNodeSet(doc, "//identifier[@identifierType]") #lista de clases 'XMLInternalElementNode'
     
@@ -108,8 +107,9 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
         DDData <- data.table(DDData, aux = Qual[posQual])
         setnames(DDData, 'aux', paste0('Qual', i))
     }
-    DDData[, ValueRegExp := ValueRegExp]
 
+    DDData[, ValueRegExp := ValueRegExp]
+    
         
     # Si no se especifica DDslot, cada variable se asigna al slot
     # correpondiente a la componente del VNC en el que aparece.
@@ -142,7 +142,7 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
         DD <- new(Class = 'DD', MicroData = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
         
     } else if (DDslot == 'ParaData') {
-        
+
         DD <- new(Class = 'DD', ParaData = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
         
     } else if (DDslot == 'Aggregates') {
@@ -153,10 +153,11 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
         
         DD <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
         
-    }else {
+    } else {
         
         DD <- new(Class = 'DD', Other = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
     }
+    
     
     return(DD)
 }
