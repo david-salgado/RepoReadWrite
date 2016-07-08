@@ -1,6 +1,6 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.1.0
+Version: 0.1.1
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
@@ -39,6 +39,7 @@ Collate:
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
     'RepoTopn.R'
+    'RepoXLSToRepoDD.R'
     'WriteRepoFile.R'
     'xmlToDD.R'
 RoxygenNote: 5.0.1
