@@ -19,6 +19,8 @@
 #' The column \code{Class} specifies the class of the variable and takes values \code{numeric} or 
 #' \code{character}. 
 #' 
+#' The column \code{Length} contains the highest length for each variable.
+#' 
 #' The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
 #' variable name (row).
 #' 
@@ -64,33 +66,43 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
                     as.data.table(xmlToDataFrame(union(x[1:3], x[5:7]), stringsAsFactors = FALSE))
             })
     
+    QualOrder <- lapply(quals, xmlChildren)
     quals <- lapply(quals, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))})
     
-    # Generamos columnas del slot DD: Variable, Sort, Class y ValueRegExp
+    # Generamos columnas del slot DD: Variable, Sort, Class, Length y ValueRegExp
     Sort <- unlist(lapply(nodes,function(x) xmlGetAttr(x,"identifierType")))
-    IDQual <- gsub("I","IDQual",Sort[Sort == 'I'])
-    Sort <- c(IDQual, gsub("Q","NonIDQual",Sort[Sort != 'I']))
     Sort <- gsub("V","IDDD",Sort)
+    Sort <- gsub("Q","NonIDQual",Sort)
+    Sort[Sort == 'I'] <- 'IDQual'
+    
+    
     
     Variable <- unlist(lapply(data, function(x) x[1])) 
     Class <- unlist(lapply(data, function(x) x[5]))
+    Length <- unlist(lapply(data, function(x) x[6]))
     
     values <- getNodeSet(doc, "//values")
     ValueRegExp <- unlist(lapply(values, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))[2]}))
 
     
     # Construimos un vector Qual que contenga los datos de Qual1, Qual2,... en ese orden
-    existQual <- unlist(lapply(nodes, function(x){length(xmlChildren(x)) - 9})) #Vector con el valor 0 si la variable no tiene calificadores y 1 si tiene
+    QualOrder <-  lapply(QualOrder, function(x){unlist(lapply(x, xmlGetAttr,"QualOrder"))})
+    existQual <- unlist(lapply(nodes, function(x){length(xmlChildren(x)) - 8})) #Vector con el valor 0 si la variable no tiene calificadores y 1 si tiene
     nummaxQual <- max(unlist(lapply(quals, function(x){dim(x)[1]})))
     Qual <- vector('character', length(nodes) * nummaxQual)
     contquals <- 0
  
-    for (i in seq(along = (nodes))){
+    for (i in seq(along = nodes)){
         
         if (existQual[i] == 1){
             
             contquals <- contquals + 1
-            varQuals <- quals[[contquals]][['text']]
+            varQualsinic <- quals[[contquals]][['text']]
+            varQuals <- vector('character', length(varQualsinic))
+            for (j in seq(along = varQualsinic)){
+                
+                varQuals[j] <- varQualsinic[QualOrder[[contquals]] == j]
+            }
             if (length(varQuals) < nummaxQual){varQuals <- c(varQuals, rep("", nummaxQual - length(varQuals)))}
             for (j in seq(along = varQuals)){
                 Qual[i + (j - 1) * length(nodes)] <- varQuals[j]
@@ -100,7 +112,7 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     
            
     # Construimos el data.table necesario para crear el objeto DD
-    DDData <- data.table(Variable, Sort, Class)
+    DDData <- data.table(Variable, Sort, Class, Length)
     for (i in seq(1,nummaxQual)) {
         
         posQual <- seq(length(nodes) * (i - 1) + 1, length(nodes) * i)
