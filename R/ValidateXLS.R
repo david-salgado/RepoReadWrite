@@ -148,8 +148,8 @@ ValidateXLS <- function(ExcelName){
     
     difName <- setdiff(Name, c(IDQualTot, NonIDQualTot, IDDDTot))
     if (length(difName) > 0) {
-            stop(paste0('[ValidateXLS] The following variables in Excel sheet "VarSpec" are not in 
-                        "ID", "MicroData" nor "ParaData":', difName))
+            stop('[ValidateXLS] The following variables in Excel sheet "VarSpec" are neither in "ID", "MicroData" nor "ParaData": ', 
+                                toString(difName))
     }
     return(cat('Fichero Validado.'))
 }
