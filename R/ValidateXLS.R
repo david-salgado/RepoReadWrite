@@ -12,7 +12,7 @@
 #' @examples
 #' \dontrun{
 #' ExcelName <- 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/E30163/E30163.NombresVariables.xlsx'
-#' ExcelName <- 'N:/UDMTD/UDMTD04/Repositorio/E30163.NombresVariables.xlsx'
+#' Validate(ExcelName)
 #' }
 #' 
 #' @import data.table xlsx
@@ -48,8 +48,10 @@ ValidateXLS <- function(ExcelName){
         ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
         ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
         ExcelSheet[[sName]][, OrigOrder := NULL]
+        ExcelSheet[[sName]] <- ExcelSheet[[sName]][!apply(is.na(ExcelSheet[[sName]]) | ExcelSheet[[sName]] == "", 1, all),]
         
     }
+    
     
     Name <- ExcelSheet[['VarSpec']][['Name']]
     DupName <-  Name[duplicated(Name)]
