@@ -63,7 +63,7 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     quals <- getNodeSet(doc, "//quals")
     
     data <- lapply(nodes,function(x){
-                    as.data.table(xmlToDataFrame(union(x[1:3], x[5:7]), stringsAsFactors = FALSE))
+                    as.data.table(xmlToDataFrame(union(x[1], x[3:4]), stringsAsFactors = FALSE))
             })
     
     QualOrder <- lapply(quals, xmlChildren)
@@ -78,16 +78,17 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     
     
     Variable <- unlist(lapply(data, function(x) x[1])) 
-    Class <- unlist(lapply(data, function(x) x[5]))
-    Length <- unlist(lapply(data, function(x) x[6]))
+    Class <- unlist(lapply(data, function(x) x[2]))
+    Length <- unlist(lapply(data, function(x) x[3]))
     
     values <- getNodeSet(doc, "//values")
     ValueRegExp <- unlist(lapply(values, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))[2]}))
-
+    #unitNames <- getNodeSet(doc, "//UnitNames")
+    #Unit1 <- unlist(lapply(unitNames, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))}))
     
     # Construimos un vector Qual que contenga los datos de Qual1, Qual2,... en ese orden
     QualOrder <-  lapply(QualOrder, function(x){unlist(lapply(x, xmlGetAttr,"QualOrder"))})
-    existQual <- unlist(lapply(nodes, function(x){length(xmlChildren(x)) - 8})) #Vector con el valor 0 si la variable no tiene calificadores y 1 si tiene
+    existQual <- unlist(lapply(nodes, function(x){length(xmlChildren(x)) - 6})) #Vector con el valor 0 si la variable no tiene calificadores y 1 si tiene
     nummaxQual <- max(unlist(lapply(quals, function(x){dim(x)[1]})))
     Qual <- vector('character', length(nodes) * nummaxQual)
     contquals <- 0
