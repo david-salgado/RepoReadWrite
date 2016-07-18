@@ -120,7 +120,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
                                                                                   QualType]))
         newXMLNode(name = 'name', VarName, parent = identifiers.list[[VarName]])
         newXMLNode(name = 'description', parent = identifiers.list[[VarName]],
-                   .children = c(newXMLNode('code', Data[Name == VarName, Variable.Description])))
+                   .children = c(newXMLNode('MetadataCode', Data[Name == VarName, MetadataCode])))
         #newXMLNode(name = 'iriaQuestions', 'ID de la pregunta en IRIA', 
         #           parent = identifiers.list[[VarName]])
         newXMLNode(name = 'varType', Data[Name == VarName, Type], 
@@ -147,8 +147,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         
             quals <- newXMLNode(name = 'quals', parent = identifiers.list[[VarName]])
             colData <- setdiff(names(Data), 
-                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'Value.RegExp',
-                                 'Value.Description', 'Variable.Description'))
+                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'ValueRegExp', 'ValueDescription'))
             QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
             QualsVec2 <- colData[QualsVec]
             OrderQuals <- Order[Name %in% QualsVec2,]
@@ -189,8 +188,8 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         
         
         newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
-                   .children = c(newXMLNode('description', Data[Name == VarName, Value.Description]),
-                                 newXMLNode('value', Data[Name == VarName, Value.RegExp])))
+                   .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
+                                 newXMLNode('value', Data[Name == VarName, ValueRegExp])))
     }
     addChildren(identifiers, identifiers.list)
     
