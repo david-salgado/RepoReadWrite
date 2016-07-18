@@ -37,6 +37,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         
         Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
     }
+    Data.list.tot <- rbindlist(Data.list, fill = TRUE)
     
     # Check integrity of the contents of the xlsx file
     
@@ -67,7 +68,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     Order[, Order := NULL]
     setnames(Order, 'NewOrder', 'Order')
     
-    # Consolidate a unique data.table with all variables and their correspondind qualifiers
+    # Consolidate a unique data.table with all variables and their corresponding qualifiers
     # From this data.table the qualifier of each variable is identified
     Data <- rbindlist(Data.list, fill = TRUE)
     Data <- Data[(IDQual != '' & !is.na(IDQual)) | (NonIDQual != '' & !is.na(NonIDQual)) | (IDDD != '' & !is.na(IDDD))]
@@ -109,10 +110,6 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     # Construct the DD file with the agreed schema 
     DD <- newXMLNode(name = 'DD', attrs = c(SurveyCode = SurveyCode, version = Version))
     
-    # Node sqlConnection
-    newXMLNode(name = 'sqlConnection', attrs = c(id = 'idsqlConnection'),
-               .children = c(newXMLNode(name = 'jdbcConnection')), parent = DD)
-    
     # Node identifiers
     identifiers <- newXMLNode(name = 'identifiers', parent = DD)
     identifiers.list <- list()
@@ -122,18 +119,29 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
                                                   attrs = c(identifierType = Data[Name == VarName, 
                                                                                   QualType]))
         newXMLNode(name = 'name', VarName, parent = identifiers.list[[VarName]])
-        newXMLNode(name = 'description', Data[Name == VarName, Variable.Description], 
-                   parent = identifiers.list[[VarName]])
-        newXMLNode(name = 'metadataId', 'URL a base de datos de metadatos', 
-                   parent = identifiers.list[[VarName]])
-        newXMLNode(name = 'iriaQuestionsId', 'ID de la pregunta en IRIA', 
-                   parent = identifiers.list[[VarName]])
-        newXMLNode(name = 'order', Data[Name == VarName, Order], 
-                   parent = identifiers.list[[VarName]])
+        newXMLNode(name = 'description', parent = identifiers.list[[VarName]],
+                   .children = c(newXMLNode('code', Data[Name == VarName, Variable.Description])))
+        #newXMLNode(name = 'iriaQuestions', 'ID de la pregunta en IRIA', 
+        #           parent = identifiers.list[[VarName]])
         newXMLNode(name = 'varType', Data[Name == VarName, Type], 
                    parent = identifiers.list[[VarName]])
         newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                    parent = identifiers.list[[VarName]])
+        UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
+        
+        if (Data[Name == VarName, QualType] == 'I'){
+            
+            IDQualValue <- Data.list.tot[IDQual == VarName, 'Unit1', with = FALSE]
+            IDQualValue <- IDQualValue[!duplicated(IDQualValue)]
+            
+            IDQuals.list <- lapply(IDQualValue, function(IDQual){
+                
+                out <- newXMLNode(name = 'UnitName', IDQual)
+                
+            })
+            
+            addChildren(UnitNames, IDQuals.list)
+        }
 
         if (Data[Name == VarName, QualType] == 'V'){
         
@@ -152,7 +160,34 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
                 
             })
             addChildren(quals, quals.list)
+            
+            
+            IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'Unit1'), with = FALSE]
+            
+            attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
+            
+            for (i in seq(1, dim(IDDDValue)[1])){
+                
+                attrs <- c()
+                
+                for (name in setdiff(names(IDDDValue), 'Unit1')){attrs <- c(attrs, IDDDValue[i, ][[name]])}
+                
+                attrs.list.aux[[i]] <- attrs
+                names(attrs.list.aux[[i]]) <- QualsVec2
+            }
+            names(attrs.list.aux) <- IDDDValue[['Unit1']]
+            
+            attrs.list <- lapply(names(attrs.list.aux), function(names){
+                
+                out <- newXMLNode(name = 'UnitName', names, attrs = c(attrs.list.aux[[names]]))
+                
+            })
+            
+            addChildren(UnitNames, attrs.list)
         }
+        
+        
+        
         newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
                    .children = c(newXMLNode('description', Data[Name == VarName, Value.Description]),
                                  newXMLNode('value', Data[Name == VarName, Value.RegExp])))

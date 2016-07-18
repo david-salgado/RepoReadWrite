@@ -39,6 +39,8 @@ statistical unit qualifiers, variable name qualifiers and variable names, respec
 The column \code{Class} specifies the class of the variable and takes values \code{numeric} or 
 \code{character}. 
 
+The column \code{Length} contains the highest length for each variable.
+
 The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
 variable name (row).
 
