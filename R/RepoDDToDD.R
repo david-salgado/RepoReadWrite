@@ -79,6 +79,8 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     
     Variable <- unlist(lapply(data, function(x) x[1])) 
     Class <- unlist(lapply(data, function(x) x[2]))
+    Class <- gsub('STRING', 'character', Class)
+    Class <- gsub('NUMBER', 'numeric', Class)
     Length <- unlist(lapply(data, function(x) x[3]))
     
     values <- getNodeSet(doc, "//values")
