@@ -30,6 +30,7 @@ Collate:
     'NextRepoFile.R'
     'ReadRepoFile.R'
     'ReadSASFile.R'
+    'ReadXLSFile.R'
     'RepoDDToDD.R'
     'RepoXLSToVNC.R'
     'RepoFileToStQList.R'
