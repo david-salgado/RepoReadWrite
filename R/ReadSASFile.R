@@ -117,7 +117,7 @@ ReadSASFile <- function(SASFileName, DD){
     
     }
 
-    for (Var in names(out.SP)[57]) {
+    for (Var in names(out.SP)) {
 
             out.SP[, Var := as(get(Var), DDdt[Variable == DDVarNames[[Var]], Class]), with = F]
     }
