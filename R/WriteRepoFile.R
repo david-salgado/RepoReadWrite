@@ -39,25 +39,12 @@ setGeneric("WriteRepoFile", function(object, Name){standardGeneric("WriteRepoFil
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("data.table"),
+    signature = c("rawDatadt"),
     function(object, Name){
         
-        object <- DatadtToDT(object)
-        FL <- FirstLine(object)
-        
-        Widths <- unlist(strsplit(FL, ','))
-        Widths <- Widths[2:(length(Widths) - 1)]
-        Widths <- unlist(lapply(strsplit(Widths, '='), '[', 2))
-        Widths <- unlist(lapply(strsplit(Widths, '.', fixed = TRUE), '[', 1))
-        Widths <- ifelse(substr(Widths, 1, 1) == '$', 
-                         substr(Widths, 2, nchar(Widths)), 
-                         Widths)
-        Widths <- as.integer(Widths)
-        
-        write(x = FL, file = Name)
-        write.fwf(object, Name, append = TRUE, sep = '', colnames = FALSE,
-                   na = '', width = Widths)
-        cat(paste0('Key-value pair file written in ', Name), '.\n')
+        write.table(object, file = Name, quote = FALSE, sep = "@@", na = " ", 
+                    row.names = FALSE, col.names = FALSE)
+        cat(paste0('Key-value pair file written in ', Name), '\n')
         
         return(invisible(NULL))
     }
@@ -70,6 +57,7 @@ setMethod(
     signature = c("StQ"),
     function(object, Name){
         
+        object <- StQTorawStQ(object)
         WriteRepoFile(object = getData(object), Name = Name)
         return(invisible(NULL))
         

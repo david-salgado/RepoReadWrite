@@ -25,86 +25,29 @@
 #' @import data.table
 #' 
 #' @export
-ReadRepoFile <- function(FileName, language = 'SP') {
+ReadRepoFile <- function(FileName, DD) {
     
-    if (language != 'SP' & language != 'EN') {
+    File <- fread(FileName, sep = '@', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
+                  strip.white = TRUE,
+                  stringsAsFactors = FALSE, colClasses = 'character')
+    NCol <- dim(File)[2]
+    if (NCol > 5) {
         
-        stop('[RepoReadWrite::ReadRepoFile]Parameter "language" must be "SP" or "EN".')
-    }
-    
-    File <- fread(FileName, sep = '|', sep2 = ' ',
-                  header = FALSE, 
-                  skip = 0L, 
-                  strip.white = FALSE,
-                  stringsAsFactors = FALSE)
-    FirstLine <- File[1]
-    FirstLine <- FirstLine[['V1']]
-    
-    if (language == 'SP') {
-        
-        FirstLine <- gsub('Valor', 'Value', FirstLine)
-    }
-    
-    FileDT <- File[-1]
-    setnames(FileDT, 'FileVector')
-    
-    # Se determinan los nombres y longitudes de las variables
-    Param <- as.list(unlist(strsplit(x = FirstLine, split = ",")))
-    Param <- as.vector(lapply(Param, "[[" , 1L))
-    Param <- lapply(lapply(Param, strsplit, split = '='), '[[', 1L)
-    Names <- unlist(lapply(Param, '[', 1)[-c(1, length(Param))])
-    Lengths <- lapply(Param, '[', 2)[-1]
-    Lengths <- lapply(Lengths, function(x){
-        if (substr(x, 1, 1) == '$') {
-            return(substr(x = x, start = 2, stop = nchar(x)))
-        } else {
-            return(x) 
+        for (col in 6:NCol){
+         
+            File[, V5 := paste0(V5, get(paste0('V', col)), collapse = '@')]
         }
-    })
-    Lengths <- lapply(Lengths, function(x){
-        if (substr(x = x, start = nchar(x), stop = nchar(x)) == '.') {
-            return(as.integer(substr(x = x, start = 1, stop = nchar(x) - 1)))
-        } else {
-            return(as.integer(x)) 
-        }
-    })
-    Max <- Lengths[[length(Lengths)]]
-    Lengths <- unlist(Lengths[-length(Lengths)])
-    # Se determinan las posiciones inicial y final de cada variable en cada línea
-    Pos1 <- c(1L)
-    for (i in seq(along = Lengths)) {Pos1 <- c(Pos1, Lengths[i] + Pos1[length(Pos1)])}
-    Pos2 <- Pos1[-1] - 1L
-    Pos2[length(Pos2)] <- Pos1[length(Pos1)] - 1L
-    Pos1 <- Pos1[-length(Pos1)]
+    }
+    File[, V2 := NULL]
+    File[, V4 := NULL]
+    setnames(File, c('IDDDKey', 'QualKey', 'Value'))
     
-    # Se construye una columna por cada variable
-    for (indexVar in seq(along = Names)) {
-        FileDT[, Names[indexVar] := gdata::trim(substr(x = FileVector, 
-                                                      start = Pos1[indexVar], 
-                                                      stop = Pos2[indexVar])), 
-               with = F]
-    }
-    FileDT[, FileVector := NULL]
-  
-    DupRows <- duplicated(FileDT)
-    if (sum(DupRows) > 0) {
-        
-        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:
-            \n\n')
-        print(FileDT[DupRows])
-        FileDT <- FileDT[!DupRows]
-    }
-    
-    if ('DESC' %in% names(FileDT)) {
-        
-        FileDT <- FileDT[, DESC := NULL]
-        cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
-    }
-    
-    if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {
-        
-        setcolorder(FileDT, c(setdiff(names(FileDT), c('IDDD', 'Value')), c('IDDD', 'Value')))
-        
-    }
-    return(FileDT)
+    Value <- File[['Value']]
+    File[, Value := NULL]
+    key <- new(Class = 'rawKey', File)
+    rawDatadt <- BuildrawDatadt(key, Value)
+    rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
+return(rawStQ)
+    StQ <- rawStQToStQ(rawStQ, DD)
+    return(StQ)
 }
