@@ -56,7 +56,6 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
                                          stringsAsFactors = F,
                                          encoding = 'UTF-8', na = '')
         OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
-        #ExcelSheet[[sName]][ExcelSheet[[sName]] == '.'] <- ''
         ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
         ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
         ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
@@ -72,9 +71,7 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         numIDQual <- sum(!is.na(IDQual))
         NonIDQual <- SheetDT[['NonIDQual']]
         numNonIDQual <- sum(!is.na(NonIDQual))
-        Units <- ColNames[(4 + numIDQual + numNonIDQual):length(ColNames)]
-        UnitsNames <- paste0('Unit', seq(along = Units))
-        setnames(SheetDT, Units, UnitsNames)
+        SheetDT <- SheetDT[, names(SheetDT)[1:(4 + numIDQual + numNonIDQual)], with = F]
         for (col in names(SheetDT)){
             
             SheetDT <- SheetDT[, col := as.character(get(col)), with = F]
