@@ -45,8 +45,6 @@
 #' @export
 ReadXLSFile <- function(XLSFileName, DD){
     
-    VNC <- Reduce('+', getVNC(DD))
-    
     wb <- loadWorkbook(XLSFileName)
     SheetName <- names(getSheets(wb))
     out.SP <- read.xlsx2(XLSFileName, sheetName = SheetName, stringsAsFactors = FALSE)
@@ -58,72 +56,28 @@ ReadXLSFile <- function(XLSFileName, DD){
         out.SP[, col := gdata::trim(get(col)), with = FALSE]
         
     }
-    
-    
+  
+    VNC <- getVNC(DD)
     CalID <- getIDQual(VNC)
-    CalID <- intersect(names(VNC), CalID)
-    
-    for (cal in CalID) {
-        
-        VNC[get(cal) == '.', cal := '', with = F]
-        
-    }
-    
-    
     CalNoID <- getNonIDQual(VNC)
-    CalNoID <- intersect(names(VNC), CalNoID)
-    
-    
-    Cals <- union(CalID, CalNoID)
-    VarSP <- VNC$Unit1
-    VarSP <- VarSP[!is.na(VarSP) & VarSP != ""]
-    MissVar <- setdiff(names(out.SP), VarSP)
-    
-    if (length(MissVar) > 0) stop(paste0('[RepoReadWrite::ReadXLSFile] The following variables in the XLS file are not present in the Excel sheet:\n\n', 
-                                         paste0(MissVar, collapse = ' '), '\n\n'))
-    #VarSP <- intersect(VarSP, names(out.SP))
-    #out.SP <- out.SP[, VarSP, with = F]
-    
-    VNC <- VNC[IDDD == "" & IDQual != "", IDDD := IDQual]
-    VNC <- VNC[IDDD == "" & NonIDQual != "", IDDD := NonIDQual]
-    
-    pasteNA <- function(x, y){
-        out <- ifelse(is.na(y) | y == '', paste0(x, ''), paste(x, y, sep = "_"))
-        return(out)
-    }
-    
-    VNC <- copy(VNC)[, NewVar := IDDD]
-    VNC <- VNC[IDQual != '' & IDDD == '' & Unit1 != '', NewVar := IDQual]
-    VNC <- VNC[NonIDQual != '' & IDDD == '' & Unit1 != '', NewVar := NonIDQual]
-    
-    for (Cal in Cals) {
-        VNC <- copy(VNC)[, NewVar := pasteNA(NewVar, get(Cal))]
-    }
-    
-    EquivalName <- names(out.SP)
-    names(EquivalName) <- unlist(lapply(EquivalName, function(x) {VNC[VNC[['Unit1']] == x, NewVar]}))
-    setnames(out.SP, EquivalName, names(EquivalName))
-    
-    
-    slots <- setdiff(slotNames(DD), 'VarNameCorresp')
-    DDdt <- new(Class = 'DDdt')
-    for (slot in slots) {DDdt <- DDdt + slot(DD, slot) }
-    
-    DDVarNames <- unlist(lapply(as.list(names(out.SP)), ExtractNames))
-    NoDDdt <- setdiff(DDVarNames, DDdt[['Variable']])
-    if (length(NoDDdt) > 0) {stop('[RepoReadWrite::ReadXLSFile] The following variables in the XLS file are not present in the DD file:\n\n', 
-                                  paste0(NoDDdt, collapse = ' '), '\n\n')
+    Cals <- unique(union(CalID, CalNoID))
+
+    VNC <- lapply(VNC, function(VNCdt){
         
-    } else {
-        
-        names(DDVarNames) <- names(out.SP)
-        
-    }
+        for (cal in intersect(names(VNCdt), Cals)) {
+            
+            VNCdt[get(cal) == '.', cal := '', with = F]
+            
+        }    
+        return(VNCdt)
+    })
+
+    VNC <- new(Class = 'VarNameCorresp', VNC)
     
-    for (Var in names(out.SP)) {
-        
-        out.SP[, Var := as(get(Var), DDdt[Variable == DDVarNames[[Var]], Class]), with = F]
-    }
-    return(out.SP)
+    IDDDNames <- UnitToIDDDNames(VNC, names(out.SP))
+    
+    setnames(out.SP, IDDDNames[['UnitName']], IDDDNames[['IDDDName']])
+    
+    return(out.SP) 
     
 }
