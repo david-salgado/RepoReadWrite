@@ -28,7 +28,7 @@
 #' \dontrun{
 #' # We assume that the SAS file \code{MM032014.sas7bdat} is in the 
 #' #administrator desktop:
-#' SASName <- 'C:/Users/David/Desktop/MM032014.sas7bdat'
+#' SASName <- 'C:/Users/Administrator/Desktop/MM032014.sas7bdat'
 #' # We assume data created previosly:
 #' data(ExampleDD)
 #' Example.DM <- ReadSASFile(SASName, ExampleDD)
@@ -46,7 +46,6 @@
 ReadSASFile <- function(SASFileName, DD){
     
     out.SP <- haven::read_sas(SASFileName)
-    ColClasses <- unlist(lapply(out.SP, class))
     setDT(out.SP)
     
     for (col in names(out.SP)) {
@@ -54,7 +53,7 @@ ReadSASFile <- function(SASFileName, DD){
         out.SP[, col := gdata::trim(get(col)), with = FALSE]
         
     }
-    
+
     VNC <- getVNC(DD)
     CalID <- getIDQual(VNC)
     CalNoID <- getNonIDQual(VNC)
