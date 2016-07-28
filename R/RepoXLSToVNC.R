@@ -46,7 +46,7 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
     if (missing(SheetNames)) {
         
         wb <- loadWorkbook(ExcelName)
-        SheetNames <- names(getSheets(wb))
+        SheetNames <- setdiff(names(getSheets(wb)), 'VarSpec')
         
     }
     ExcelSheet <- list()

@@ -38,6 +38,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
     }
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
+
     
     # Check integrity of the contents of the xlsx file
     
@@ -63,7 +64,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         return(out)
         
     }, Order.list, Order.list[[1]])
-    
+        
     Order[, NewOrder := as.character(seq(along = Order))]
     Order[, Order := NULL]
     setnames(Order, 'NewOrder', 'Order')
@@ -84,11 +85,11 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     NonIDQual <- Data[['NonIDQual']]
     NonIDQual <- unique(NonIDQual[NonIDQual != ''])
     Data[, QualType := ifelse(Name %in% IDQual, 'I', ifelse(Name %in% NonIDQual, 'Q', 'V'))]
-    
+
     Data <- merge(Data, Order, by = 'Name', all = TRUE)
+   
     Data[is.na(Order), Order := '']
-    Data[, c("IDQual", "NonIDQual", "IDDD", 
-             names(Data)[grep('Unit', names(Data))]) := NULL, with = FALSE]
+    Data[, c("IDQual", "NonIDQual", "IDDD", 'UnitName') := NULL, with = FALSE]
     colData <- setdiff(names(Data), c('Name', 'Order', 'QualType'))
     for (col in colData){
         
@@ -113,6 +114,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     # Node identifiers
     identifiers <- newXMLNode(name = 'identifiers', parent = DD)
     identifiers.list <- list()
+
     for(VarName in Data[['Name']]){
 
         identifiers.list[[VarName]] <- newXMLNode('identifier', 
@@ -131,7 +133,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         
         if (Data[Name == VarName, QualType] == 'I'){
             
-            IDQualValue <- Data.list.tot[IDQual == VarName, 'Unit1', with = FALSE]
+            IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
             IDQualValue <- IDQualValue[!duplicated(IDQualValue)]
             
             IDQuals.list <- lapply(IDQualValue, function(IDQual){
@@ -161,7 +163,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
             addChildren(quals, quals.list)
             
             
-            IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'Unit1'), with = FALSE]
+            IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'UnitName'), with = FALSE]
             
             attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
             
@@ -169,12 +171,12 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
                 
                 attrs <- c()
                 
-                for (name in setdiff(names(IDDDValue), 'Unit1')){attrs <- c(attrs, IDDDValue[i, ][[name]])}
+                for (name in setdiff(names(IDDDValue), 'UnitName')){attrs <- c(attrs, IDDDValue[i, ][[name]])}
                 
                 attrs.list.aux[[i]] <- attrs
                 names(attrs.list.aux[[i]]) <- QualsVec2
             }
-            names(attrs.list.aux) <- IDDDValue[['Unit1']]
+            names(attrs.list.aux) <- IDDDValue[['UnitName']]
             
             attrs.list <- lapply(names(attrs.list.aux), function(names){
                 
