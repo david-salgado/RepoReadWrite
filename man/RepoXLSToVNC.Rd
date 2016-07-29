@@ -38,12 +38,11 @@ The column \code{Unit1} specifies the variable names used by production Unit1
 }
 \examples{
 \dontrun{
-# We assume that the xlsx file \\code{NombresVariables.E30183.xlsx} with the appropriate structure
-# is in the administrator desktop (change accordingly otherwise):
-library(data.table)   
-ExcelName <- 'C:/Users/Administrador/Desktop/NombresVariables.E30183.xlsx'
-SheetNames <- c('MicroData')  
-VNC <- RepoXLSToVNC(ExcelName, SheetNames)
+# We assume that the xlsx file \\code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
+# structure is in the administrator desktop (change accordingly otherwise):
+ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
+VNC <- RepoXLSToVNC(ExcelName)
+show(VNC)
 }
 
 }

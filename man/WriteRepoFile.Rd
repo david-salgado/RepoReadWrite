@@ -5,14 +5,14 @@
 \alias{WriteRepoFile}
 \alias{WriteRepoFile,StQ-method}
 \alias{WriteRepoFile,StQList-method}
-\alias{WriteRepoFile,data.table-method}
+\alias{WriteRepoFile,rawDatadt-method}
 \alias{WriteRepoFile,rawStQ-method}
 \alias{WriteRepoFile,rawStQList-method}
 \title{Write a key-value pair ASCII file}
 \usage{
 WriteRepoFile(object, Name)
 
-\S4method{WriteRepoFile}{data.table}(object, Name)
+\S4method{WriteRepoFile}{rawDatadt}(object, Name)
 
 \S4method{WriteRepoFile}{StQ}(object, Name)
 

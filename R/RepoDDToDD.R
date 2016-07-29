@@ -38,11 +38,13 @@
 #' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
-#' # An example with data created previously:
-#' library(data.table)
-#' data(ExampleRepoDD)
+#' \dontrun{
+#' # We assume that the DD file (xml file) ExampleXLS.DD_V1 already exists in the administrator 
+#' # desktop (change accordingly otherwise):
+#' DDFileName <- 'C:/Users/Administrador/Desktop/ExampleXLS.DD_V1'
 #' data(ExampleVNC)
-#' RepoDDToDD(ExampleRepoDD, ExampleVNC)
+#' RepoDDToDD(DDFileName, ExampleVNC)
+#' }
 #' 
 #' @import data.table 
 #'

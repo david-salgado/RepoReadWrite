@@ -37,7 +37,7 @@ functions \code{\link{RepoDDToDD}} or \code{\link{xmlToDD}}.
 \dontrun{
 # We assume that the SAS file \\code{MM032014.sas7bdat} is in the 
 #administrator desktop:
-SASName <- 'C:/Users/Administrador/Desktop/MM032014.sas7bdat'
+SASName <- 'C:/Users/Administrator/Desktop/MM032014.sas7bdat'
 # We assume data created previosly:
 data(ExampleDD)
 Example.DM <- ReadSASFile(SASName, ExampleDD)

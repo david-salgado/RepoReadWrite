@@ -32,9 +32,9 @@
 #' \dontrun{
 #' # We assume that the xlsx file \code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
 #' # structure is in the administrator desktop (change accordingly otherwise):
-#' library(data.table)   
 #' ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
 #' VNC <- RepoXLSToVNC(ExcelName)
+#' show(VNC)
 #' }
 #' 
 #' @import data.table xlsx
