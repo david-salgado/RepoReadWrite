@@ -38,7 +38,7 @@
 #' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
-#' # An example with data created previosly:
+#' # An example with data created previously:
 #' library(data.table)
 #' data(ExampleRepoDD)
 #' data(ExampleVNC)
@@ -127,7 +127,7 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     
         
     # Si no se especifica DDslot, cada variable se asigna al slot
-    # correpondiente a la componente del VNC en el que aparece.
+    # correspondiente a la componente del VNC en el que aparece.
     
     if (is.null(DDslot)) {
         

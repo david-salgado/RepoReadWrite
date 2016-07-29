@@ -197,8 +197,10 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     
     
     # Save the DD object in a xml file  (DD file)
-    saveXML(DD, paste0(SurveyCode, '.DD_V', Version))
-    
+    outName <- paste0(SurveyCode, '.DD_V', Version)
+    saveXML(DD, outName)
+    cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
+    return(invisible(NULL))
     
 }
 
