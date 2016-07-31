@@ -33,7 +33,7 @@
 #'
 #' @include RepoXLSToVNC.R ReadRepoFile.R RepoDDToDD.R ReadRepoFile.R
 #' 
-#' @import data.table 
+#' @import data.table RepoTime
 #' 
 #' @export
 RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Rot = FALSE, 

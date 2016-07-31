@@ -47,11 +47,13 @@ variable name (row).
 The column \code{ValueRegExp} contains an expresion with the acceptable values for each variable.
 }
 \examples{
-# An example with data created previosly:
-library(data.table)
-data(ExampleRepoDD)
+\dontrun{
+# We assume that the DD file (xml file) ExampleXLS.DD_V1 already exists in the administrator 
+# desktop (change accordingly otherwise):
+DDFileName <- 'C:/Users/Administrador/Desktop/ExampleXLS.DD_V1'
 data(ExampleVNC)
-RepoDDToDD(ExampleRepoDD, ExampleVNC)
+RepoDDToDD(DDFileName, ExampleVNC)
+}
 
 }
 

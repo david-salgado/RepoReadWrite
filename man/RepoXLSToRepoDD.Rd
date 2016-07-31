@@ -13,18 +13,18 @@ read from the working directory (see \link[base]{getwd}) unless the full path is
 \item{Version}{Character vector of length 1 with the version number of the file DD to produce.}
 }
 \value{
-NULL.
+Return invisible NULL.
 }
 \description{
 This function builds and writes a DD file  using the contents of an xlsx file.
-
 \code{RepoXLSToRepoDD} transforms the content of an xlsx file into a DD file.
 }
 \examples{
+# We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
+# in the working directory (change accordingly otherwise):
 \dontrun{
-# We assume that the xlsx file \\code{E30163.NombresVariables.xlsx} with the appropriate structure
-# is in the administrator desktop (change accordingly otherwise):
-RepoXLSToRepoDD(SurveyCode, Version)
+RepoDD <- RepoXLSToRepoDD('ExampleXLS', '1')
+show(RepoDD)
 }
 
 }
