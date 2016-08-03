@@ -40,9 +40,11 @@
 #' @examples
 #' # An example with data created previosly:
 #' library(data.table)
+#' \dontrun{
 #' data(ExampleRepoDD)
 #' data(ExampleVNC)
 #' RepoDDToDD(ExampleRepoDD, ExampleVNC)
+#' }
 #' 
 #' @import data.table 
 #'

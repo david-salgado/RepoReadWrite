@@ -6,8 +6,8 @@
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param language character vector of length 1 with the language of the file to read. The values 
-#' allowed are: 'SP' (Spanish) and 'EN' (English), being the default value is 'SP'.
+#' @param DD Object of class \linkS4class{DD} with the content of the file \code{DD} of definitions 
+#' and properties of every variable.
 #' 
 #' @return \linkS4class{data.table} with all data from the read file.
 #' 
@@ -47,7 +47,7 @@ ReadRepoFile <- function(FileName, DD) {
     key <- new(Class = 'rawKey', File)
     rawDatadt <- BuildrawDatadt(key, Value)
     rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
-return(rawStQ)
+
     StQ <- rawStQToStQ(rawStQ, DD)
     return(StQ)
 }

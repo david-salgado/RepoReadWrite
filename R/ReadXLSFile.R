@@ -13,7 +13,7 @@
 #' variable. 
 #' 
 #' The object \code{DD} is naturally obtained from the original \code{DD} file as output of 
-#' functions \code{\link{RepoDDToDD}}}. 
+#' functions \code{\link{RepoDDToDD}}. 
 #'  
 #' @param XLSFileName Character vector of length 1 with name of the file. The file will be read from 
 #' the working directory (see \link[base]{getwd}) unless the full path is specified.

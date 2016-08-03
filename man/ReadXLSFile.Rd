@@ -17,6 +17,22 @@ and properties of every variable.}
 \linkS4class{data.table} with the contents of the \code{DD} file, with statistical units 
 in rows and variables as columns.
 }
+\description{
+\code{ReadXLSFile} returns a \linkS4class{data.table} with all data from the input 
+XLS file.
+
+This function reads the XLS file specified as input parameter \code{XLSFileName} and returns its 
+content in a \linkS4class{data.table} with statistical units in rows and variables in columns. 
+The names of the variables are assigned according to the Excel file with variable names 
+correspondence for each statistical operation.
+
+This correspondence is specified through the input param \code{DD}, which is a \linkS4class{DD} 
+object with the content of the DD file containing the definition and properties of every 
+variable. 
+
+The object \code{DD} is naturally obtained from the original \code{DD} file as output of 
+functions \code{\link{RepoDDToDD}}.
+}
 \examples{
 \dontrun{
 # We assume that the SAS file \\code{mm201604.xlsx} is in the 
