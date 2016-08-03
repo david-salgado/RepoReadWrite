@@ -1,7 +1,6 @@
 #' @title Produce a file DD from an xlsx file
 #' 
 #' @description This function builds and writes a DD file  using the contents of an xlsx file.
-#' 
 #' \code{RepoXLSToRepoDD} transforms the content of an xlsx file into a DD file.  
 #' 
 #' @param SurveyCode Character vector of length 1 with the code of the survey. The xlsx file will be 
@@ -9,13 +8,14 @@
 #' 
 #' @param Version Character vector of length 1 with the version number of the file DD to produce.
 #' 
-#' @return NULL.
+#' @return Return invisible NULL.
 #' 
 #' @examples
+#' # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
+#' # in the working directory (change accordingly otherwise):
 #' \dontrun{
-#' # We assume that the xlsx file \code{E30163.NombresVariables.xlsx} with the appropriate structure
-#' # is in the administrator desktop (change accordingly otherwise):
-#' RepoXLSToRepoDD(SurveyCode, Version)
+#' RepoDD <- RepoXLSToRepoDD('ExampleXLS', '1')
+#' show(RepoDD)
 #' }
 #' 
 #' @import data.table xlsx XML
@@ -197,8 +197,10 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
     
     
     # Save the DD object in a xml file  (DD file)
-    saveXML(DD, paste0(SurveyCode, '.DD_V', Version))
-    
+    outName <- paste0(SurveyCode, '.DD_V', Version)
+    saveXML(DD, outName)
+    cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
+    return(invisible(NULL))
     
 }
 

@@ -48,12 +48,9 @@ The column \code{ValueRegExp} contains an expresion with the acceptable values f
 }
 \examples{
 # An example with data created previosly:
-library(data.table)
-\dontrun{
 data(ExampleRepoDD)
 data(ExampleVNC)
 RepoDDToDD(ExampleRepoDD, ExampleVNC)
-}
 
 }
 

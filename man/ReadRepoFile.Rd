@@ -10,8 +10,8 @@ ReadRepoFile(FileName, DD)
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{DD}{Object of class \linkS4class{DD} with the content of the file \code{DD} of definitions 
-and properties of every variable.}
+\item{DD}{Object of class \linkS4class{DD} with the definition and characteristics of the data 
+contained in the file to read.}
 }
 \value{
 \linkS4class{data.table} with all data from the read file.
@@ -31,6 +31,6 @@ str(Example.kv)
 
 }
 \seealso{
-\code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
+\code{\link{ReadSASFile}}, \code{\link{ReadXLSFile}}, \code{\link{WriteRepoFile}}
 }
 

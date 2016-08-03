@@ -88,7 +88,7 @@ ReadSASWeigh <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot
     
     
     Cals <- union(CalID, CalNoID)
-    VarSP <- VNCdt$Unit1
+    VarSP <- VNCdt$UnitName
     VarSP <- VarSP[!is.na(VarSP) & VarSP != ""]
     MissVar <- setdiff(VarSP, names(out.SP))
     
@@ -108,15 +108,15 @@ ReadSASWeigh <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot
     }
     
     VNCdt <- copy(VNCdt)[, NewVar := IDDD]
-    VNCdt <- VNCdt[IDQual != '' & IDDD == '' & Unit1 != '', NewVar := IDQual]
-    VNCdt <- VNCdt[NonIDQual != '' & IDDD == '' & Unit1 != '', NewVar := NonIDQual]
+    VNCdt <- VNCdt[IDQual != '' & IDDD == '' & UnitName != '', NewVar := IDQual]
+    VNCdt <- VNCdt[NonIDQual != '' & IDDD == '' & UnitName != '', NewVar := NonIDQual]
     for (Cal in Cals) {
         VNCdt <- copy(VNCdt)[, NewVar := pasteNA(NewVar, get(Cal))]
     }
     
     EquivalName <- names(out.SP)
     names(EquivalName) <- unlist(lapply(EquivalName, function(x) {
-                                            VNCdt[VNCdt[['Unit1']] == x, NewVar]}
+                                            VNCdt[VNCdt[['UnitName']] == x, NewVar]}
                                         )
                                  )
     setnames(out.SP, EquivalName, names(EquivalName))

@@ -39,12 +39,9 @@
 #' 
 #' @examples
 #' # An example with data created previosly:
-#' library(data.table)
-#' \dontrun{
 #' data(ExampleRepoDD)
 #' data(ExampleVNC)
 #' RepoDDToDD(ExampleRepoDD, ExampleVNC)
-#' }
 #' 
 #' @import data.table 
 #'
@@ -129,7 +126,7 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     
         
     # Si no se especifica DDslot, cada variable se asigna al slot
-    # correpondiente a la componente del VNC en el que aparece.
+    # correspondiente a la componente del VNC en el que aparece.
     
     if (is.null(DDslot)) {
         

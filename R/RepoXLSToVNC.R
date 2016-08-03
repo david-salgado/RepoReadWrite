@@ -30,12 +30,11 @@
 #' 
 #' @examples
 #' \dontrun{
-#' # We assume that the xlsx file \code{NombresVariables.E30183.xlsx} with the appropriate structure
-#' # is in the administrator desktop (change accordingly otherwise):
-#' library(data.table)   
-#' ExcelName <- 'C:/Users/Administrador/Desktop/NombresVariables.E30183.xlsx'
-#' SheetNames <- c('MicroData')  
-#' VNC <- RepoXLSToVNC(ExcelName, SheetNames)
+#' # We assume that the xlsx file \code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
+#' # structure is in the administrator desktop (change accordingly otherwise):
+#' ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
+#' VNC <- RepoXLSToVNC(ExcelName)
+#' show(VNC)
 #' }
 #' 
 #' @import data.table xlsx
@@ -51,10 +50,8 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
     }
     ExcelSheet <- list()
     for (sName in SheetNames) {
-        
-        ExcelSheet[[sName]] <- read.xlsx(ExcelName, sheetName = sName, 
-                                         stringsAsFactors = F,
-                                         encoding = 'UTF-8', na = '')
+
+        ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
         OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
         ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
         ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
@@ -68,9 +65,9 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         setnames(SheetDT, ColNames[1:3], c('IDQual', 'NonIDQual', 'IDDD'))
             
         IDQual <- SheetDT[['IDQual']]
-        numIDQual <- sum(!is.na(IDQual))
+        numIDQual <- sum(IDQual != '')
         NonIDQual <- SheetDT[['NonIDQual']]
-        numNonIDQual <- sum(!is.na(NonIDQual))
+        numNonIDQual <- sum(NonIDQual != '')
         SheetDT <- SheetDT[, names(SheetDT)[1:(4 + numIDQual + numNonIDQual)], with = F]
         for (col in names(SheetDT)){
             

@@ -6,8 +6,8 @@
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param DD Object of class \linkS4class{DD} with the content of the file \code{DD} of definitions 
-#' and properties of every variable.
+#' @param DD Object of class \linkS4class{DD} with the definition and characteristics of the data 
+#' contained in the file to read.
 #' 
 #' @return \linkS4class{data.table} with all data from the read file.
 #' 
@@ -20,7 +20,7 @@
 #' str(Example.kv)
 #' }
 #' 
-#' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
+#' @seealso \code{\link{ReadSASFile}}, \code{\link{ReadXLSFile}}, \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
 #' 
@@ -47,7 +47,6 @@ ReadRepoFile <- function(FileName, DD) {
     key <- new(Class = 'rawKey', File)
     rawDatadt <- BuildrawDatadt(key, Value)
     rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
-
-    StQ <- rawStQToStQ(rawStQ, DD)
+    StQ <- rawStQToStQ(rawStQ)
     return(StQ)
 }
