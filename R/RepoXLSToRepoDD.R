@@ -24,7 +24,7 @@
 RepoXLSToRepoDD <- function(SurveyCode, Version){
     
     # Read the contents of the xlsx file 
-    ExcelName <- paste0(SurveyCode, '.NombresVariables.xlsx')
+    ExcelName <- paste0(SurveyCode, '.NombresVariables_V', Version, '.xlsx')
     
     VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
     
@@ -130,7 +130,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                    parent = identifiers.list[[VarName]])
         UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
-        
+       
         if (Data[Name == VarName, QualType] == 'I'){
             
             IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
