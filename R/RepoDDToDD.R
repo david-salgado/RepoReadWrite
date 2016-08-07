@@ -30,33 +30,19 @@
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
 #' @param VNC Object of class \linkS4class{VarNameCorresp}.
-#' 
-#' @param DDslot Character vector of length 1 with the name of DD slot in which transformation will 
-#' be made. Its default value is \code{NULL}. If no DDslot is specified, variables in VNC components 
-#' are assigned to the corresponding DD slot.
 #'  
 #' @return Object of class \linkS4class{DD}.
 #' 
 #' @examples
-#' \dontrun{
-#' # We assume that the DD file (xml file) ExampleXLS.DD_V1 already exists in the administrator 
-#' # desktop (change accordingly otherwise):
-#' DDFileName <- 'C:/Users/Administrador/Desktop/ExampleXLS.DD_V1'
+#' # An example with data created previosly:
+#' data(ExampleRepoDD)
 #' data(ExampleVNC)
-#' RepoDDToDD(DDFileName, ExampleVNC)
-#' }
+#' RepoDDToDD(ExampleRepoDD, ExampleVNC)
 #' 
 #' @import data.table 
 #'
 #' @export
-RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
-    
-    # Comprobamos que el slot del DD que se especifica realmente es uno de los slots del objeto DD
-    if (!is.null(DDslot)) {
-        if (!DDslot %in% c('ID', 'MicroData', 'ParaData', 'Aggregates' ,'AggWeights','Other')) {
-            stop(paste0('[Validity RepoDDToDD]"', DDslot, '" is not a slot of the DD input object.'))
-        }
-    }
+RepoDDToDD <- function(FileName, VNC){
     
     doc <- xmlParse(FileName)
     nodes <- getNodeSet(doc, "//identifier[@identifierType]") #lista de clases 'XMLInternalElementNode'
@@ -76,8 +62,6 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     Sort <- gsub("V","IDDD",Sort)
     Sort <- gsub("Q","NonIDQual",Sort)
     Sort[Sort == 'I'] <- 'IDQual'
-    
-    
     
     Variable <- unlist(lapply(data, function(x) x[1])) 
     Class <- unlist(lapply(data, function(x) x[2]))
@@ -131,50 +115,27 @@ RepoDDToDD <- function(FileName, VNC, DDslot = NULL){
     # Si no se especifica DDslot, cada variable se asigna al slot
     # correspondiente a la componente del VNC en el que aparece.
     
-    if (is.null(DDslot)) {
+    DD <- new(Class = "DD", VarNameCorresp = VNC)
+    VNCnames <- names(VNC)
+    DDnames <- unlist(lapply(VNCnames, function(VNCname){ strsplit(VNCname, '_')[[1]][[1]] }))
+
+    for (i in seq(along = VNCnames)) {
         
-        DD <- new(Class = "DD", VarNameCorresp = VNC)
-        CommonNames <- intersect(names(VNC), slotNames(DD))
-       
-        for (Names in names(VNC)) {
+        Var <- c(getIDQual(VNC[[VNCnames[i]]]), getIDDD(VNC[[VNCnames[i]]]), getNonIDQual(VNC[[VNCnames[i]]]))
+        Var <- unique(Var[Var != ""])
+        
+        DDdt <- DDData[Variable %in% Var ]
+        
+        if (dim(slot(DD, DDnames[i]))[1] == 0){
             
-            Var <- c(getIDQual(VNC[[Names]]), getIDDD(VNC[[Names]]), getNonIDQual(VNC[[Names]]))
-            Var <- unique(Var[Var != ""])
-
-            DDdt <- DDData[Variable %in% Var ]
-           
-            if (Names %in% CommonNames) {
-                
-                slot(DD, Names) <- new(Class = "DDdt", DDdt)
-                
-            } else {
-                
-                slot(DD, 'MicroData') <- slot(DD, 'MicroData') + new(Class = "DDdt", DDdt)
-                
-            }
+            slot(DD, DDnames[i]) <- new(Class = "DDdt", DDdt)
+            
+        } else {
+            
+            slot(DD, DDnames[i]) <- slot(DD, DDnames[i]) + new(Class = "DDdt", DDdt)
         }
-
-    } else if (DDslot == 'MicroData') {
-                
-        DD <- new(Class = 'DD', MicroData = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
-        
-    } else if (DDslot == 'ParaData') {
-
-        DD <- new(Class = 'DD', ParaData = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
-        
-    } else if (DDslot == 'Aggregates') {
-        
-        DD <- new(Class = 'DD', Aggregates = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
-        
-    } else if (DDslot == 'AggWeights'){
-        
-        DD <- new(Class = 'DD', AggWeights = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
-        
-    } else {
-        
-        DD <- new(Class = 'DD', Other = new(Class = 'DDdt', DDData), VarNameCorresp = VNC)
+            
     }
-    
-    
     return(DD)
+    
 }

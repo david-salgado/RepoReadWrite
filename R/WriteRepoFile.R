@@ -42,11 +42,30 @@ setMethod(
     signature = c("rawDatadt"),
     function(object, Name){
         
-        write.table(object, file = Name, quote = FALSE, sep = "@@", na = " ", 
+        write.table(as.data.frame(object), file = Name, quote = FALSE, sep = "@@", na = " ", 
                     row.names = FALSE, col.names = FALSE)
         cat(paste0('Key-value pair file written in ', Name), '\n')
         
         return(invisible(NULL))
+    }
+)
+#' @rdname WriteRepoFile
+#' 
+#' @export
+setMethod(
+    f = "WriteRepoFile",
+    signature = c("rawStQ"),
+    function(object, Name){
+        
+        #WriteRepoFile(object = getData(object), Name = Name)
+        if (length(Name) != 1) {
+            
+            warning('[RepoReadWrite::WriteRepoFile] Only the first name will be used.')
+        }
+        Name <- Name[[1]]
+        WriteRepoFile(getData(object), Name)
+        return(invisible(NULL))
+        
     }
 )
 #' @rdname WriteRepoFile
@@ -91,27 +110,6 @@ setMethod(
     }
 )
 
-#' @rdname WriteRepoFile
-#' 
-#' @export
-setMethod(
-    f = "WriteRepoFile",
-    signature = c("rawStQ"),
-    function(object, Name){
-        
-        #WriteRepoFile(object = getData(object), Name = Name)
-        if (length(Name) != 1) {
-            
-            warning('[RepoReadWrite::WriteRepoFile] Only the first name will be used.')
-        }
-        Name <- Name[[1]]
-        write.table(getData(object), file = Name, quote = FALSE, na = ' ', 
-                    row.names = FALSE, col.names = FALSE)
-        cat(paste0('Key-value pair file written in ', Name), '.\n')
-        return(invisible(NULL))
-        
-    }
-)
 
 #' @rdname WriteRepoFile
 #' 
