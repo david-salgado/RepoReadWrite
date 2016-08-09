@@ -3,10 +3,8 @@
 #' @description This function builds and writes a DD file  using the contents of an xlsx file.
 #' \code{RepoXLSToRepoDD} transforms the content of an xlsx file into a DD file.  
 #' 
-#' @param SurveyCode Character vector of length 1 with the code of the survey. The xlsx file will be 
+#' @param ExcelName Character vector of length 1 with the name of the file to read.The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
-#' 
-#' @param Version Character vector of length 1 with the version number of the file DD to produce.
 #' 
 #' @return Return invisible NULL.
 #' 
@@ -21,11 +19,14 @@
 #' @import data.table xlsx XML
 #'       
 #' @export
-RepoXLSToRepoDD <- function(SurveyCode, Version){
+RepoXLSToRepoDD <- function(ExcelName){
     
     # Read the contents of the xlsx file 
-    ExcelName <- paste0(SurveyCode, '.NombresVariables.xlsx')
     
+    StrSplExcelName <- strsplit(ExcelName, split = '.', fixed = TRUE)[[1]]
+    SurveyCode <- StrSplExcelName[1]
+    Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
+
     VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
     
     VarSpec <- as.data.table(VarSpec)
@@ -130,7 +131,7 @@ RepoXLSToRepoDD <- function(SurveyCode, Version){
         newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                    parent = identifiers.list[[VarName]])
         UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
-        
+
         if (Data[Name == VarName, QualType] == 'I'){
             
             IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
