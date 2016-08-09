@@ -22,13 +22,6 @@
 RepoXLSToRepoDD <- function(ExcelName){
     
     # Read the contents of the xlsx file 
-<<<<<<< HEAD
-||||||| merged common ancestors
-    ExcelName <- paste0(SurveyCode, '.NombresVariables.xlsx')
-=======
-    ExcelName <- paste0(SurveyCode, '.NombresVariables_V', Version, '.xlsx')
->>>>>>> 20846e9bd082e2ddeb92293772305e8b0385e40d
-    
     StrSplExcelName <- strsplit(ExcelName, split = '.', fixed = TRUE)[[1]]
     SurveyCode <- StrSplExcelName[1]
     Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
@@ -137,13 +130,6 @@ RepoXLSToRepoDD <- function(ExcelName){
         newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                    parent = identifiers.list[[VarName]])
         UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
-<<<<<<< HEAD
-
-||||||| merged common ancestors
-        
-=======
-       
->>>>>>> 20846e9bd082e2ddeb92293772305e8b0385e40d
         if (Data[Name == VarName, QualType] == 'I'){
             
             IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
@@ -166,6 +152,9 @@ RepoXLSToRepoDD <- function(ExcelName){
             QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
             QualsVec2 <- colData[QualsVec]
             OrderQuals <- Order[Name %in% QualsVec2,]
+            orderqual <- intersect(QualsVec2, OrderQuals[['Name']])
+            setkeyv(OrderQuals, 'Name')
+            OrderQuals <- OrderQuals[orderqual]
             OrderQuals[, Order := seq(along = Order)]
             setkeyv(OrderQuals, 'Order')
             quals.list <- lapply(OrderQuals[['Name']], function(qual){
