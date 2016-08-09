@@ -89,7 +89,7 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     DupRows <- duplicated(FileDT)
     if (sum(DupRows) > 0) {
         
-        cat('[RepoReadWrite::ReadRepoFile] The following rows are duplicated and have been removed:
+        cat('[RepoReadWrite::ReadOldRepoFile] The following rows are duplicated and have been removed:
             \n\n')
         print(FileDT[DupRows])
         FileDT <- FileDT[!DupRows]
@@ -98,7 +98,7 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     if ('DESC' %in% names(FileDT)) {
         
         FileDT <- FileDT[, DESC := NULL]
-        cat('[RepoReadWrite::ReadRepoFile] The column DESC has been removed.\n\n')   
+        cat('[RepoReadWrite::ReadOldRepoFile] The column DESC has been removed.\n\n')   
     }
     
     if ('IDDD' %in% names(FileDT) && 'Value' %in% names(FileDT)) {

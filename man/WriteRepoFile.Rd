@@ -14,11 +14,11 @@ WriteRepoFile(object, Name)
 
 \S4method{WriteRepoFile}{rawDatadt}(object, Name)
 
+\S4method{WriteRepoFile}{rawStQ}(object, Name)
+
 \S4method{WriteRepoFile}{StQ}(object, Name)
 
 \S4method{WriteRepoFile}{StQList}(object, Name)
-
-\S4method{WriteRepoFile}{rawStQ}(object, Name)
 
 \S4method{WriteRepoFile}{rawStQList}(object, Name)
 }

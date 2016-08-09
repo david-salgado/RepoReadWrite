@@ -4,17 +4,13 @@
 \alias{RepoDDToDD}
 \title{Produce an object of class \linkS4class{DD} from a xml file}
 \usage{
-RepoDDToDD(FileName, VNC, DDslot = NULL)
+RepoDDToDD(FileName, VNC)
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
 \item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
-
-\item{DDslot}{Character vector of length 1 with the name of DD slot in which transformation will 
-be made. Its default value is \code{NULL}. If no DDslot is specified, variables in VNC components 
-are assigned to the corresponding DD slot.}
 }
 \value{
 Object of class \linkS4class{DD}.
@@ -47,12 +43,11 @@ variable name (row).
 The column \code{ValueRegExp} contains an expresion with the acceptable values for each variable.
 }
 \examples{
+# An example with data created previosly:
 \dontrun{
-# We assume that the DD file (xml file) ExampleXLS.DD_V1 already exists in the administrator 
-# desktop (change accordingly otherwise):
-DDFileName <- 'C:/Users/Administrador/Desktop/ExampleXLS.DD_V1'
+RepoDDFileName <- 'C:/SurveyCode'
 data(ExampleVNC)
-RepoDDToDD(DDFileName, ExampleVNC)
+RepoDDToDD(ExampleRepoDD, ExampleVNC)
 }
 
 }
