@@ -41,11 +41,7 @@ ReadRepoFile <- function(FileName, DD) {
     File[, V2 := NULL]
     File[, V4 := NULL]
     setnames(File, c('IDDDKey', 'QualKey', 'Value'))
-    
-    Value <- File[['Value']]
-    File[, Value := NULL]
-    key <- new(Class = 'rawKey', File)
-    rawDatadt <- BuildrawDatadt(key, Value)
+    rawDatadt <- new(Class = 'rawDatadt', File)
     rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
     StQ <- rawStQToStQ(rawStQ)
     return(StQ)
