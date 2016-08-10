@@ -27,7 +27,7 @@
 #' @export
 ReadRepoFile <- function(FileName, DD) {
     
-    File <- fread(FileName, sep = '@', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
+    File <- fread(FileName, sep = '~', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
                   strip.white = TRUE,
                   stringsAsFactors = FALSE, colClasses = 'character')
     NCol <- dim(File)[2]
@@ -35,7 +35,7 @@ ReadRepoFile <- function(FileName, DD) {
         
         for (col in 6:NCol){
          
-            File[, V5 := paste0(V5, get(paste0('V', col)), collapse = '@')]
+            File[, V5 := paste0(V5, get(paste0('V', col)), collapse = '~')]
         }
     }
     File[, V2 := NULL]

@@ -42,7 +42,7 @@ setMethod(
     signature = c("rawDatadt"),
     function(object, Name){
         
-        write.table(as.data.frame(object), file = Name, quote = FALSE, sep = "@@", na = " ", 
+        write.table(as.data.frame(object), file = Name, quote = FALSE, sep = "~", na = " ", 
                     row.names = FALSE, col.names = FALSE)
         cat(paste0('Key-value pair file written in ', Name), '\n')
         
