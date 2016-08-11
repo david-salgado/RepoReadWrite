@@ -31,9 +31,9 @@ ReadRepoFile <- function(FileName, DD) {
                   strip.white = TRUE,
                   stringsAsFactors = FALSE, colClasses = 'character')
     
-    File$IDDDKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\1", File$V1)
-    File$QualKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\2", File$V1)
-    File$Value <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\3", File$V1)
+    File$IDDDKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@(.+)", "\\1", File$V1)
+    File$QualKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@(.+)", "\\2", File$V1)
+    File$Value <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@(.+)", "\\3", File$V1)
     File[, V1 := NULL]
     rawDatadt <- new(Class = 'rawDatadt', File)
     rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
