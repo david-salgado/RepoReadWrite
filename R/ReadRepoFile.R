@@ -27,20 +27,14 @@
 #' @export
 ReadRepoFile <- function(FileName, DD) {
     
-    File <- fread(FileName, sep = '~', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
+    File <- fread(FileName, sep = '\n', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
                   strip.white = TRUE,
                   stringsAsFactors = FALSE, colClasses = 'character')
-    NCol <- dim(File)[2]
-    if (NCol > 5) {
-        
-        for (col in 6:NCol){
-         
-            File[, V5 := paste0(V5, get(paste0('V', col)), collapse = '~')]
-        }
-    }
-    File[, V2 := NULL]
-    File[, V4 := NULL]
-    setnames(File, c('IDDDKey', 'QualKey', 'Value'))
+    
+    File$IDDDKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\1", File$V1)
+    File$QualKey <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\2", File$V1)
+    File$Value <- gsub("(\\w+)@@([A-Za-z0-9\\. ]+)@@([A-Za-z0-9\\. ]+)", "\\3", File$V1)
+    File[, V1 := NULL]
     rawDatadt <- new(Class = 'rawDatadt', File)
     rawStQ <- new(Class = 'rawStQ', Data = rawDatadt, DD = DD)
     StQ <- rawStQToStQ(rawStQ)
