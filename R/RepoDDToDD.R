@@ -35,9 +35,11 @@
 #' 
 #' @examples
 #' # An example with data created previosly:
-#' data(ExampleRepoDD)
+#' \dontrun{
+#' RepoDDFileName <- 'C:/SurveyCode'
 #' data(ExampleVNC)
 #' RepoDDToDD(ExampleRepoDD, ExampleVNC)
+#' }
 #' 
 #' @import data.table 
 #'
