@@ -23,49 +23,51 @@ ValidateXLS <- function(ExcelName){
     wb <- loadWorkbook(ExcelName)
     SheetNames <- names(getSheets(wb))
     
-    NonValSheet <- setdiff(SheetNames, c('VarSpec', 'ID', 'MicroData', 'ParaData'))
+    CompulsorySheets <- setdiff(c('VarSpec', 'ID', 'MicroData', 'ParaData'), SheetNames)
     
-    if (length(NonValSheet) > 0) {
-        stop('[ValidateXLS] Excel file only must contain sheets named "VarSpec", "ID", "MicroData", "ParaData".')
+    if (length(CompulsorySheets) > 0) {
+        stop('[ValidateXLS] The following sheets must be in the Excel file:', CompulsorySheets)
     }
     
-    ValSheet <- setdiff(c('VarSpec', 'ID', 'MicroData', 'ParaData'), SheetNames)
+    OptionalSheets <- setdiff(SheetNames, c('VarSpec', 'ID', 'MicroData', 'ParaData'))
+    OptionalSheets <- unlist(lapply(OptionalSheets, function(Sheet){ strsplit(Sheet, '_')[[1]][[1]] }))
     
-    if (length(ValSheet) > 0) {
-        stop('[ValidateXLS] The following sheets must be in the Excel file:', ValSheet)
+    OptionalValSheet <- setdiff(OptionalSheets, c('Aggregates', 'AggWeights', 'Other'))
+    
+    if (length(OptionalValSheet) > 0) {
+        stop('[ValidateXLS] The following prefixes in the Excel sheet names are not correct:', OptionalValSheet)
     }
     
- 
-    ExcelSheet <- list()
+    
+    ExcelSheets.list <- list()
     for (sName in SheetNames) {
         
-        ExcelSheet[[sName]] <- read.xlsx(ExcelName, sheetName = sName, 
-                                         stringsAsFactors = F,
-                                         encoding = 'UTF-8')
-        OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
-        #ExcelSheet[[sName]][ExcelSheet[[sName]] == '.'] <- ''
-        ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
-        ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
-        ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
-        ExcelSheet[[sName]][, OrigOrder := NULL]
-        ExcelSheet[[sName]] <- ExcelSheet[[sName]][!apply(is.na(ExcelSheet[[sName]]) | ExcelSheet[[sName]] == "", 1, all),]
+        ExcelSheets.list[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, colClasses = 'character',
+                                         stringsAsFactors = F)
+        OrigOrder <- dimnames(ExcelSheets.list[[sName]])[1][[1]]
+        #ExcelSheets.list[[sName]][ExcelSheets.list[[sName]] == '.'] <- ''
+        ExcelSheets.list[[sName]] <- as.data.table(ExcelSheets.list[[sName]])
+        ExcelSheets.list[[sName]][, OrigOrder := as.integer(OrigOrder)]
+        ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][order(rank(OrigOrder)),]
+        ExcelSheets.list[[sName]][, OrigOrder := NULL]
+        ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][!apply(is.na(ExcelSheets.list[[sName]]) | ExcelSheets.list[[sName]] == "", 1, all),]
         
     }
     
     
-    Name <- ExcelSheet[['VarSpec']][['Name']]
+    Name <- ExcelSheets.list[['VarSpec']][['Name']]
     DupName <-  Name[duplicated(Name)]
     if (length(DupName) > 0) {
         stop(paste0('[ValidateXLS] The following variables in sheet "VarSpec" are duplicated: ', DupName))
     }
     
-    TypeVal <- ExcelSheet[['VarSpec']][['Type']]
+    TypeVal <- ExcelSheets.list[['VarSpec']][['Type']]
     names(TypeVal) <- Name
     if (!all(TypeVal %in% c('STRING', 'NUMBER'))) {
         stop('[ValidateXLS] Column "Type" of sheet "VarSpec" must have the value "STRING" or "NUMBER".')
     }
     
-    LengthVal <- ExcelSheet[['VarSpec']][['Length']]
+    LengthVal <- ExcelSheets.list[['VarSpec']][['Length']]
     names(LengthVal) <- Name
     if (any(is.na(LengthVal) | LengthVal <= 0)) {
         stop('[ValidateXLS] Column "Length" of sheet "VarSpec" must be a positive integer.')
@@ -78,11 +80,11 @@ ValidateXLS <- function(ExcelName){
     IDDDTot <- c()
     for (sName in SheetNames) {
         
-        IDQual <- ExcelSheet[[sName]][['IDQual']]
+        IDQual <- ExcelSheets.list[[sName]][['IDQual']]
         IDQual <- IDQual[!is.na(IDQual)]
-        NonIDQual <- ExcelSheet[[sName]][['NonIDQual']]
+        NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
         NonIDQual <- NonIDQual[!is.na(NonIDQual)]
-        IDDD <- ExcelSheet[[sName]][['IDDD']]
+        IDDD <- ExcelSheets.list[[sName]][['IDDD']]
         IDDD <- IDDD[!is.na(IDDD)]
         
         IDQualTot <- unique(c(IDQualTot, IDQual))
@@ -104,7 +106,7 @@ ValidateXLS <- function(ExcelName){
         }
         
         #Columnas de calificadores
-        colNames <- names(ExcelSheet[[sName]])
+        colNames <- names(ExcelSheets.list[[sName]])
         
         difcolIDQual <- setdiff(IDQual, colNames)
         if (length(difcolIDQual) > 0) {
@@ -136,7 +138,7 @@ ValidateXLS <- function(ExcelName){
         
         
         #Longitudes
-        AuxExcel <- ExcelSheet[[sName]][!is.na(IDDD),NonIDQual, with = F]
+        AuxExcel <- ExcelSheets.list[[sName]][!is.na(IDDD),NonIDQual, with = F]
         AuxExcel[is.na(AuxExcel)] <- ''
         aux <- apply(AuxExcel, 1 , FUN = nchar)
         aux <- apply(aux, 1, FUN = max)
@@ -150,7 +152,7 @@ ValidateXLS <- function(ExcelName){
     
     difName <- setdiff(Name, c(IDQualTot, NonIDQualTot, IDDDTot))
     if (length(difName) > 0) {
-            stop('[ValidateXLS] The following variables in Excel sheet "VarSpec" are neither in "ID", "MicroData" nor "ParaData": ', 
+            stop('[ValidateXLS] The following variables in Excel sheet "VarSpec" are not in any other valid sheet: ', 
                                 toString(difName))
     }
     return(cat('Fichero Validado.'))
