@@ -25,7 +25,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     StrSplExcelName <- strsplit(ExcelName, split = '.', fixed = TRUE)[[1]]
     SurveyCode <- StrSplExcelName[1]
     Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
-
+    
     VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
     
     VarSpec <- as.data.table(VarSpec)
