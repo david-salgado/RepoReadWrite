@@ -53,27 +53,6 @@ ReadSASFile <- function(SASFileName, DD){
         out.SP[, col := gdata::trim(get(col)), with = FALSE]
         
     }
-
-    VNC <- getVNC(DD)
-    CalID <- getIDQual(VNC)
-    CalNoID <- getNonIDQual(VNC)
-    Cals <- unique(union(CalID, CalNoID))
-    
-    VNC <- lapply(VNC, function(VNCdt){
-        
-        for (cal in intersect(names(VNCdt), Cals)) {
-            
-            VNCdt[get(cal) == '.', cal := '', with = F]
-            
-        }    
-        return(VNCdt)
-    })
-    
-    VNC <- new(Class = 'VarNameCorresp', VNC)
-    
-    IDDDNames <- UnitToIDDDNames(VNC, names(out.SP))
-    
-    setnames(out.SP, IDDDNames[['UnitName']], IDDDNames[['IDDDName']])
     
     return(out.SP) 
 }
