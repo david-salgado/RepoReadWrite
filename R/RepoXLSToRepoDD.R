@@ -22,7 +22,8 @@
 RepoXLSToRepoDD <- function(ExcelName){
     
     # Read the contents of the xlsx file 
-    StrSplExcelName <- strsplit(ExcelName, split = '/', fixed = TRUE)[[1]]
+    StrSplExcelName <- gsub('\\\\', '/', ExcelName)
+    StrSplExcelName <- strsplit(StrSplExcelName, split = '/', fixed = TRUE)[[1]]
     StrSplExcelName <- StrSplExcelName[[length(StrSplExcelName)]]
     StrSplExcelName <- strsplit(StrSplExcelName, split = '.', fixed = TRUE)[[1]]
     SurveyCode <- StrSplExcelName[1]
