@@ -22,7 +22,9 @@
 RepoXLSToRepoDD <- function(ExcelName){
     
     # Read the contents of the xlsx file 
-    StrSplExcelName <- strsplit(ExcelName, split = '.', fixed = TRUE)[[1]]
+    StrSplExcelName <- strsplit(ExcelName, split = '/', fixed = TRUE)[[1]]
+    StrSplExcelName <- StrSplExcelName[[length(StrSplExcelName)]]
+    StrSplExcelName <- strsplit(StrSplExcelName, split = '.', fixed = TRUE)[[1]]
     SurveyCode <- StrSplExcelName[1]
     Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
     
@@ -200,7 +202,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     
     # Save the DD object in a xml file  (DD file)
     outName <- paste0(SurveyCode, '.DD_V', Version)
-    saveXML(DD, outName)
+    saveXML(DD, outName, encoding = 'utf-8', prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n')
     cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
     return(invisible(NULL))
     
