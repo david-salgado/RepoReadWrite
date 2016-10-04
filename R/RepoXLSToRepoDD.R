@@ -148,7 +148,7 @@ RepoXLSToRepoDD <- function(ExcelName){
         
             quals <- newXMLNode(name = 'quals', parent = identifiers.list[[VarName]])
             colData <- setdiff(names(Data), 
-                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'ValueRegExp', 'ValueDescription'))
+                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'ValueRegExp', 'ValueDescription', 'VarDescription'))
             QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
             QualsVec2 <- colData[QualsVec]
             OrderQuals <- Order[Name %in% QualsVec2,]
@@ -165,7 +165,44 @@ RepoXLSToRepoDD <- function(ExcelName){
             addChildren(quals, quals.list)
             
             
+            Data.list.UnitNames <- lapply(Data.list, function(DT){
+                
+                Names <- DT[['UnitName']]
+                Names <- Names[Names != '']
+                return(Names)
+            })
+            
+            
             IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'UnitName'), with = FALSE]
+            
+            VarNames <- IDDDValue[['UnitName']]
+            EnFicheros <- vector('character', length(VarNames))
+            for (i in seq(along = VarNames)){
+                
+                if(VarNames[i] %in% Data.list.UnitNames[['ID']]){
+                    
+                    EnFicheros[i] <- 'FI'
+                    
+                }else if(VarNames[i] %in% Data.list.UnitNames[['MicroData']]){
+                    
+                    EnFicheros[i] <- 'FF, FD, FG'
+                    
+                }else if(VarNames[i] %in% Data.list.UnitNames[['ParaData']]){
+                    
+                    EnFicheros[i] <- 'FP'
+                    
+                }else if(VarNames[i] %in% Data.list.UnitNames[['AggWheights']]){
+                    
+                    EnFicheros[i] <- 'FF'
+                    
+                }else if(VarNames[i] %in% Data.list.UnitNames[['Aggregates']]){
+                    
+                    EnFicheros[i] <- 'FF, FD, FG'
+                    
+                }
+                
+            }
+            IDDDValue <- IDDDValue[, EnFicheros := EnFicheros]
             
             attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
             
@@ -176,7 +213,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                 for (name in setdiff(names(IDDDValue), 'UnitName')){attrs <- c(attrs, IDDDValue[i, ][[name]])}
                 
                 attrs.list.aux[[i]] <- attrs
-                names(attrs.list.aux[[i]]) <- QualsVec2
+                names(attrs.list.aux[[i]]) <- c(QualsVec2, 'EnFicheros')
             }
             names(attrs.list.aux) <- IDDDValue[['UnitName']]
             
