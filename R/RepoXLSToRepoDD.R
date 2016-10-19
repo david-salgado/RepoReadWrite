@@ -134,6 +134,7 @@ RepoXLSToRepoDD <- function(ExcelName){
         newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                    parent = identifiers.list[[VarName]])
         UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
+
         if (Data[Name == VarName, QualType] == 'I'){
             
             IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
