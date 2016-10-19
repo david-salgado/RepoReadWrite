@@ -113,7 +113,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     
     Data <- merge(Data, VarSpec, by = 'Name', all = TRUE)
     setcolorder(Data, c(setdiff(names(Data), c('EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription')), 'EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription'))
-   
+ 
     # Construct the DD file with the agreed schema 
     DD <- newXMLNode(name = 'DD', attrs = c(SurveyCode = SurveyCode, version = Version))
 
@@ -216,7 +216,7 @@ RepoXLSToRepoDD <- function(ExcelName){
             
         }
         
-        
+
         
         newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
                    .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
@@ -224,7 +224,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     addChildren(identifiers, identifiers.list)
     
-    
+   
     # Save the DD object in a xml file  (DD file)
     outName <- paste0(SurveyCode, '.DD_V', Version)
     saveXML(doc = xmlDoc(DD), file = outName)
