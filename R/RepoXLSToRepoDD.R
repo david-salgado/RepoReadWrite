@@ -39,7 +39,9 @@ RepoXLSToRepoDD <- function(ExcelName){
     for (sheet in SheetNames){
         
         Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
+        if ('function.' %in% names(Data.list[[sheet]])) setnames(Data.list[[sheet]], 'function.', 'function')
     }
+    
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
 
     
@@ -110,11 +112,11 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     
     Data <- merge(Data, VarSpec, by = 'Name', all = TRUE)
-    setcolorder(Data, c(setdiff(names(Data), c('EnFicheros', 'ValueRegExp', 'ValueDescription')), 'EnFicheros', 'ValueRegExp', 'ValueDescription'))
-    
+    setcolorder(Data, c(setdiff(names(Data), c('EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription')), 'EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription'))
+   
     # Construct the DD file with the agreed schema 
     DD <- newXMLNode(name = 'DD', attrs = c(SurveyCode = SurveyCode, version = Version))
-    
+
     # Node identifiers
     identifiers <- newXMLNode(name = 'identifiers', parent = DD)
     identifiers.list <- list()
@@ -150,9 +152,11 @@ RepoXLSToRepoDD <- function(ExcelName){
         
             quals <- newXMLNode(name = 'quals', parent = identifiers.list[[VarName]])
             colData <- setdiff(names(Data), 
-                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'ValueRegExp', 'ValueDescription', 'VarDescription'))
+                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription', 'VarDescription'))
+
             QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
             QualsVec2 <- colData[QualsVec]
+
             OrderQuals <- Order[Name %in% QualsVec2,]
             orderqual <- intersect(QualsVec2, OrderQuals[['Name']])
             setkeyv(OrderQuals, 'Name')
@@ -179,25 +183,36 @@ RepoXLSToRepoDD <- function(ExcelName){
             
             
             attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
-            
+
             for (i in seq(1, dim(IDDDValue)[1])){
                 
                 attrs <- c()
                 
-                for (name in setdiff(names(IDDDValue), 'UnitName')){attrs <- c(attrs, IDDDValue[i, ][[name]])}
-                
+                for (name in setdiff(names(IDDDValue), 'UnitName')){
+                    
+                    attrs <- c(attrs, IDDDValue[i, ][[name]])
+                }       
                 attrs.list.aux[[i]] <- attrs
                 names(attrs.list.aux[[i]]) <- QualsVec2
             }
             names(attrs.list.aux) <- IDDDValue[['UnitName']]
-            
-            attrs.list <- lapply(names(attrs.list.aux), function(names){
+
+            for(name in names(attrs.list.aux)){
                 
-                out <- newXMLNode(name = 'UnitName', names, attrs = c(attrs.list.aux[[names]]))
+                out1 <- newXMLNode('name', name)
                 
-            })
+                out2 <- newXMLNode('questionIria',
+                                  .children = c(newXMLNode('table_column', Data.list.tot[UnitName == name, table_column]),
+                                                newXMLNode('filter', Data.list.tot[UnitName == name, filter]),
+                                                newXMLNode('function', Data.list.tot[UnitName == name][['function']])))
+                
+                newXMLNode(name = 'UnitName',
+                          attrs = c(attrs.list.aux[[name]]),
+                          parent = UnitNames,
+                          .children = c(out1, out2))
+                                       
+            }
             
-            addChildren(UnitNames, attrs.list)
         }
         
         
@@ -211,7 +226,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     
     # Save the DD object in a xml file  (DD file)
     outName <- paste0(SurveyCode, '.DD_V', Version)
-    saveXML(DD, outName, encoding = 'utf-8', prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n')
+    saveXML(doc = xmlDoc(DD), file = outName)
     cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
     return(invisible(NULL))
     
