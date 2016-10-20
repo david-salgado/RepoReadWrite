@@ -39,12 +39,11 @@ RepoXLSToRepoDD <- function(ExcelName){
     for (sheet in SheetNames){
         
         Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
+        names.Data <- strsplit(names(Data.list[[sheet]]), '[_][Vv]')
+        names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
+        setnames(Data.list[[sheet]], names(Data.list[[sheet]]), names.Data)
         if ('function.' %in% names(Data.list[[sheet]])) setnames(Data.list[[sheet]], 'function.', 'function')
     }
-    names.Data <- strsplit(names(Data.list), '[_][Vv]')
-    names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
-    setnames(Data.list, names(Data.list), names.Data)
-    
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
 
     
