@@ -57,6 +57,9 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
         ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
         ExcelSheet[[sName]][, OrigOrder := NULL]
+        names.Data <- strsplit(names(ExcelSheet[[sName]]), '[_][Vv]')
+        names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
+        setnames(ExcelSheet[[sName]], names(ExcelSheet[[sName]]), names.Data)
     }
 
     ExcelSheet <- lapply(ExcelSheet, function(SheetDT){

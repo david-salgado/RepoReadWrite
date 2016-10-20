@@ -27,7 +27,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     StrSplExcelName <- StrSplExcelName[[length(StrSplExcelName)]]
     StrSplExcelName <- strsplit(StrSplExcelName, split = '.', fixed = TRUE)[[1]]
     SurveyCode <- StrSplExcelName[1]
-    Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
+    Version <- strsplit(StrSplExcelName[2], split = '[_][Vv]')[[1]][2]
     
     VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
     
@@ -43,7 +43,9 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
-
+    names.Data <- strsplit(names(Data.list.tot), '[_][Vv]')
+    names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
+    setnames(Data.list.tot, names(Data.list.tot), names.Data)
     
     # Check integrity of the contents of the xlsx file
     
