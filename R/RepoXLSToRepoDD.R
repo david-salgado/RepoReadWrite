@@ -41,11 +41,12 @@ RepoXLSToRepoDD <- function(ExcelName){
         Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
         if ('function.' %in% names(Data.list[[sheet]])) setnames(Data.list[[sheet]], 'function.', 'function')
     }
+    names.Data <- strsplit(names(Data.list), '[_][Vv]')
+    names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
+    setnames(Data.list, names(Data.list), names.Data)
     
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
-    names.Data <- strsplit(names(Data.list.tot), '[_][Vv]')
-    names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
-    setnames(Data.list.tot, names(Data.list.tot), names.Data)
+
     
     # Check integrity of the contents of the xlsx file
     
