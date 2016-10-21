@@ -71,7 +71,7 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         numIDQual <- sum(IDQual != '')
         NonIDQual <- SheetDT[['NonIDQual']]
         numNonIDQual <- sum(NonIDQual != '')
-        SheetDT <- SheetDT[, names(SheetDT)[1:(4 + numIDQual + numNonIDQual)], with = F]
+        SheetDT <- SheetDT[, names(SheetDT)[1:(5 + numIDQual + numNonIDQual)], with = F]
         for (col in names(SheetDT)){
             
             SheetDT <- SheetDT[, col := as.character(get(col)), with = F]
