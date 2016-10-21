@@ -114,7 +114,11 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     
     Data <- merge(Data, VarSpec, by = 'Name', all = TRUE)
-    setcolorder(Data, c(setdiff(names(Data), c('EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription')), 'EnFicheros', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription'))
+    setcolorder(Data, 
+                c(setdiff(names(Data), 
+                          c('InFiles', 'table_column', 'filter', 'function', 'ValueRegExp', 
+                            'ValueDescription')), 'InFiles', 'table_column', 'filter', 'function', 
+                            'ValueRegExp', 'ValueDescription'))
  
     # Construct the DD file with the agreed schema 
     DD <- newXMLNode(name = 'DD', attrs = c(SurveyCode = SurveyCode, version = Version))
@@ -155,7 +159,9 @@ RepoXLSToRepoDD <- function(ExcelName){
         
             quals <- newXMLNode(name = 'quals', parent = identifiers.list[[VarName]])
             colData <- setdiff(names(Data), 
-                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 'table_column', 'filter', 'function', 'ValueRegExp', 'ValueDescription', 'VarDescription'))
+                               c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 
+                                 'table_column', 'filter', 'function', 'ValueRegExp', 
+                                 'ValueDescription', 'VarDescription'))
 
             QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
             QualsVec2 <- colData[QualsVec]
@@ -182,7 +188,9 @@ RepoXLSToRepoDD <- function(ExcelName){
             })
             
             
-            IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'UnitName', 'EnFicheros'), with = FALSE]
+            IDDDValue <- Data.list.tot[IDDD == VarName, 
+                                       c(QualsVec2, 'UnitName', 'InFiles'), 
+                                       with = FALSE]
             
             
             attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
