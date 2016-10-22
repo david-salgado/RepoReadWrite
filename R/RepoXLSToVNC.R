@@ -42,49 +42,57 @@
 #' @export
 RepoXLSToVNC <- function(ExcelName, SheetNames){
     
-    if (missing(SheetNames)) {
-        
-        wb <- loadWorkbook(ExcelName)
-        SheetNames <- setdiff(names(getSheets(wb)), 'VarSpec')
-        
-    }
-    ExcelSheet <- list()
-    for (sName in SheetNames) {
-
-        ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
-        OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
-        ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
-        ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
-        ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
-        ExcelSheet[[sName]][, OrigOrder := NULL]
-        names.Data <- strsplit(names(ExcelSheet[[sName]]), '[_][Vv]')
-        names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
-        setnames(ExcelSheet[[sName]], names(ExcelSheet[[sName]]), names.Data)
-    }
-
-    ExcelSheet <- lapply(ExcelSheet, function(SheetDT){
+    if (require(xlsx, quietly = TRUE)){
+    
+        if (missing(SheetNames)) {
             
-        ColNames <- names(SheetDT)
-        setnames(SheetDT, ColNames[1:3], c('IDQual', 'NonIDQual', 'IDDD'))
-            
-        IDQual <- SheetDT[['IDQual']]
-        numIDQual <- sum(IDQual != '')
-        NonIDQual <- SheetDT[['NonIDQual']]
-        numNonIDQual <- sum(NonIDQual != '')
-        SheetDT <- SheetDT[, names(SheetDT)[1:(5 + numIDQual + numNonIDQual)], with = F]
-        for (col in names(SheetDT)){
-            
-            SheetDT <- SheetDT[, col := as.character(get(col)), with = F]
-            SheetDT <- SheetDT[is.na(get(col)), col := '', with = F]
+            wb <- loadWorkbook(ExcelName)
+            SheetNames <- setdiff(names(getSheets(wb)), 'VarSpec')
             
         }
-        return(SheetDT)
-    })
-
-    VNCdts <- lapply(ExcelSheet, new, Class = 'VNCdt')
+        ExcelSheet <- list()
+        for (sName in SheetNames) {
     
-    VNC <- BuildVNC(VNCdts)
+            ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
+            OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
+            ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
+            ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
+            ExcelSheet[[sName]] <- ExcelSheet[[sName]][order(rank(OrigOrder)),]
+            ExcelSheet[[sName]][, OrigOrder := NULL]
+            names.Data <- strsplit(names(ExcelSheet[[sName]]), '[_][Vv]')
+            names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
+            setnames(ExcelSheet[[sName]], names(ExcelSheet[[sName]]), names.Data)
+        }
+    
+        ExcelSheet <- lapply(ExcelSheet, function(SheetDT){
+                
+            ColNames <- names(SheetDT)
+            setnames(SheetDT, ColNames[1:3], c('IDQual', 'NonIDQual', 'IDDD'))
+                
+            IDQual <- SheetDT[['IDQual']]
+            numIDQual <- sum(IDQual != '')
+            NonIDQual <- SheetDT[['NonIDQual']]
+            numNonIDQual <- sum(NonIDQual != '')
+            SheetDT <- SheetDT[, names(SheetDT)[1:(5 + numIDQual + numNonIDQual)], with = F]
+            for (col in names(SheetDT)){
+                
+                SheetDT <- SheetDT[, col := as.character(get(col)), with = F]
+                SheetDT <- SheetDT[is.na(get(col)), col := '', with = F]
+                
+            }
+            return(SheetDT)
+        })
+    
+        VNCdts <- lapply(ExcelSheet, new, Class = 'VNCdt')
         
-    return(VNC)
+        VNC <- BuildVNC(VNCdts)
+            
+        return(VNC)
+    
+    } else {
+        
+       warning('[RepoReadWrite::RepoXLSToVNC] Package xlsx not installed.')
+       return(invisible(NULL))
+    }
 }
 
