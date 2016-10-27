@@ -28,7 +28,8 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   Files <- Files[grep(FileType, Files)]
   if (length(Files) == 0) {
       
-      NextVer <- rep('.D_1', length(Periods))
+      if (FileType == 'FF') NextVer <- rep('.D_1', length(Periods))
+      if (FileType %in% c('FI', 'FP', 'FD', 'FG')) NextVer <- rep('.P_1', length(Periods))
       names(NextVer) <- Periods
       
   }
@@ -37,13 +38,16 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   for (Per in Periods) {
     aux <- strsplit(Files[grep(Per, Files)], Per)
     aux <- lapply(aux, function(x){
+        
       x[1] <- paste0(x[1], Per)
       return(x)
+    
     })
     
     if (length(aux) == 0) {
       
-        aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        if (FileType == 'FF') aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        if (FileType %in% c('FI', 'FP', 'FD', 'FG')) aux <- matrix(c(Per, '.P_0'), ncol = 2)
         
     }else if (length(aux) == 1) {
       

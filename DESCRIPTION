@@ -40,6 +40,7 @@ Collate:
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
     'RepoTopn.R'
+    'RepoXLSToDD.R'
     'RepoXLSToRepoDD.R'
     'ValidateXLS.R'
     'WriteRepoFile.R'

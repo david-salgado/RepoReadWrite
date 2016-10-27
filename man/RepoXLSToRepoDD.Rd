@@ -21,7 +21,7 @@ This function builds and writes a DD file  using the contents of an xlsx file.
 # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
 # in the working directory (change accordingly otherwise):
 \dontrun{
-RepoDD <- RepoXLSToRepoDD('ExampleXLS', '1')
+RepoDD <- RepoXLSToRepoDD('ExampleXLS')
 show(RepoDD)
 }
 
