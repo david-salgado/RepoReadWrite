@@ -51,6 +51,8 @@ RepoDDToDD <- function(FileName, VNC){
     
     # Generamos listas de dataframes con los datos de cada variable y sus calificadores
     quals <- getNodeSet(doc, "//quals")
+    #UnitNames <- getNodeSet(doc, "//UnitNames")
+    #UnitNames <- lapply(UnitNames, xmlChildren)
     
     data <- lapply(nodes,function(x){
                     as.data.table(xmlToDataFrame(union(x[1], x[3:4]), stringsAsFactors = FALSE))
@@ -71,10 +73,9 @@ RepoDDToDD <- function(FileName, VNC){
     Class <- gsub('NUMBER', 'numeric', Class)
     Length <- unlist(lapply(data, function(x) x[3]))
     
+    #EnFicheros <- unlist(lapply(UnitNames,function(x) {lapply(x, function(y) {xmlGetAttr(y,"EnFicheros")})}))
     values <- getNodeSet(doc, "//values")
     ValueRegExp <- unlist(lapply(values, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))[2]}))
-    #unitNames <- getNodeSet(doc, "//UnitNames")
-    #Unit1 <- unlist(lapply(unitNames, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))}))
     
     # Construimos un vector Qual que contenga los datos de Qual1, Qual2,... en ese orden
     QualOrder <-  lapply(QualOrder, function(x){unlist(lapply(x, xmlGetAttr,"QualOrder"))})

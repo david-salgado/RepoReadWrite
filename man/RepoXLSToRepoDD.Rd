@@ -4,13 +4,11 @@
 \alias{RepoXLSToRepoDD}
 \title{Produce a file DD from an xlsx file}
 \usage{
-RepoXLSToRepoDD(SurveyCode, Version)
+RepoXLSToRepoDD(ExcelName)
 }
 \arguments{
-\item{SurveyCode}{Character vector of length 1 with the code of the survey. The xlsx file will be 
+\item{ExcelName}{Character vector of length 1 with the name of the file to read.The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
-
-\item{Version}{Character vector of length 1 with the version number of the file DD to produce.}
 }
 \value{
 Return invisible NULL.
@@ -23,7 +21,7 @@ This function builds and writes a DD file  using the contents of an xlsx file.
 # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
 # in the working directory (change accordingly otherwise):
 \dontrun{
-RepoDD <- RepoXLSToRepoDD('ExampleXLS', '1')
+RepoDD <- RepoXLSToRepoDD('ExampleXLS')
 show(RepoDD)
 }
 
