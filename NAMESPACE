@@ -3,6 +3,7 @@
 export(FirstLine)
 export(GenerateWeigh)
 export(NextRepoFile)
+export(ParseFileName)
 export(ReadOldRepoFile)
 export(ReadRepoFile)
 export(ReadSASWeigh)

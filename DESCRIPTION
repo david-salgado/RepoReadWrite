@@ -29,6 +29,7 @@ Collate:
     'ReadSASWeigh.R'
     'GenerateWeigh.R'
     'NextRepoFile.R'
+    'ParseFileName.R'
     'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'
