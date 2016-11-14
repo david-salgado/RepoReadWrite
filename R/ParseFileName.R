@@ -25,46 +25,28 @@ ParseFileName <- function(FileNames, TimePeriods){
     
     if (PeriodType == 'M') {
         
-        months <- unlist(lapply(TimePeriods, substr, 3, 4))
-        output <- unique(unlist(lapply(months, function(month){
+        output <- unlist(lapply(TimePeriods, function(TimePeriod){
             
-            outLocal <- gsub('[mm]', month, FileNames, fixed = TRUE)
-            return(outLocal)
-        })))
-        years4 <- unlist(lapply(TimePeriods, substr, 5, 8))
-        output <- unique(unlist(lapply(years4, function(year4){
-            
-            outLocal <- gsub('[aaaa]', year4, output, fixed = TRUE)
-            return(outLocal)
-        })))
-        years2 <- unlist(lapply(TimePeriods, substr, 7, 8))
-        output <- unique(unlist(lapply(years2, function(year2){
-            
-            outLocal <- gsub('[aa]', year2, output, fixed = TRUE)
-            return(outLocal)
-        })))
-        
-return(output)
+            month <- unlist(substr(TimePeriod, 3, 4))
+            ParsedFileNames <- unlist(lapply(FileNames, function(FileName){
+                
+                outLocal <- gsub('[mm]', month, FileName, fixed = TRUE)
+                return(outLocal)
+            }))
+            year4 <- unlist(substr(TimePeriod, 5, 8))
+            ParsedFileNames <- unlist(lapply(ParsedFileNames, function(FileName){
+                
+                outLocal <- gsub('[aaaa]', year4, FileName, fixed = TRUE)
+                return(outLocal)
+            }))
+            year2 <- unlist(substr(TimePeriod, 7, 8))
+            ParsedFileNames <- unlist(lapply(ParsedFileNames, function(FileName){
+                
+                outLocal <- gsub('[aa]', year2, FileName, fixed = TRUE)
+                return(outLocal)
+            }))
+        }))
     }
-    
-    if (length(FileNames) == 1){
-        
-        FileNames.sub <- gsub('\\\\', '/', FileNames)
-        ParsedFileNames <- as.list(strsplit(FileNames.sub, split ='/')[[1]])
-        index.parsed <- grep('[', ParsedFileNames, fixed = TRUE)
-        if (length(index.parsed) == 0) return(FileNames)
-        for (i in index.parsed) {
-            
-            aux <- ParsedFileNames[i]
-            
-        }
-        return(index.parsed)
-        
-    } else {
-        
-        return('ok')
-        
-    }
+    return(output)
     
 }
-
