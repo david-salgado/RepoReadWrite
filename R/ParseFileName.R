@@ -12,7 +12,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ParseFileName(c('N:/UDMTD/UDTMDCOM/DepSel.Repositorio/E30183/DataSAS/Ruta_dat[aa]/dat[mm][aa].sas7bdat'), c('MM122015', 'MM012016', 'MM022016'))
+#' ParseFileName(c('N:/UDMTD/UDTMDCOM/DepSel.Repositorio/E30183/DataSAS/Ruta_dat/dat[mm][aa].sas7bdat'), c('MM122015', 'MM012016', 'MM022016'))
 #' }
 #' 
 #' @import data.table xlsx XML
@@ -26,23 +26,23 @@ ParseFileName <- function(FileNames, TimePeriods){
     if (PeriodType == 'M') {
         
         months <- unlist(lapply(TimePeriods, substr, 3, 4))
-        output <- unlist(lapply(months, function(month){
+        output <- unique(unlist(lapply(months, function(month){
             
             outLocal <- gsub('[mm]', month, FileNames, fixed = TRUE)
             return(outLocal)
-        }))
+        })))
         years4 <- unlist(lapply(TimePeriods, substr, 5, 8))
-        output <- unlist(lapply(years4, function(year4){
+        output <- unique(unlist(lapply(years4, function(year4){
             
             outLocal <- gsub('[aaaa]', year4, output, fixed = TRUE)
             return(outLocal)
-        }))
+        })))
         years2 <- unlist(lapply(TimePeriods, substr, 7, 8))
-        output <- unlist(lapply(years2, function(year2){
+        output <- unique(unlist(lapply(years2, function(year2){
             
             outLocal <- gsub('[aa]', year2, output, fixed = TRUE)
             return(outLocal)
-        }))
+        })))
         
 return(output)
     }
