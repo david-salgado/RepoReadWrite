@@ -33,16 +33,18 @@ ParseFileName <- function(FileNames, TimePeriods){
                 outLocal <- gsub('[mm]', month, FileName, fixed = TRUE)
                 return(outLocal)
             }))
-            year4 <- unlist(substr(TimePeriod, 5, 8))
+            year4 <- unlist(as.integer(substr(TimePeriod, 5, 8)))
             ParsedFileNames <- unlist(lapply(ParsedFileNames, function(FileName){
                 
-                outLocal <- gsub('[aaaa]', year4, FileName, fixed = TRUE)
+                outLocal <- gsub('[aaaa + 1]', year4 + 1, FileName, fixed = TRUE)
+                outLocal <- gsub('[aaaa]', year4, outLocal, fixed = TRUE)
                 return(outLocal)
             }))
-            year2 <- unlist(substr(TimePeriod, 7, 8))
+            year2 <- unlist(as.integer(substr(TimePeriod, 7, 8)))
             ParsedFileNames <- unlist(lapply(ParsedFileNames, function(FileName){
                 
-                outLocal <- gsub('[aa]', year2, FileName, fixed = TRUE)
+                outLocal <- gsub('[aa + 1]', year2 + 1, FileName, fixed = TRUE)
+                outLocal <- gsub('[aa]', year2, outLocal, fixed = TRUE)
                 return(outLocal)
             }))
         }))
