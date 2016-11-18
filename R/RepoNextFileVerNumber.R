@@ -55,8 +55,14 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-        if (FileType == 'FF') aux <- matrix(c(Per, '.D_0'), ncol = 2)
-        if (FileType %in% c('FI', 'FP', 'FD', 'FG')) aux <- matrix(c(Per, '.P_0'), ncol = 2)
+        if (length(FileType[grep('FF', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        Types <- c('FI', 'FP', 'FD', 'FG')
+        Flag.Type <- lapply(Types, function(Type){
+          
+                    length(FileType[grep(Type, FileType)])
+                  })
+        Flag.Type <- sum(unlist(Flag.Type))
+        if (Flag.Type > 0) aux <- matrix(c(Per, '.P_0'), ncol = 2)
         
     } else if (length(aux) == 1) {
       
