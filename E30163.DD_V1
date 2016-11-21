@@ -1,0 +1,1110 @@
+<DD SurveyCode="E30163" version="1">
+  <identifiers>
+    <identifier identifierType="V">
+      <name>ActivEcono</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>5</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" Clasificacion="2.1.4." VarDescription="C&#xF3;digo CNAE-2009">CodCNAE</UnitName>
+        <UnitName NOrden="." EsModif="1" Clasificacion="2.1.4." VarDescription="C&#xF3;digo CNAE-2009 modificado">CodCNAE_modif</UnitName>
+        <UnitName NOrden="." EsModif="" Clasificacion="2.3.1." VarDescription="C&#xF3;digo CNAE-93 ">CNAE09</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">Clasificacion</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0-9]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>ActivEconoAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>5</Length>
+      <UnitNames>
+        <UnitName NOrden="." Clasificacion="2.1.4." RelacionConUM="11.">nifCambioFactoresCNAE</UnitName>
+        <UnitName NOrden="." Clasificacion="2.1.4." RelacionConUM="10.">ErroneamenteIncluidoCNAE</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">Clasificacion</qual>
+        <qual QualOrder="3">RelacionConUM</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0-9]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Agente</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden="." RolProceso="4.1.">CodAgente</UnitName>
+        <UnitName NOrden="." RolProceso="4.2.">CodInspector</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Apellido</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>50</Length>
+      <UnitNames>
+        <UnitName NOrden="." NumCorrel="1" RolProceso="4.3.1.">Apellido1InforEnt</UnitName>
+        <UnitName NOrden="." NumCorrel="1" RolProceso="4.3.2.">Apellido1InforEnv</UnitName>
+        <UnitName NOrden="." NumCorrel="2" RolProceso="4.3.1.">Apellido2InforEnt</UnitName>
+        <UnitName NOrden="." NumCorrel="2" RolProceso="4.3.2.">Apellido2InforEnv</UnitName>
+        <UnitName NOrden="." NumCorrel="1" RolProceso="4.3.3.">Apellido1InforGestoria</UnitName>
+        <UnitName NOrden="." NumCorrel="2" RolProceso="4.3.3.">Apellido2InforGestoria</UnitName>
+        <UnitName NOrden="." NumCorrel="1" RolProceso="4.3.4.">Apellido1InforCoor</UnitName>
+        <UnitName NOrden="." NumCorrel="2" RolProceso="4.3.4.">Apellido2InforCoor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">NumCorrel</qual>
+        <qual QualOrder="3">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{50}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>CalEstadoWF</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>CalvarGestion</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>[A-Z]{2}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>CanalRecogida</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>5</Length>
+      <UnitNames>
+        <UnitName NOrden=".">canal</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Cargo</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>50</Length>
+      <UnitNames>
+        <UnitName NOrden="." RolProceso="4.3.1.">CargoInforEnt</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.2.">CargoInforEnv</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.3.">CargoInfoGestoria</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.4.">CargoInforCoor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{50}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>Clasificacion</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>6</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Contador</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>NUMBER</varType>
+      <Length>2</Length>
+      <UnitNames>
+        <UnitName NOrden="." TipoFecha="2." TareaProceso="5." ElementoProceso="">NAccionesDepuracion</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.4.1.1." ElementoProceso="">NInspeccionRechazos</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.4.2.1." ElementoProceso="">NInspeccionRechazosDepSelectiva</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.6.1.1." ElementoProceso="">NSupervisionRechazos</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.6.2.1" ElementoProceso="">NSupervisionRechazosDepSelectiva</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="" ElementoProceso="4.1.1.">NdevueltoCorreo</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.1.2." ElementoProceso="">NCuestionariosRemitidos</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="4.5.1." ElementoProceso="">NllamadasReclamacion</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="5.1.1.1.1." ElementoProceso="">NErroresPrimeraDepuracion</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="5.1.1.1.2." ElementoProceso="">NErroresUltimaDepuracion</UnitName>
+        <UnitName NOrden="." TipoFecha="" TareaProceso="" ElementoProceso="2.1.1.1.">NllamadasTelErroneo</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">TipoFecha</qual>
+        <qual QualOrder="3">TareaProceso</qual>
+        <qual QualOrder="4">ElementoProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{1,2})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>DescActivEconoAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>500</Length>
+      <UnitNames>
+        <UnitName NOrden="." RelacionConUM="11.">nifCambioFactoresDescACTI</UnitName>
+        <UnitName NOrden="." RelacionConUM="10.">ErroneamenteIncluidoDescACTI</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RelacionConUM</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>ElementoProceso</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Email</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>100</Length>
+      <UnitNames>
+        <UnitName NOrden="." RolProceso="4.3.2.1.">emailInforEnt</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.2.">emailInforEnv</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.3.">emailInforGestoria</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.4.">emailInforCoor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{100}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Empleo</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>NUMBER</varType>
+      <Length>5</Length>
+      <UnitNames>
+        <UnitName NOrden="." VarDescription="Personal no remunerado" TipoEmpleo="1.">PNR</UnitName>
+        <UnitName NOrden="." VarDescription="Personal remunerado fijo" TipoEmpleo="2.1.">PRF</UnitName>
+        <UnitName NOrden="." VarDescription="Personal remunerado eventual" TipoEmpleo="2.2.">PRE</UnitName>
+        <UnitName NOrden="." VarDescription="Personal remunerado total" TipoEmpleo="2.">Ntrabajadores</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">TipoEmpleo</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{1,5})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>EsModif</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>1</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>[01 ]</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>EstadoWF</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames>
+        <UnitName NOrden="." CalEstadoWF="1.">WFPrincipalEstado</UnitName>
+        <UnitName NOrden="." CalEstadoWF="2.">WFRecogidaEstado</UnitName>
+        <UnitName NOrden="." CalEstadoWF="3.">WFDepuracion_SelectivaEstado</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">CalEstadoWF</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[ |P|I|DS]</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Expdte</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden=".">Expediente</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Fax</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>9</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1.">fax1</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1.">fax1_modif</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.1.">faxInforEnt</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.2.">faxInforEnv</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3.">faxInforGestoria</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.4.">faxInforCoor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[69][0-9]{8}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Fecha</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.2." CalvarGestion="">fechaRecepcion</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.3." CalvarGestion="">fechaGrabacion</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="5." CalvarGestion="">fechaDepuracion</UnitName>
+        <UnitName NOrden="." NumCorrel="." TipoFecha="2." RelacionConUM="" TareaProceso="4.5.1." CalvarGestion="">fechaLlamadaReclamacion</UnitName>
+        <UnitName NOrden="." NumCorrel="." TipoFecha="2." RelacionConUM="" TareaProceso="5.1.2.1." CalvarGestion="">fechallamadaDepuracion</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.1.1." CalvarGestion="">FechaAperturaCAWI</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.4.1." CalvarGestion="">fechaInspeccion</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.4.2." CalvarGestion="">fechaInspeccionDepSelectiva</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.6.1." CalvarGestion="">fechaSupervision</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="2." RelacionConUM="" TareaProceso="4.6.2." CalvarGestion="">fechaSupervisionDepSelectiva</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="3.1." RelacionConUM="" TareaProceso="" CalvarGestion=".">fechaGestion</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="1.1.1." TareaProceso="" CalvarGestion="">NifFusionEfectoContable</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="1.1.2." TareaProceso="" CalvarGestion="">NifFusionEscritura</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="2.1.1." TareaProceso="" CalvarGestion="">NifAbsorbenteEfectoContable</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="2.1.2." TareaProceso="" CalvarGestion="">NifAbsorbenteEscritura</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="3.1." TareaProceso="" CalvarGestion="">EscisionEfectoContable</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="3.2." TareaProceso="" CalvarGestion="">EscisionEscritura</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="11." TareaProceso="" CalvarGestion="">nifCambioFactoresFecha</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="4.1." TareaProceso="" CalvarGestion="">InactividadDesde</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="4.2." TareaProceso="" CalvarGestion="">InactividadHasta</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.2.1." RelacionConUM="" TareaProceso="" CalvarGestion="">FechaefectobajaFutura</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.2.2." RelacionConUM="" TareaProceso="" CalvarGestion="">FechahastabajaFutura</UnitName>
+        <UnitName NOrden="." NumCorrel="." TipoFecha="2." RelacionConUM="" TareaProceso="" CalvarGestion="">fechaEjecucionEnvio</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="5.1." TareaProceso="" CalvarGestion="">FechaEfectoCierreDefinit</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1." RelacionConUM="5.2." TareaProceso="" CalvarGestion="">FechaHastaCierreDefinit</UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1.2." RelacionConUM="" TareaProceso="" CalvarGestion="">Fecha_Alta</UnitName>
+        <UnitName></UnitName>
+        <UnitName NOrden="." NumCorrel="" TipoFecha="1.1.4." RelacionConUM="" TareaProceso="" CalvarGestion="">Fecha_Baja</UnitName>
+        <UnitName></UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">NumCorrel</qual>
+        <qual QualOrder="3">TipoFecha</qual>
+        <qual QualOrder="4">RelacionConUM</qual>
+        <qual QualOrder="5">TareaProceso</qual>
+        <qual QualOrder="6">CalvarGestion</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |([0-9]{2}/[0-9]{2}/[0-9]{4}))</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Flag</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>1</Length>
+      <UnitNames>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="4.4." ElementoProceso="" IDEdit="" IDAux="">inspeccion</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="2.1.1.1." IDEdit="" IDAux="">TelefonoErroneo</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="4.1.1." ElementoProceso="" IDEdit="" IDAux="">AperturaCAWI</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="7.1." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NordenRecogeDatosMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="7.2." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NifRecogeDatosMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="6.1." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NordenCuestionarioenOtroMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="6.2." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NifCuestionarioenOtroMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="1.1.3." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NifFusionMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="1.2.3." TareaProceso="" ElementoProceso="" IDEdit="" IDAux=".">NifFusionadoMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="2.1.3." TareaProceso="" ElementoProceso="" IDEdit="" IDAux="">NifAbsorbenteMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="2.2.3." TareaProceso="" ElementoProceso="" IDEdit="" IDAux=".">NifAbsorbidoMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="3.3." TareaProceso="" ElementoProceso="" IDEdit="" IDAux=".">NifsEscisionMuestra</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="2.1.2.1.1." IDEdit="" IDAux="">Actividad_cambio</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="2.1.2.1.2." IDEdit="" IDAux="">Actividad_cambio_ulocal</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="4.2.1." IDEdit="" IDAux="">varIncompleto</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="4.2.2." IDEdit="" IDAux="">varIncidenciaNodoc</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="5.1.1.1.1." ElementoProceso="" IDEdit="Num" IDAux="">primeraDepu_[IDEdit]</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="5.1.1.1.2." ElementoProceso="" IDEdit="." IDAux="">ultimaDepu_[IDEdit]</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="" TareaProceso="" ElementoProceso="2.2.1.1." IDEdit="" IDAux="">PresDocBajaFutura</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">NumCorrel</qual>
+        <qual QualOrder="3">RelacionConUM</qual>
+        <qual QualOrder="4">TareaProceso</qual>
+        <qual QualOrder="5">ElementoProceso</qual>
+        <qual QualOrder="6">IDEdit</qual>
+        <qual QualOrder="7">IDAux</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[ 01]</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>GeoLoc</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>6</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.3.3." VarDescription="">direccion</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3." Clasificacion="1.3.3." VarDescription="">DireccionGestoria</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.3.3." VarDescription="">direccion_modif</UnitName>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.3.2." VarDescription="">codPostal</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3." Clasificacion="1.3.2." VarDescription="">codPostalGestoria</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.3.2." VarDescription="">codPostal_modif</UnitName>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.3.1." VarDescription="">localidad</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3." Clasificacion="1.3.1." VarDescription="">localidadGestoria</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.3.1." VarDescription="">localidad_modif</UnitName>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.2.2." VarDescription="">codMunicipio</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3." Clasificacion="1.2.2." VarDescription="">codMunicipioGestoria</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.2.2." VarDescription="">codMunicipio_modif</UnitName>
+        <UnitName NOrden="." EsModif="" RolProceso="4.3.3." Clasificacion="1.1.3." VarDescription="">codProvinciaGestoria</UnitName>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.1.3." VarDescription="C&#xF3;digo de provincia">CodProvincia</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.1.3." VarDescription="C&#xF3;digo de provincia modificado">CodProvincia_modif</UnitName>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1." Clasificacion="1.1.2." VarDescription="C&#xF3;digo de CCAA">CCAA</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1." Clasificacion="1.1.2." VarDescription="C&#xF3;digo de CCAA modificado">CCAA_modif</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">RolProceso</qual>
+        <qual QualOrder="4">Clasificacion</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Gestoria</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>50</Length>
+      <UnitNames>
+        <UnitName NOrden="." RolProceso="4.3.3.">NombreGestoria</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{50}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>IDAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>11</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>[0-9A-Z]{9,11}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>IDEdit</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>12</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Ingresos</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>NUMBER</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en metro" TipoTte="1.1.1.3.">IMET</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte urbano regular general" TipoTte="1.1.1.1.1.1.">IURBRG</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte urbano regular especial escolar" TipoTte="1.1.1.1.1.2.">IURBRE</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte urbano regular especial laboral" TipoTte="1.1.1.1.1.3.">IURBRL</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte urbano discrecional" TipoTte="1.1.1.1.2.">IURBDIS</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte interurbano regular general " TipoTte="1.1.1.2.1.1.">IREG</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte interurbano regular especial escolar" TipoTte="1.1.1.2.1.2.">IESC</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte interurbano regular especial laboral" TipoTte="1.1.1.2.1.3.">ILAB</UnitName>
+        <UnitName NOrden="." VarDescription="Ingresos en &#x20AC; (sin IVA) de los viajes en transporte interurbano discrecional" TipoTte="1.1.1.2.2.">IDIS</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">TipoTte</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{1,10})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>MetEstadistico</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>1</Length>
+      <UnitNames>
+        <UnitName NOrden="." ElementoProceso="5.2.2.">Origen</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">ElementoProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0123]</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>NIF</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>9</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1.">nif</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1.">nif_modif</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0-9]{9}([A-Z]|[0-9])</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>NIFAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>9</Length>
+      <UnitNames>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="7.">NifRecogeDatos</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="6.">NifCuestionarioenOtro</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="1.1.">NifFusion</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="1.2.">NifFusionado</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="2.1.">NifAbsorbente</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="2.2.">NifAbsorbido</UnitName>
+        <UnitName NOrden="." NumCorrel="." RelacionConUM="3.">NifsEscision</UnitName>
+        <UnitName NOrden="." NumCorrel="" RelacionConUM="11.">nifCambioFactores</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">NumCorrel</qual>
+        <qual QualOrder="3">RelacionConUM</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0-9]{9}([A-Z]|[0-9])</value>
+      </values>
+    </identifier>
+    <identifier identifierType="I">
+      <name>NOrden</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName>norden</UnitName>
+      </UnitNames>
+      <values>
+        <description></description>
+        <value>[0-9]{9}(T|[0-9])</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>NOrdenAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden="." RelacionConUM="8." IDAux="">NordenDuplicado</UnitName>
+        <UnitName NOrden="." RelacionConUM="7." IDAux="">NordenRecogeDatos</UnitName>
+        <UnitName NOrden="." RelacionConUM="6." IDAux=".">NordenCuestionarioenOtro</UnitName>
+        <UnitName NOrden="." RelacionConUM="9." IDAux="">NordenCambioUnidadLocal</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RelacionConUM</qual>
+        <qual QualOrder="3">IDAux</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[0-9]{9}(T|[0-9])</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Nombre</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>50</Length>
+      <UnitNames>
+        <UnitName NOrden="." RolProceso="4.3.1.">NombreInforEnt</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.2.">NombreInforEnv</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.3.">NombreInforGestoria</UnitName>
+        <UnitName NOrden="." RolProceso="4.3.4.">NombreInforCoor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{50}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>NumCorrel</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>[1-9][0-9]</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Observ</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>500</Length>
+      <UnitNames>
+        <UnitName NOrden="." Usuario="" TareaProceso="5.1.1.1." ElementoProceso="" IDEdit=".">observacionesDepuracionError</UnitName>
+        <UnitName NOrden="." Usuario="." TareaProceso="" ElementoProceso="3.1." IDEdit="">ObservacionesUME</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="" ElementoProceso="" IDEdit="">observacionesIncidencia</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="5.1." ElementoProceso="" IDEdit="">observacionesDepuracion</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="5.2." ElementoProceso="" IDEdit="">observacionesDepSelectiva</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="4.4.1." ElementoProceso="" IDEdit="">observacionesInspeccion</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="4.4.2." ElementoProceso="" IDEdit="">observacionesInspeccionDepSelectiva</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="4.6.1." ElementoProceso="" IDEdit="">observacionesSupervision</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="4.6.2." ElementoProceso="" IDEdit="">observacionesSupervisionDepSelectiva</UnitName>
+        <UnitName NOrden="." Usuario="." TareaProceso="9." ElementoProceso="" IDEdit="">observacionesGestion</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="" ElementoProceso="4.2.1." IDEdit="">observacionesIncompleto</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="" ElementoProceso="" IDEdit="">ObservacionesBajaFutura</UnitName>
+        <UnitName NOrden="." Usuario="" TareaProceso="" ElementoProceso="2.1." IDEdit="">ObservacionesDirectorio</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">Usuario</qual>
+        <qual QualOrder="3">TareaProceso</qual>
+        <qual QualOrder="4">ElementoProceso</qual>
+        <qual QualOrder="5">IDEdit</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Parametro</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>12</Length>
+      <UnitNames>
+        <UnitName NOrden="." ElementoProceso="3.2.1." IDEdit="">Estrato</UnitName>
+        <UnitName NOrden="." ElementoProceso="3.2.2." IDEdit="">Factor</UnitName>
+        <UnitName NOrden="." ElementoProceso="6.1.1.1." IDEdit="">FactorCalibrado</UnitName>
+        <UnitName NOrden="." ElementoProceso="6.1.1.99." IDEdit="">FactorManual</UnitName>
+        <UnitName NOrden="." ElementoProceso="2.2.2.1." IDEdit="">EsMuestreable</UnitName>
+        <UnitName NOrden="." ElementoProceso="3.2.3." IDEdit="">EnMuestra</UnitName>
+        <UnitName NOrden="." ElementoProceso="3.2.4." IDEdit="">Rota</UnitName>
+        <UnitName NOrden="." ElementoProceso="3.2.5." IDEdit="">Carga</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.1." IDEdit=".">NomControl</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.2." IDEdit=".">Condicion</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.3." IDEdit=".">LimInf</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.4." IDEdit="">LimSup</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.5" IDEdit="">CuantPeso </UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.6." IDEdit=".">CuantGlob</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.7." IDEdit=".">ErrorEstVar</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.8" IDEdit=".">SigmaEstVar</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.1.1.9." IDEdit="">CuantMom</UnitName>
+        <UnitName NOrden="." ElementoProceso="6.1.2.1." IDEdit="">AUXI</UnitName>
+        <UnitName NOrden="." ElementoProceso="5.2.1.1.1." IDEdit="">Recontactada</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">ElementoProceso</qual>
+        <qual QualOrder="3">IDEdit</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Passwd</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames>
+        <UnitName NOrden=".">password</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>RazonSoc</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>100</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1.">razonSocial</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1.">razonSocial_modif</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{100}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>RazonSocAux</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>100</Length>
+      <UnitNames>
+        <UnitName NOrden="." RelacionConUM="1.1." IDAux="">NifFusionEmpre</UnitName>
+        <UnitName NOrden="." RelacionConUM="1.2." IDAux=".">NifFusionadoEmpre</UnitName>
+        <UnitName NOrden="." RelacionConUM="2.1." IDAux="">NifAbsorbenteEmpre</UnitName>
+        <UnitName NOrden="." RelacionConUM="2.2." IDAux=".">NifAbsorbidoEmpre</UnitName>
+        <UnitName NOrden="." RelacionConUM="3." IDAux=".">NifsEscisionEmpre</UnitName>
+        <UnitName NOrden="." RelacionConUM="11." IDAux="">nifCambioFactoresEmpre</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">RelacionConUM</qual>
+        <qual QualOrder="3">IDAux</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{100}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>RelacionConUM</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>6</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>RolProceso</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>8</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Tame</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" VarDescription="C&#xF3;digo del tama&#xF1;o de la empresa">CodTame</UnitName>
+        <UnitName NOrden="." EsModif="1" VarDescription="C&#xF3;digo del tama&#xF1;o de la empresa modificado">CodTame_modif</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{2})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>TareaProceso</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>10</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Telefono</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>9</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" NumCorrel="1" RolProceso="2.1.">telefono1</UnitName>
+        <UnitName NOrden="." EsModif="0" NumCorrel="2" RolProceso="2.1.">telefono2</UnitName>
+        <UnitName NOrden="." EsModif="0" NumCorrel="3" RolProceso="2.1.">telefono3</UnitName>
+        <UnitName NOrden="." EsModif="1" NumCorrel="1" RolProceso="2.1.">telefono1_modif</UnitName>
+        <UnitName NOrden="." EsModif="1" NumCorrel="2" RolProceso="2.1.">telefono2_modif</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="1" RolProceso="4.3.1.">TelefonoInfor1Ent</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="1" RolProceso="4.3.2.">TelefonoInfor1Env</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="1" RolProceso="4.3.3.">TelefonoInfor1Gestoria</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="2" RolProceso="4.3.1.">TelefonoInfor2Ent</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="2" RolProceso="4.3.2.">TelefonoInfor2Env</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="2" RolProceso="4.3.3.">TelefonoInfor2Gestoria</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="3" RolProceso="4.3.1.">TelefonoInfor3Ent</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="3" RolProceso="4.3.2.">TelefonoInfor3Env</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="3" RolProceso="4.3.3.">TelefonoInfor3Gestoria</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="1" RolProceso="4.3.4.">TelefonoInfor1Coor</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="2" RolProceso="4.3.4.">TelefonoInfor2Coor</UnitName>
+        <UnitName NOrden="." EsModif="" NumCorrel="3" RolProceso="4.3.4.">TelefonoInfor3Coor</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">NumCorrel</qual>
+        <qual QualOrder="4">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[6789][0-9]{8}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>TiempoEjec</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>4</Length>
+      <UnitNames>
+        <UnitName NOrden="." TareaProceso="4.3.">NsegundosGrabacion</UnitName>
+        <UnitName NOrden="." TareaProceso="5.">NsegundosDepuracion</UnitName>
+        <UnitName NOrden="." TareaProceso="4.4.1.">NsegundosInspeccion</UnitName>
+        <UnitName NOrden="." TareaProceso="4.4.2.">NsegundosInspeccionDepSelectiva</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">TareaProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{4})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>TipoEmpleo</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>4</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>TipoFecha</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>6</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>TipoTte</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>14</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>([1-9]([0-9]+)?\.)+</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>URL</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>100</Length>
+      <UnitNames>
+        <UnitName NOrden="." EsModif="0" RolProceso="2.1.">url</UnitName>
+        <UnitName NOrden="." EsModif="1" RolProceso="2.1.">url_modif</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">EsModif</qual>
+        <qual QualOrder="3">RolProceso</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[.]{100}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>UnidadRecog</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>3</Length>
+      <UnitNames>
+        <UnitName NOrden=".">codUGestion</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[A-Z0-9]{1,3})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="Q">
+      <name>Usuario</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>7</Length>
+      <UnitNames/>
+      <values>
+        <description></description>
+        <value>U[0-9]{6}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>Viajeros</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>NUMBER</varType>
+      <Length>8</Length>
+      <UnitNames>
+        <UnitName NOrden="." VarDescription="Viajeros en metro" TipoTte="1.1.1.3.">VMET</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte urbano regular general" TipoTte="1.1.1.1.1.1.">VURBRG</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte urbano regular especial escolar" TipoTte="1.1.1.1.1.2.">VURBRE</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte urbano regular especial laboral" TipoTte="1.1.1.1.1.3.">VURBRL</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte urbano discrecional" TipoTte="1.1.1.1.2.">VURBDIS</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano regular general cercan&#xED;as" TipoTte="1.1.1.2.1.1.1.">VREGCR</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano regular general media distancia" TipoTte="1.1.1.2.1.1.2.">VREGMD</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano regular general larga distancia" TipoTte="1.1.1.2.1.1.3.">VREGLD</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano regular especial escolar" TipoTte="1.1.1.2.1.2.">VESC</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano regular especial laboral" TipoTte="1.1.1.2.1.3.">VLAB</UnitName>
+        <UnitName NOrden="." VarDescription="Viajeros en transporte interurbano discrecional" TipoTte="1.1.1.2.2.">VDIS</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+        <qual QualOrder="2">TipoTte</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>( |[0-9]{1,8})</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>varGestion</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames>
+        <UnitName NOrden=".">varGestion</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[A-Z]{2}</value>
+      </values>
+    </identifier>
+    <identifier identifierType="V">
+      <name>varGestionFutura</name>
+      <description>
+        <MetadataCode></MetadataCode>
+      </description>
+      <varType>STRING</varType>
+      <Length>2</Length>
+      <UnitNames>
+        <UnitName NOrden=".">varGestionFutura</UnitName>
+      </UnitNames>
+      <quals>
+        <qual QualOrder="1">NOrden</qual>
+      </quals>
+      <values>
+        <description></description>
+        <value>[A-Z]{2}</value>
+      </values>
+    </identifier>
+  </identifiers>
+</DD>

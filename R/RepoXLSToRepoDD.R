@@ -42,7 +42,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     Data.list.tot <- rbindlist(Data.list, fill = TRUE)
 
-    
+
     # Check integrity of the contents of the xlsx file
     
     # Assign order to each qualifier
@@ -166,7 +166,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                 
             })
             addChildren(quals, quals.list)
-            
+           
             
             IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'UnitName'), with = FALSE]
             
@@ -182,17 +182,16 @@ RepoXLSToRepoDD <- function(ExcelName){
                 names(attrs.list.aux[[i]]) <- QualsVec2
             }
             names(attrs.list.aux) <- IDDDValue[['UnitName']]
-            
+
             attrs.list <- lapply(names(attrs.list.aux), function(names){
                 
                 out <- newXMLNode(name = 'UnitName', names, attrs = c(attrs.list.aux[[names]]))
                 
             })
-            
+
             addChildren(UnitNames, attrs.list)
         }
-        
-        
+
         
         newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
                    .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
@@ -200,10 +199,10 @@ RepoXLSToRepoDD <- function(ExcelName){
     }
     addChildren(identifiers, identifiers.list)
     
-    
     # Save the DD object in a xml file  (DD file)
     outName <- paste0(SurveyCode, '.DD_V', Version)
-    saveXML(DD, outName, encoding = 'utf-8', prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n')
+    #cat(saveXML(DD, encoding = "UTF-8", indent = TRUE, prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n'),  file = outName)
+    saveXML(DD, outName, encoding = "UTF-8", prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n')
     cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
     return(invisible(NULL))
     
