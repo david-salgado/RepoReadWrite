@@ -130,7 +130,7 @@ RepoXLSToRepoDD <- function(ExcelName){
         identifiers.list <- list()
     
         for(VarName in Data[['Name']]){
-    
+
             identifiers.list[[VarName]] <- newXMLNode('identifier', 
                                                       attrs = c(identifierType = Data[Name == VarName, 
                                                                                       QualType]))
