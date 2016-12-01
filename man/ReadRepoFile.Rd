@@ -14,7 +14,7 @@ read from the working directory (see \link[base]{getwd}) unless the full path is
 contained in the file to read.}
 }
 \value{
-\linkS4class{data.table} with all data from the read file.
+an object of class \linkS4class{StQ} with all data from the read file.
 }
 \description{
 \code{ReadRepoFile} returns a \linkS4class{data.table} with the content of the file 

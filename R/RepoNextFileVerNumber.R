@@ -26,26 +26,45 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
   
   Files <- list.files(Path)
   Files <- Files[grep(FileType, Files)]
+
   if (length(Files) == 0) {
       
-      NextVer <- rep('.D_1', length(Periods))
-      names(NextVer) <- Periods
+      matchFF <- pmatch('FF', FileType)
+      if (!is.na(matchFF)) NextVer <- rep('.D_1', length(Periods))
       
+      matchFI <- pmatch('FI', FileType)
+      matchFP <- pmatch('FP', FileType)
+      matchFD <- pmatch('FD', FileType)
+      matchFG <- pmatch('FG', FileType)
+      matchFX <- sum(c(matchFI, matchFP, matchFD, matchFG), na.rm = TRUE)
+      if (!is.na(matchFX) & matchFX == 1) NextVer <- rep('.P_1', length(Periods))
+      names(NextVer) <- Periods
+      return(NextVer)
   }
   
   SelFiles <- c()
   for (Per in Periods) {
+    
     aux <- strsplit(Files[grep(Per, Files)], Per)
     aux <- lapply(aux, function(x){
+        
       x[1] <- paste0(x[1], Per)
       return(x)
+    
     })
     
     if (length(aux) == 0) {
       
-        aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        if (length(FileType[grep('FF', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        Types <- c('FI', 'FP', 'FD', 'FG')
+        Flag.Type <- lapply(Types, function(Type){
+          
+                    length(FileType[grep(Type, FileType)])
+                  })
+        Flag.Type <- sum(unlist(Flag.Type))
+        if (Flag.Type > 0) aux <- matrix(c(Per, '.P_0'), ncol = 2)
         
-    }else if (length(aux) == 1) {
+    } else if (length(aux) == 1) {
       
       aux <- aux[[1]]
       
@@ -57,12 +76,11 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
       
     SelFiles <- rbind(SelFiles, aux)
   }
-  
+
   OrderedPeriods <- unique(SelFiles[, 1])
   rownames(SelFiles) <- NULL
   SelFiles <- as.data.frame(SelFiles)
   SelFiles <- split(SelFiles, SelFiles[, 1])[OrderedPeriods]
-   
   NextVer <- lapply(SelFiles, function(df){
       
       nVer <- unlist(strsplit(as.character(df[nrow(df), 2]), '_'))

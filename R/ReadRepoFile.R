@@ -9,7 +9,7 @@
 #' @param DD Object of class \linkS4class{DD} with the definition and characteristics of the data 
 #' contained in the file to read.
 #' 
-#' @return \linkS4class{data.table} with all data from the read file.
+#' @return an object of class \linkS4class{StQ} with all data from the read file.
 #' 
 #' @examples
 #' \dontrun{
