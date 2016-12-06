@@ -21,46 +21,8 @@
 #' @export
 RepoXLSToRepoDD <- function(ExcelName){
     
-<<<<<<< HEAD
-    # Read the contents of the xlsx file 
-    StrSplExcelName <- gsub('\\\\', '/', ExcelName)
-    StrSplExcelName <- strsplit(StrSplExcelName, split = '/', fixed = TRUE)[[1]]
-    StrSplExcelName <- StrSplExcelName[[length(StrSplExcelName)]]
-    StrSplExcelName <- strsplit(StrSplExcelName, split = '.', fixed = TRUE)[[1]]
-    SurveyCode <- StrSplExcelName[1]
-    Version <- strsplit(StrSplExcelName[2], split = '_V')[[1]][2]
-    
-    VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
-    
-    VarSpec <- as.data.table(VarSpec)
-    wb <- loadWorkbook(ExcelName)
-    SheetNames <- names(getSheets(wb))
-    SheetNames <- SheetNames[SheetNames != 'VarSpec']
-    Data.list <- list()
-    for (sheet in SheetNames){
-        
-        Data.list[[sheet]] <- as.data.table(read.xlsx2(ExcelName, sheetName = sheet, stringsAsFactors = FALSE))
-    }
-    Data.list.tot <- rbindlist(Data.list, fill = TRUE)
-
-
-    # Check integrity of the contents of the xlsx file
-    
-    # Assign order to each qualifier
-    Order.list <- lapply(Data.list, function(sheet){
-        
-        IDQual<- sheet[['IDQual']]
-        IDQual <- unique(IDQual[IDQual != ''])
-        NonIDQual <- sheet[['NonIDQual']]
-        NonIDQual <- unique(NonIDQual[NonIDQual != ''])
-        Qual <- c(IDQual, NonIDQual)
-        Order <- data.table(Name = Qual, Order = seq(along = Qual))
-        return(Order)
-    })
-=======
     if (require(xlsx, quietly = TRUE)) {
->>>>>>> 1733b534375d70007e9a18469d69ed18707caa60
-    
+        
         # Read the contents of the xlsx file 
         StrSplExcelName <- gsub('\\\\', '/', ExcelName)
         StrSplExcelName <- strsplit(StrSplExcelName, split = '/', fixed = TRUE)[[1]]
@@ -84,91 +46,178 @@ RepoXLSToRepoDD <- function(ExcelName){
             setnames(Data.list[[sheet]], names(Data.list[[sheet]]), names.Data)
             if ('function.' %in% names(Data.list[[sheet]])) setnames(Data.list[[sheet]], 'function.', 'function')
         }
+        
         Data.list.tot <- rbindlist(Data.list, fill = TRUE)
-    
+        
         
         # Check integrity of the contents of the xlsx file
         
         # Assign order to each qualifier
-        Order.list <- lapply(Data.list, function(sheet){
+        Order.list <- lapply(names(Data.list), function(sheetName){
             
+            sheet <- Data.list[[sheetName]]
             IDQual<- sheet[['IDQual']]
             IDQual <- unique(IDQual[IDQual != ''])
             NonIDQual <- sheet[['NonIDQual']]
             NonIDQual <- unique(NonIDQual[NonIDQual != ''])
             Qual <- c(IDQual, NonIDQual)
             Order <- data.table(Name = Qual, Order = seq(along = Qual))
+            setnames(Order, 'Order', sheetName)
             return(Order)
         })
-        
+
         Order <- Reduce(function(x, y){
-            
+
             out <- merge(x, y, by = 'Name', all = TRUE)
-            out[, Order := pmax(Order.x, Order.y, na.rm = TRUE)]
-            out[, Order.x := NULL]
-            out[, Order.y := NULL]
-            setkeyv(out, 'Order')
+            #out[, Order := pmax(Order.x, Order.y, na.rm = TRUE)]
+            #out[, Order.x := NULL]
+            #out[, Order.y := NULL]
+            #setkeyv(out, 'Order')
             return(out)
             
-        }, Order.list, Order.list[[1]])
+        }, Order.list)
+#return(list(Data.list, Order))        
+        Data.list <- lapply(names(Data.list), function(sheetName){
             
-        Order[, NewOrder := as.character(seq(along = Order))]
-        Order[, Order := NULL]
-        setnames(Order, 'NewOrder', 'Order')
-        
-        # Consolidate a unique data.table with all variables and their corresponding qualifiers
-        # From this data.table the qualifier of each variable is identified
-        Data <- rbindlist(Data.list, fill = TRUE)
-        Data <- Data[(IDQual != '' & !is.na(IDQual)) | (NonIDQual != '' & !is.na(NonIDQual)) | (IDDD != '' & !is.na(IDDD))]
-        colData <- names(Data)
-        for (col in colData){
+            Data <- Data.list[[sheetName]]
+            Data <- Data[(IDQual != '' & !is.na(IDQual)) | (NonIDQual != '' & !is.na(NonIDQual)) | (IDDD != '' & !is.na(IDDD))]
+            Data[, Name := ifelse(IDQual != '', IDQual, ifelse(NonIDQual != '', NonIDQual, IDDD))]
+            IDQual <- Data[['IDQual']]
+            IDQual <- unique(IDQual[IDQual != ''])
+            NonIDQual <- Data[['NonIDQual']]
+            NonIDQual <- unique(NonIDQual[NonIDQual != ''])
+            Data[, QualType := ifelse(Name %in% IDQual, 'I', ifelse(Name %in% NonIDQual, 'Q', 'V'))]
+            Order.local <- Order[, c('Name', sheetName), with = F]
+            setnames(Order.local, sheetName, 'Order')
+            Data <- merge(Data, Order.local, by = 'Name', all.x = TRUE)
             
-            Data[is.na(get(col)), col := '', with = F]
+            Data[, c("IDQual", "NonIDQual", "IDDD", 'UnitName') := NULL, with = FALSE]
+            #colData <- setdiff(names(Data), c('Name', 'Order', 'QualType'))
+            #for (col in colData){
+                
+            #    Data[, col := ifelse(get(col) == '', 0, 1), with = FALSE]
+                
+            #}
+            #Data[, (colData) := lapply(.SD, sum), .SDcols = colData, by = 'Name']
+            #setkeyv(Data, 'Name')
+            #Data <- Data[!duplicated(Data)]
+            #for (col in colData){
+                
+            #    Data[, col := ifelse(get(col) == 0, 0, 1), with = F]
+                
+            #}
             
-        }
-        Data[, Name := ifelse(IDQual != '', IDQual, ifelse(NonIDQual != '', NonIDQual, IDDD))]
-        IDQual<- Data[['IDQual']]
-        IDQual <- unique(IDQual[IDQual != ''])
-        NonIDQual <- Data[['NonIDQual']]
-        NonIDQual <- unique(NonIDQual[NonIDQual != ''])
-        Data[, QualType := ifelse(Name %in% IDQual, 'I', ifelse(Name %in% NonIDQual, 'Q', 'V'))]
-    
-        Data <- merge(Data, Order, by = 'Name', all = TRUE)
-       
-        Data[is.na(Order), Order := '']
-        Data[, c("IDQual", "NonIDQual", "IDDD", 'UnitName') := NULL, with = FALSE]
-        colData <- setdiff(names(Data), c('Name', 'Order', 'QualType'))
-        for (col in colData){
-            
-            Data[, col := ifelse(get(col) == '', 0, 1), with = FALSE]
-            
-        }
-        
-        Data[,(colData):=lapply(.SD, sum), .SDcols=colData, by = 'Name']
-        setkeyv(Data, 'Name')
-        Data <- Data[!duplicated(Data)]
-        for (col in colData){
-            
-            Data[, col := ifelse(get(col) == 0, 0, 1), with = F]
-            
-        }
-        
-        Data <- merge(Data, VarSpec, by = 'Name', all = TRUE)
-        setcolorder(Data, 
-                    c(setdiff(names(Data), 
-                              c('InFiles', 'table_column', 'filter', 'function', 'ValueRegExp', 
-                                'ValueDescription')), 'InFiles', 'table_column', 'filter', 'function', 
-                                'ValueRegExp', 'ValueDescription'))
-     
+            Data <- merge(Data, VarSpec, by = 'Name', all.x = TRUE)
+            setcolorder(Data, 
+                        c(setdiff(names(Data), 
+                                  c('InFiles', 'table_column', 'filter', 'function', 'ValueRegExp', 
+                                    'ValueDescription')), 'InFiles', 'table_column', 'filter', 'function', 
+                          'ValueRegExp', 'ValueDescription'))
+            return(Data)
+        })
+       names(Data.list) <- setdiff(names(Order), 'Name')
+       Data.DT <- rbindlist(Data.list, fill = TRUE)
+       Data.DT.QualType <- split(Data.DT, Data.DT[['QualType']])
+#return(Data.DT.QualType)
         # Construct the DD file with the agreed schema 
         DD <- newXMLNode(name = 'DD', attrs = c(SurveyCode = SurveyCode, version = Version))
-    
+#return(Data.DT.QualType)        
         # Node identifiers
         identifiers <- newXMLNode(name = 'identifiers', parent = DD)
+        
+        # We build the children nodes of identifiers as a list
+        identifiers.list.QualType <- lapply(names(Data.DT.QualType), function(QualType){
+            
+            identifiers.list <- list()
+            
+            # For qualifiers
+            if (QualType %in% c('Q', 'I')){
+                
+                Data <- Data.DT.QualType[[QualType]]
+                Data <- Data[, c('Name', 'QualType', 'Type', 'Length', 'MetadataCode', 'ValueDescription', 'ValueRegExp'), with = F]
+                setkeyv(Data, 'Name')
+                Data <- Data[!duplicated(Data)]
+                for (VarName in Data[['Name']]){
+                    identifiers.list[[VarName]] <- newXMLNode('identifier', 
+                                                              attrs = c(identifierType = Data[Name == VarName, 
+                                                                                              QualType]))
+                    newXMLNode(name = 'name', VarName, parent = identifiers.list[[VarName]])
+                    newXMLNode(name = 'description', parent = identifiers.list[[VarName]],
+                               .children = c(newXMLNode('MetadataCode', Data[Name == VarName, MetadataCode])))
+                    newXMLNode(name = 'varType', Data[Name == VarName, Type], 
+                               parent = identifiers.list[[VarName]])
+                    newXMLNode(name = 'Length', Data[Name == VarName, Length], 
+                               parent = identifiers.list[[VarName]])
+                    UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
+                    newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
+                               .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
+                                             newXMLNode('value', Data[Name == VarName, ValueRegExp])))
+                }
+            }
+            
+            # For variables
+            if (QualType == 'V'){
+
+                Data <- Data.DT.QualType[[QualType]]
+                colData <- setdiff(names(Data), 
+                                   c('Name', 'VarDescription', 'QualType', 'Order', 'Type', 'Length',
+                                     'InFiles', 'MetadataCode', 'InFiles', 'table_column', 'filter', 
+                                     'function', 'ValueRegExp', 'ValueDescription'))
+                for (col in colData){
+                    
+                    Data[, col := ifelse(get(col) == '' | is.na(get(col)), 0, 1), with = FALSE]
+                    
+                }
+                
+                Data[,(colData) := lapply(.SD, sum), .SDcols = colData, by = 'Name']
+                setkeyv(Data, 'Name')
+                Data <- Data[!duplicated(Data)]
+                for (col in colData){
+                    
+                    Data[, col := ifelse(get(col) == 0, 0, 1), with = F]
+                    
+                }
+
+                Data <- Data[, c('Name', 'QualType', 'Type', 'Length', 'MetadataCode', 'ValueDescription', 'ValueRegExp'), with = F]
+                for (VarName in Data[['Name']]){
+                    identifiers.list[[VarName]] <- newXMLNode('identifier', 
+                                                              attrs = c(identifierType = Data[Name == VarName, 
+                                                                                                  QualType]))
+                    # Node name
+                    newXMLNode(name = 'name', VarName, parent = identifiers.list[[VarName]])
+                    
+                    # Node description
+                    newXMLNode(name = 'description', parent = identifiers.list[[VarName]],
+                               .children = c(newXMLNode('MetadataCode', Data[Name == VarName, MetadataCode])))
+                    
+                    # Node VarType
+                    newXMLNode(name = 'varType', Data[Name == VarName, Type], 
+                               parent = identifiers.list[[VarName]])
+                    
+                    #Node Length
+                    newXMLNode(name = 'Length', Data[Name == VarName, Length], 
+                               parent = identifiers.list[[VarName]])
+                    
+                    UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
+                    newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
+                               .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
+                                             newXMLNode('value', Data[Name == VarName, ValueRegExp])))
+                }
+            }
+                
+            return(identifiers.list)
+        
+        })
+return(identifiers.list.QualType)  
+        identifiers.list <- Reduce(rbind, identifiers.list.QualType)
+        addChildren(identifiers, identifiers.list)
+        outName <- paste0(SurveyCode, '.DD_V', Version)
+        saveXML(doc = xmlDoc(DD), file = outName)
+return(identifiers.list)        
+        
         identifiers.list <- list()
-    
         for(VarName in Data[['Name']]){
-    
+            
             identifiers.list[[VarName]] <- newXMLNode('identifier', 
                                                       attrs = c(identifierType = Data[Name == VarName, 
                                                                                       QualType]))
@@ -180,7 +229,7 @@ RepoXLSToRepoDD <- function(ExcelName){
             newXMLNode(name = 'Length', Data[Name == VarName, Length], 
                        parent = identifiers.list[[VarName]])
             UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
-    
+            
             if (Data[Name == VarName, QualType] == 'I'){
                 
                 IDQualValue <- Data.list.tot[IDQual == VarName, 'UnitName', with = FALSE]
@@ -194,18 +243,18 @@ RepoXLSToRepoDD <- function(ExcelName){
                 
                 addChildren(UnitNames, IDQuals.list)
             }
-    
-            if (Data[Name == VarName, QualType] == 'V'){
             
+            if (Data[Name == VarName, QualType] == 'V'){
+                
                 quals <- newXMLNode(name = 'quals', parent = identifiers.list[[VarName]])
                 colData <- setdiff(names(Data), 
                                    c('Name', 'QualType', 'Order', 'Type', 'Length', 'MetadataCode', 
                                      'table_column', 'filter', 'function', 'ValueRegExp', 
                                      'ValueDescription', 'VarDescription'))
-    
+                
                 QualsVec <- as.logical(Data[Name == VarName, colData, with = FALSE])
                 QualsVec2 <- colData[QualsVec]
-    
+                
                 OrderQuals <- Order[Name %in% QualsVec2,]
                 orderqual <- intersect(QualsVec2, OrderQuals[['Name']])
                 setkeyv(OrderQuals, 'Name')
@@ -220,42 +269,21 @@ RepoXLSToRepoDD <- function(ExcelName){
                 addChildren(quals, quals.list)
                 
                 
-<<<<<<< HEAD
-            })
-            addChildren(quals, quals.list)
-           
-            
-            IDDDValue <- Data.list.tot[IDDD == VarName, c(QualsVec2, 'UnitName'), with = FALSE]
-            
-            attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
-            
-            for (i in seq(1, dim(IDDDValue)[1])){
-=======
                 Data.list.UnitNames <- lapply(Data.list, function(DT){
                     
                     Names <- DT[['UnitName']]
                     Names <- Names[Names != '']
                     return(Names)
                 })
->>>>>>> 1733b534375d70007e9a18469d69ed18707caa60
                 
                 
                 IDDDValue <- Data.list.tot[IDDD == VarName, 
                                            c(QualsVec2, 'UnitName', 'InFiles'), 
                                            with = FALSE]
                 
-<<<<<<< HEAD
-                attrs.list.aux[[i]] <- attrs
-                names(attrs.list.aux[[i]]) <- QualsVec2
-            }
-            names(attrs.list.aux) <- IDDDValue[['UnitName']]
-
-            attrs.list <- lapply(names(attrs.list.aux), function(names){
-=======
->>>>>>> 1733b534375d70007e9a18469d69ed18707caa60
                 
                 attrs.list.aux <- vector('list', dim(IDDDValue)[1])    
-    
+                
                 for (i in seq(1, dim(IDDDValue)[1])){
                     
                     attrs <- c()
@@ -268,45 +296,26 @@ RepoXLSToRepoDD <- function(ExcelName){
                     names(attrs.list.aux[[i]]) <- QualsVec2
                 }
                 names(attrs.list.aux) <- IDDDValue[['UnitName']]
-    
+                
                 for(name in names(attrs.list.aux)){
                     
                     out1 <- newXMLNode('name', name)
                     
                     out2 <- newXMLNode('questionIria',
-                                      .children = c(newXMLNode('table_column', Data.list.tot[UnitName == name, table_column]),
-                                                    newXMLNode('filter', Data.list.tot[UnitName == name, filter]),
-                                                    newXMLNode('function', Data.list.tot[UnitName == name][['function']])))
+                                       .children = c(newXMLNode('table_column', Data.list.tot[UnitName == name, table_column]),
+                                                     newXMLNode('filter', Data.list.tot[UnitName == name, filter]),
+                                                     newXMLNode('function', Data.list.tot[UnitName == name][['function']])))
                     
                     newXMLNode(name = 'UnitName',
-                              attrs = c(attrs.list.aux[[name]]),
-                              parent = UnitNames,
-                              .children = c(out1, out2))
-                                           
+                               attrs = c(attrs.list.aux[[name]]),
+                               parent = UnitNames,
+                               .children = c(out1, out2))
+                    
                 }
                 
-<<<<<<< HEAD
-            })
-
-            addChildren(UnitNames, attrs.list)
-        }
-
-        
-        newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
-                   .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
-                                 newXMLNode('value', Data[Name == VarName, ValueRegExp])))
-    }
-    addChildren(identifiers, identifiers.list)
-    
-    # Save the DD object in a xml file  (DD file)
-    outName <- paste0(SurveyCode, '.DD_V', Version)
-    #cat(saveXML(DD, encoding = "UTF-8", indent = TRUE, prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n'),  file = outName)
-    saveXML(DD, outName, encoding = "UTF-8", prefix = '<?xml version="1.0" encoding = "UTF-8"?>\n')
-    cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
-=======
             }
             
-    
+            
             
             newXMLNode(name = 'values', parent = identifiers.list[[VarName]],
                        .children = c(newXMLNode('description', Data[Name == VarName, ValueDescription]),
@@ -314,20 +323,18 @@ RepoXLSToRepoDD <- function(ExcelName){
         }
         addChildren(identifiers, identifiers.list)
         
-       
+        
         # Save the DD object in a xml file  (DD file)
         outName <- paste0(SurveyCode, '.DD_V', Version)
         saveXML(doc = xmlDoc(DD), file = outName)
         cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '\n'))
-    
+        
     } else {
         
-     warning('[RepoReadWrite::RepoXLSToRepoDD] Package xlsx is not installed.')    
-    
+        warning('[RepoReadWrite::RepoXLSToRepoDD] Package xlsx is not installed.')    
+        
     }
     
->>>>>>> 1733b534375d70007e9a18469d69ed18707caa60
     return(invisible(NULL))
     
 }
-
