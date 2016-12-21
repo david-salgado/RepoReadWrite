@@ -165,7 +165,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                                      'function', 'ValueRegExp', 'ValueDescription'))
                 for (col in colData){
                     
-                    Data[, col := ifelse(get(col) == '' | is.na(get(col)), 0, 1), with = FALSE]
+                    Data[, (col) := ifelse(get(col) == '' | is.na(get(col)), 0, 1)]
                     
                 }
                 
@@ -174,7 +174,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                 Data <- Data[!duplicated(Data)]
                 for (col in colData){
                     
-                    Data[, col := ifelse(get(col) == 0, 0, 1), with = F]
+                    Data[, (col) := ifelse(get(col) == 0, 0, 1)]
                     
                 }
                 
@@ -212,7 +212,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                     namesOrderQuals <- copy(names(OrderQuals))
                     for (col in namesOrderQuals){
                         
-                        if (any(is.na(OrderQuals[[col]]))) OrderQuals[, col := NULL, with = F]
+                        if (any(is.na(OrderQuals[[col]]))) OrderQuals[, (col) := NULL]
                     }
                     OrderQuals <- OrderQuals[, 1:2 , with = FALSE]
                     setkeyv(OrderQuals, names(OrderQuals)[2])

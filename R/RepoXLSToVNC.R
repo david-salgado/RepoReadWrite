@@ -76,8 +76,8 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
             SheetDT <- SheetDT[, names(SheetDT)[1:(5 + numIDQual + numNonIDQual)], with = F]
             for (col in names(SheetDT)){
                 
-                SheetDT <- SheetDT[, col := as.character(get(col)), with = F]
-                SheetDT <- SheetDT[is.na(get(col)), col := '', with = F]
+                SheetDT <- SheetDT[, (col) := as.character(get(col))]
+                SheetDT <- SheetDT[is.na(get(col)), (col) := '']
                 
             }
             return(SheetDT)
