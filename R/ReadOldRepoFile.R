@@ -86,7 +86,7 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     }
     FileDT[, FileVector := NULL]
   
-    DupRows <- duplicated(FileDT)
+    DupRows <- duplicated(FileDT, by = key(FileDT))
     if (sum(DupRows) > 0) {
         
         cat('[RepoReadWrite::ReadOldRepoFile] The following rows are duplicated and have been removed:

@@ -113,7 +113,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                 Data <- Data.DT.QualType[[QualType]]
                 Data <- Data[, c('Name', 'QualType', 'Type', 'Length', 'InFiles', 'MetadataCode', 'ValueDescription', 'ValueRegExp'), with = F]
                 setkeyv(Data, 'Name')
-                Data <- Data[!duplicated(Data)]
+                Data <- Data[!duplicated(Data, by = key(Data))]
                 for (VarName in Data[['Name']]){
                     identifiers.list[[VarName]] <- newXMLNode('identifier', 
                                                               attrs = c(identifierType = Data[Name == VarName, 
@@ -140,7 +140,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                     # Node UnitNames
                     UnitNames <- newXMLNode(name = 'UnitNames', parent = identifiers.list[[VarName]])
                     IDQualValue <- Data.DT.QualType[[QualType]][Name == VarName, 'UnitName', with = FALSE]
-                    IDQualValue <- IDQualValue[!duplicated(IDQualValue)]
+                    IDQualValue <- IDQualValue[!duplicated(IDQualValue, by = key(IDQualValue))]
                     IDQuals.list <- lapply(IDQualValue, function(IDQual){
                         
                         out <- newXMLNode(name = 'UnitName', IDQual)
@@ -171,7 +171,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                 
                 Data[,(colData) := lapply(.SD, sum), .SDcols = colData, by = 'Name']
                 setkeyv(Data, 'Name')
-                Data <- Data[!duplicated(Data)]
+                Data <- Data[!duplicated(Data, by = key(Data))]
                 for (col in colData){
                     
                     Data[, (col) := ifelse(get(col) == 0, 0, 1)]
