@@ -69,7 +69,7 @@ ReadSASWeigh <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot
     out.SP <- as.data.table(out.SP)
     for (col in names(out.SP)) {
         
-        out.SP[, col := gdata::trim(get(col)), with = FALSE]
+        out.SP[, (col) := gdata::trim(get(col))]
         
     }
     
@@ -79,7 +79,7 @@ ReadSASWeigh <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot
     
     for (cal in CalID) {
         
-        VNCdt[get(cal) == '.', cal := '', with = F]
+        VNCdt[get(cal) == '.', (cal) := '']
         
     }
     
@@ -146,7 +146,7 @@ ReadSASWeigh <- function(SASFileName, DD, DDslot = 'MicroData', VNCName = DDslot
     
     for (Var in names(out.SP)) {
         
-        out.SP[, Var := as(get(Var), DDdt[Variable == DDdtVarNames[Var], Class]), with = F]
+        out.SP[, (Var) := as(get(Var), DDdt[Variable == DDdtVarNames[Var], Class])]
         
     }
     return(out.SP)
