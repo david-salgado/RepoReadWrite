@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoDDToDD.R
 \name{RepoDDToDD}
 \alias{RepoDDToDD}
-\title{Produce an object of class \linkS4class{DD} from a xml file}
+\title{Produce an object of class \linkS4class{DD} from a DD file}
 \usage{
 RepoDDToDD(FileName, VNC)
 }
@@ -13,17 +13,17 @@ read from the working directory (see \link[base]{getwd}) unless the full path is
 \item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
 }
 \value{
-Object of class \linkS4class{DD}.
+Return an object of class \linkS4class{DD}.
 }
 \description{
 This function is a constructor for the class \linkS4class{DD} using the contents of 
-a xml file.
+the input DD file name (an xml file).
 
-\code{RepoDDToDD} read xml files with the definition and properties of every variable and
-transform this content into an object of class \linkS4class{DD}. 
+\code{RepoDDToDD} reads xml files with the definition and properties of every variable (a DD 
+file) and transforms this content into an object of class \linkS4class{DD}. 
 
 This function internally builds a \linkS4class{data.table} with columns \code{Variable}, 
-\code{Sort}, \code{Class}, \code{Qual1} to \code{Qual}\emph{q} and ValueRegExp.
+\code{Sort}, \code{Class}, \code{Qual1} to \code{Qual}\emph{q} and \code{ValueRegExp}.
  
 The column \code{Variable} contains the names of all variables, both questionnaire variables and 
 metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
@@ -40,7 +40,7 @@ The column \code{Length} contains the highest length for each variable.
 The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
 variable name (row).
 
-The column \code{ValueRegExp} contains an expresion with the acceptable values for each variable.
+The column \code{ValueRegExp} contains a regexp with the accepted values for each variable.
 }
 \examples{
 # An example with data created previosly:

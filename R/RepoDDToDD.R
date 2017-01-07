@@ -1,13 +1,13 @@
-#' @title Produce an object of class \linkS4class{DD} from a xml file
+#' @title Produce an object of class \linkS4class{DD} from a DD file 
 #' 
 #' @description This function is a constructor for the class \linkS4class{DD} using the contents of 
-#' a xml file.
+#' the input DD file name (an xml file).
 #' 
-#' \code{RepoDDToDD} read xml files with the definition and properties of every variable and
-#' transform this content into an object of class \linkS4class{DD}. 
+#' \code{RepoDDToDD} reads xml files with the definition and properties of every variable (a DD 
+#' file) and transforms this content into an object of class \linkS4class{DD}. 
 #' 
 #' This function internally builds a \linkS4class{data.table} with columns \code{Variable}, 
-#' \code{Sort}, \code{Class}, \code{Qual1} to \code{Qual}\emph{q} and ValueRegExp.
+#' \code{Sort}, \code{Class}, \code{Qual1} to \code{Qual}\emph{q} and \code{ValueRegExp}.
 #'  
 #' The column \code{Variable} contains the names of all variables, both questionnaire variables and 
 #' metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
@@ -24,14 +24,14 @@
 #' The columns \code{Qual1} to \code{Qual}\emph{q} contain the names of the qualifiers of every 
 #' variable name (row).
 #' 
-#' The column \code{ValueRegExp} contains an expresion with the acceptable values for each variable.
+#' The column \code{ValueRegExp} contains a regexp with the accepted values for each variable.
 #' 
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
 #' @param VNC Object of class \linkS4class{VarNameCorresp}.
 #'  
-#' @return Object of class \linkS4class{DD}.
+#' @return Return an object of class \linkS4class{DD}.
 #' 
 #' @examples
 #' # An example with data created previosly:
@@ -52,25 +52,23 @@ RepoDDToDD <- function(FileName, VNC){
     # Generamos listas de dataframes con los datos de cada variable y sus calificadores
     quals <- getNodeSet(doc, "//quals")
 
-    #UnitNames <- getNodeSet(doc, "//UnitNames")
-    #UnitNames <- lapply(UnitNames, xmlChildren)
-    
     data <- lapply(nodes, function(x){
-                    as.data.table(xmlToDataFrame(union(x[1], x[3:4]), stringsAsFactors = FALSE))
-            })
+        
+        as.data.table(xmlToDataFrame(union(x[1], x[3:4]), stringsAsFactors = FALSE))
+    })
     
     QualOrder <- lapply(quals, xmlChildren)
 
     quals <- lapply(quals, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))})
-    PaddingDT <- lapply(vector(mode = "list", length = length(nodes) - length(quals)), function(x){data.table(text = character(0))})
+    PaddingDT <- lapply(vector(mode = "list", length = length(nodes) - length(quals)),
+                        function(x){data.table(text = character(0))})
 
     quals <- c(PaddingDT, quals)
-
                 
     # Generamos columnas del slot DD: Variable, Sort, Class, Length y ValueRegExp
-    Sort <- unlist(lapply(nodes,function(x) xmlGetAttr(x,"identifierType")))
-    Sort <- gsub("V","IDDD",Sort)
-    Sort <- gsub("Q","NonIDQual",Sort)
+    Sort <- unlist(lapply(nodes,function(x) xmlGetAttr(x, "identifierType")))
+    Sort <- gsub("V", "IDDD", Sort)
+    Sort <- gsub("Q", "NonIDQual", Sort)
     Sort[Sort == 'I'] <- 'IDQual'
     
     Variable <- unlist(lapply(data, function(x) x[1])) 
@@ -101,21 +99,6 @@ RepoDDToDD <- function(FileName, VNC){
         
         Qual[i + (j - 1) * length(nodes)] <- varQualsinic[j]
       }
-      
-      #contquals <- contquals + 1
-      #if (existQual[i] == 1){
-            
-      #      varQualsinic <- quals[[contquals]][['text']]
-      #      varQuals <- vector('character', length(varQualsinic))
-      #      for (j in seq(along = varQualsinic)){
-                
-      #          varQuals[j] <- varQualsinic[QualOrder[[contquals]] == j]
-      #      }
-      #      if (length(varQuals) < nummaxQual){varQuals <- c(varQuals, rep("", nummaxQual - length(varQuals)))}
-      #      for (j in seq(along = varQuals)){
-      #          Qual[i + (j - 1) * length(nodes)] <- varQuals[j]
-      #      }
-      #  }
     }
 
            

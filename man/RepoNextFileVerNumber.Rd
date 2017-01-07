@@ -27,7 +27,7 @@ of their next version.
 }
 \examples{
 \dontrun{
-RepoNextFileVerNumber(c('MM012016'), 'R:/E30183', 'FF')
+RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF')
 }
 
 }

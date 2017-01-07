@@ -4,21 +4,23 @@
 \alias{ReadOldRepoFile}
 \title{Write a file with a key-value}
 \usage{
-ReadOldRepoFile(FileName, language = "SP")
+ReadOldRepoFile(FileName, language = "SP", perl = FALSE)
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{language}{character vector of length 1 with the language of the file to read. The values 
-allowed are: 'SP' (Spanish) and 'EN' (English), being the default value is 'SP'.}
+\item{language}{Character vector of length 1 with the language of the file to read. The values 
+allowed are: 'SP' (Spanish) and 'EN' (English), being the default value 'SP'.}
+
+\item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 }
 \value{
-\linkS4class{data.table} with all data from the read file.
+\linkS4class{data.table} with all data from the input file.
 }
 \description{
-\code{ReadOldRepoFile} returns a \linkS4class{data.table} with the content of the file 
-corresponding to the input name.
+\code{ReadOldRepoFile} returns a \linkS4class{data.table} with the content of the 
+file corresponding to the input name.
 }
 \examples{
 \dontrun{

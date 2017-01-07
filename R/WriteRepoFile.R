@@ -11,6 +11,9 @@
 #' @param Name Character vectorof length 1 specifying the name of the output file. The file will be 
 #' written in the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
+#' @param sep Logical vector of length 1 containing the combination of characters used as separator 
+#' in the file (default value @@).
+#' 
 #' @return These methods return the invisible \code{\link{NULL}} object writing as a side-effect the 
 #' corresponding output file.
 #' 
@@ -23,29 +26,38 @@
 #' 
 #' @seealso \code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, \code{\link{FirstLine}}
 #' 
-#' @include FirstLine.R
-#' 
 #' @export
-setGeneric("WriteRepoFile", function(object, Name){standardGeneric("WriteRepoFile")})
+setGeneric("WriteRepoFile", function(object, Name, sep = '@@'){standardGeneric("WriteRepoFile")})
 
 #' @rdname WriteRepoFile
 #' 
-#' @importFrom gdata write.fwf
-#' 
 #' @import data.table
 #' 
-#' @include FirstLine.R 
+#' @importFrom StQ DatadtToDT.R
 #' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
     signature = c("rawDatadt"),
-    function(object, Name){
+    function(object, Name, sep = '@@'){
         
-        write.table(as.data.frame(object), file = Name, quote = FALSE, sep = "@@", na = " ", 
-                    row.names = FALSE, col.names = FALSE)
-        cat(paste0('Key-value pair file written in ', Name), '\n')
+        if (length(Name) != 1) {
+            
+            warning('\n[RepoReadWrite::WriteRepoFile] Only the first name will be used.\n')
+        }
+        Name <- Name[1]
         
+        if (length(sep) != 1) stop('[RepoReadWrite::WriteRepoFile] The input parameter sep must a character vector of length 1.\n')
+        
+        # Este paso es necesario porque la función fwrite no admite separadores compuestos
+        auxDT <- DatadtToDT(object)
+        colNames <- names(auxDT)
+        setDT(auxDT)[, ROW := Reduce(function(...) paste(..., sep = sep), .SD[, mget(colNames)])]
+        auxDT[, (setdiff(colNames, 'ROW')) := NULL]
+        
+        fwrite(auxDT, file = Name, quote = FALSE, na = ' ', row.names = FALSE,
+               col.names = FALSE)
+        cat(paste0('\nKey-value pair file written in ', Name), '\n')
         return(invisible(NULL))
     }
 )
@@ -55,29 +67,25 @@ setMethod(
 setMethod(
     f = "WriteRepoFile",
     signature = c("rawStQ"),
-    function(object, Name){
+    function(object, Name, sep = '@@'){
         
-        #WriteRepoFile(object = getData(object), Name = Name)
-        if (length(Name) != 1) {
-            
-            warning('[RepoReadWrite::WriteRepoFile] Only the first name will be used.')
-        }
-        Name <- Name[[1]]
-        WriteRepoFile(getData(object), Name)
+        WriteRepoFile(object = getData(object), Name = Name, sep = sep)
         return(invisible(NULL))
         
     }
 )
 #' @rdname WriteRepoFile
+#' 
+#' @importFrom StQ StQTorawStQ.R
 #' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
     signature = c("StQ"),
-    function(object, Name){
+    function(object, Name, sep = '@@'){
         
         object <- StQTorawStQ(object)
-        WriteRepoFile(object = getData(object), Name = Name)
+        WriteRepoFile(object = getData(object), Name = Name, sep = sep)
         return(invisible(NULL))
         
     }
@@ -85,23 +93,25 @@ setMethod(
 
 #' @rdname WriteRepoFile
 #' 
+#' @importFrom StQ getPeriods.R getData.R
+#' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
     signature = c("StQList"),
-    function(object, Name){
+    function(object, Name, sep = '@@'){
         
-        if (length(getPeriods.StQList(object)) > 0) {
+        Periods <- getPeriods(object)
+        if (length(Periods) > 0) {
             
-            if (length(getPeriods.StQList(object)) != length(Name)) {
+            if (length(Periods) != length(Name)) {
                 
-                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have 
-                            the same length.\n'))
+                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have the same length.\n'))
                 
             }
-            for (i in 1:length(getPeriods.StQList(object))) {
+            for (i in seq(along = Periods)) {
                 
-            WriteRepoFile(object = getData(object)[[i]], Name = Name[i]) 
+                WriteRepoFile(object = getData(object)[[i]], Name = Name[i], sep = sep) 
             }
         }
 
@@ -113,23 +123,25 @@ setMethod(
 
 #' @rdname WriteRepoFile
 #' 
+#' @importFrom StQ getPeriods.R getData.R
+#' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
     signature = c("rawStQList"),
-    function(object, Name){
+    function(object, Name, sep = '@@'){
         
-        if (length(getPeriods.rawStQList(object)) > 0) {
+        Periods <- getPeriods(object)
+        if (length(Periods) > 0) {
             
-            if (length(getPeriods.rawStQList(object)) != length(Name)) {
+            if (length(Periods) != length(Name)) {
                 
-                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have 
-                            the same length.\n'))
+                stop(paste0('[RepoReadWrite::WriteRepoFile] ', object, ' and ', Name, ' must have the same length.\n'))
                 
             }
-            for (i in 1:length(getPeriods.rawStQList(object))) {
+            for (i in seq(along = Periods)) {
                 
-                WriteRepoFile(object = getData(object)[[i]], Name = Name[i]) 
+                WriteRepoFile(object = getData(object)[[i]], Name = Name[i], sep = sep) 
             }
         }
         

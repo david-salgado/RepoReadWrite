@@ -19,19 +19,37 @@
 #'
 #' @examples
 #' \dontrun{
-#' RepoFileVersion('C:/Repo//E30183', 'FF_V1.MM122014')
+#' RepoFileVersion('C:/Repo/E30183', 'FF_V1.MM122014')
+#' RepoFileVersion('C:/Repo/E30183', 'FT_V1.MM122016')
+#' RepoFileVersion('C:/Repo/E30183', 'FT_V1.MM122016')
 #' }
 #' 
 #' @export
 RepoFileVersion <- function(Path, FileNamePattern){
   
+  if (length(FileNamePattern) != 1) stop('\n[RepoReadWrite::RepoFileVersion] The input parameter FileNamePattern must be a character vector of length 1.\n')
+  
+  FTpattern <- grep('FT_V', FileNamePattern)
+  if (length(FTpattern) != 0) {
+      
+      cat('\n[RepoReadWrite::RepoFileVersion] FT files do not have version number.\n')
+      return(character(0))
+      
+  }
+  FLpattern <- grep('FL_V', FileNamePattern)
+  if (length(FLpattern) != 0) {
+      
+      cat('\n[RepoReadWrite::RepoFileVersion] FL files do not have version number.\n')
+      return(character(0))
+      
+  }
+
   Files <- list.files(Path)
   if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] Path not found.')
   Files <- Files[grep(FileNamePattern, Files)]
   if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] No files with this name pattern in this path.')
   nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
-  out <- max(nVer)
-  
-return(out)
+  output <- max(nVer)
+  return(output)
   
 }

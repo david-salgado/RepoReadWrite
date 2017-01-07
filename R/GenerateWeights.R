@@ -1,6 +1,6 @@
-#' @title Generates StQ object of weightings.
+#' @title Generates StQ object of aggregate/index weights
 #' 
-#' @description \code{GenerateWeigh} returns a \linkS4class{StQ} with data from the SAS files of 
+#' @description \code{GenerateWeights} returns a \linkS4class{StQ} with data from the SAS files of 
 #' weighting corresponding to the specified SAS files.
 #' 
 #' This function reads the SAS files of weightings corresponding to the Excel sheets specified as 
@@ -22,28 +22,28 @@
 #' 
 #' @param SurveyName Character vector of length 1 with the name of the survey.
 #' 
-#' @return \linkS4class{StQ} object with the content of the SAS files of weightings corresponding 
-#' to the SheetNamesPond.
+#' @return \linkS4class{StQ} object with the content of the SAS files of weights corresponding to 
+#' the SheetNamesPond.
 #' 
 #' @examples
 #' \dontrun{
 #' # Param SASWeighFiles must be as following:
-#' SASWeighFiles <- c('C:/Users/Administrador/Desktop/pondcarama14.sas7bdat')
-#' names(SASWeighFiles) <- 'PondCARama'
-#' SASWeighFiles
+#' SASWeightFiles <- c('C:/Users/Administrador/Desktop/pondcarama14.sas7bdat')
+#' names(SASWeightFiles) <- 'PondCARama'
+#' SASWeightFiles
 #' 
 #' # We assume data created previosly:
-#' Weigh <- GenerateWeigh(SASFilesNames, DD, SurveyName = 'IASS')
+#' Weightss <- GenerateWeights(SASFilesNames, DD, SurveyName = 'IASS')
 #' }
 #' 
 #' @seealso  \link{ReadSASWeigh}
 #' 
 #' @import data.table StQ
 #' 
-#' @include ReadSASWeigh.R
+#' @include ReadSASWeights.R
 #' 
 #' @export
-GenerateWeigh <- function(SASFilesNames, DD, SurveyName){
+GenerateWeights <- function(SASFilesNames, DD, SurveyName){
     
     PondVar <- paste0(SurveyName, 'Pond')
     SheetNamesWeigh <- names(SASFilesNames)
@@ -79,15 +79,15 @@ GenerateWeigh <- function(SASFilesNames, DD, SurveyName){
         
         auxPond <- rbindlist(auxlist)
         auxPond[, IDDD := PondVar]
-        setcolorder(auxPond, c(getIDQual(VNC[[Pond]]), getNonIDQual(VNC[[Pond]]), 
-                               c('IDDD', 'Value')))
+        setcolorder(auxPond, 
+                    c(getIDQual(VNC[[Pond]]), getNonIDQual(VNC[[Pond]]), c('IDDD', 'Value')))
         
         auxdt <- auxdt + new(Class = 'Datadt', auxPond)
         
     }
     
     setcolorder(auxdt, c(IDQual, setdiff(NonIDQual, 'VarPonder'), c('VarPonder', 'IDDD', 'Value')))
-    setorderv(auxdt, c(IDQual,'VarPonder'))
+    setorderv(auxdt, c(IDQual, 'VarPonder'))
     Pond <- new(Class = 'StQ', Data = auxdt, DD = DD)
     
     return(Pond)

@@ -2,9 +2,9 @@
 % Please edit documentation in R/ReadRepoFile.R
 \name{ReadRepoFile}
 \alias{ReadRepoFile}
-\title{Write a file with a key-value}
+\title{Write a file with a key-value pair structure}
 \usage{
-ReadRepoFile(FileName, DD)
+ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE)
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
@@ -12,21 +12,27 @@ read from the working directory (see \link[base]{getwd}) unless the full path is
 
 \item{DD}{Object of class \linkS4class{DD} with the definition and characteristics of the data 
 contained in the file to read.}
+
+\item{out}{Character vector of length 1 indicating whether to output an \linkS4class{StQ} object
+(\code{out} = 'StQ'; default) or a \linkS4class{rawStQ} object (\code{out} = 'rawStQ').}
+
+\item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 }
 \value{
-an object of class \linkS4class{StQ} with all data from the read file.
+Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
+from the input file.
 }
 \description{
-\code{ReadRepoFile} returns a \linkS4class{data.table} with the content of the file 
-corresponding to the input name.
+\code{ReadRepoFile} returns an \linkS4class{StQ} (default) or a \linkS4class{rawStQ}
+ object with the content of the file corresponding to the input name.
 }
 \examples{
 \dontrun{
 #We assume that the key-value ASCII file \\code{E30183.FF_V1.MM032014.D_1} is in the administrator 
 desktop (change accordingly otherwise): 
 RepoName <- 'C:/Users/Administrador/Desktop/E30183.FF_V1.MM032014.D_1'
-Example.kv <- ReadRepoFile(RepoName)
-str(Example.kv)
+Example.StQ <- ReadRepoFile(RepoName)
+str(Example.StQ)
 }
 
 }
