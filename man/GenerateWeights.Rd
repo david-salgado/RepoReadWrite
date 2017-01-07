@@ -46,7 +46,4 @@ Weightss <- GenerateWeights(SASFilesNames, DD, SurveyName = 'IASS')
 }
 
 }
-\seealso{
-\link{ReadSASWeigh}
-}
 

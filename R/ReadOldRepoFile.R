@@ -22,7 +22,7 @@
 #' str(Example.kv)
 #' }
 #' 
-#' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
+#' @seealso \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
 #' 

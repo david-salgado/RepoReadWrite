@@ -29,7 +29,7 @@
 #' str(Example.StQ)
 #' }
 #' 
-#' @seealso \code{\link{ReadSASFile}}, \code{\link{ReadXLSFile}}, \code{\link{WriteRepoFile}}
+#' @seealso \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
 #' 

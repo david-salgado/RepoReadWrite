@@ -10,23 +10,26 @@
 \alias{WriteRepoFile,rawStQList-method}
 \title{Write a key-value pair ASCII file}
 \usage{
-WriteRepoFile(object, Name)
+WriteRepoFile(object, Name, sep = "@@")
 
-\S4method{WriteRepoFile}{rawDatadt}(object, Name)
+\S4method{WriteRepoFile}{rawDatadt}(object, Name, sep = "@@")
 
-\S4method{WriteRepoFile}{rawStQ}(object, Name)
+\S4method{WriteRepoFile}{rawStQ}(object, Name, sep = "@@")
 
-\S4method{WriteRepoFile}{StQ}(object, Name)
+\S4method{WriteRepoFile}{StQ}(object, Name, sep = "@@")
 
-\S4method{WriteRepoFile}{StQList}(object, Name)
+\S4method{WriteRepoFile}{StQList}(object, Name, sep = "@@")
 
-\S4method{WriteRepoFile}{rawStQList}(object, Name)
+\S4method{WriteRepoFile}{rawStQList}(object, Name, sep = "@@")
 }
 \arguments{
 \item{object}{Object to be written in the output file.}
 
 \item{Name}{Character vectorof length 1 specifying the name of the output file. The file will be 
 written in the working directory (see \link[base]{getwd}) unless the full path is specified.}
+
+\item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
+in the file (default value @).}
 }
 \value{
 These methods return the invisible \code{\link{NULL}} object writing as a side-effect the 
@@ -48,6 +51,6 @@ WriteRepoFile(ExampleStQ, Name)
 
 }
 \seealso{
-\code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, \code{\link{FirstLine}}
+\code{\link{ReadRepoFile}}
 }
 

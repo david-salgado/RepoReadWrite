@@ -24,7 +24,7 @@
 #' WriteRepoFile(ExampleStQ, Name)
 #' }
 #' 
-#' @seealso \code{\link{ReadSASFile}}, \code{\link{ReadRepoFile}}, \code{\link{FirstLine}}
+#' @seealso \code{\link{ReadRepoFile}}
 #' 
 #' @export
 setGeneric("WriteRepoFile", function(object, Name, sep = '@@'){standardGeneric("WriteRepoFile")})
@@ -33,7 +33,7 @@ setGeneric("WriteRepoFile", function(object, Name, sep = '@@'){standardGeneric("
 #' 
 #' @import data.table
 #' 
-#' @importFrom StQ DatadtToDT.R
+#' @importFrom StQ DatadtToDT
 #' 
 #' @export
 setMethod(
@@ -76,7 +76,7 @@ setMethod(
 )
 #' @rdname WriteRepoFile
 #' 
-#' @importFrom StQ StQTorawStQ.R
+#' @importFrom StQ StQTorawStQ
 #' 
 #' @export
 setMethod(
@@ -93,7 +93,7 @@ setMethod(
 
 #' @rdname WriteRepoFile
 #' 
-#' @importFrom StQ getPeriods.R getData.R
+#' @importFrom StQ getPeriods getData
 #' 
 #' @export
 setMethod(
@@ -123,7 +123,7 @@ setMethod(
 
 #' @rdname WriteRepoFile
 #' 
-#' @importFrom StQ getPeriods.R getData.R
+#' @importFrom StQ getPeriods getData
 #' 
 #' @export
 setMethod(

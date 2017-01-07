@@ -36,8 +36,6 @@
 #' Weightss <- GenerateWeights(SASFilesNames, DD, SurveyName = 'IASS')
 #' }
 #' 
-#' @seealso  \link{ReadSASWeigh}
-#' 
 #' @import data.table StQ
 #' 
 #' @include ReadSASWeights.R

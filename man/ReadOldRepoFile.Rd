@@ -33,6 +33,6 @@ str(Example.kv)
 
 }
 \seealso{
-\code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
+\code{\link{WriteRepoFile}}
 }
 

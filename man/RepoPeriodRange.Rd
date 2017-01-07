@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoPeriodRange.R
 \name{RepoPeriodRange}
 \alias{RepoPeriodRange}
-\title{Obtain the time periods of a given input file type}
+\title{Obtain the time periods of a given input file type in a given directory}
 \usage{
 RepoPeriodRange(Path, Type, Last = out[length(out)])
 }
@@ -21,13 +21,13 @@ up to the last one specified (included).
 }
 \description{
 \code{RepoPeriodRange} returns the time periods of files of a given input file type 
-\code{Type} (FF, FD, FG, FL, FT) in an input directory \code{Path} up to a last given input time 
-period \code{Last} (included). By default, it returns all time periods in the queried directory 
-unless the input parameter \code{Last} is specified.
+\code{Type} (FF, FD, FG, FL, FT, FI, FP, FA) in an input directory \code{Path} up to a last given
+ input time period \code{Last} (included). By default, it returns all time periods in the queried
+  directory unless the input parameter \code{Last} is specified.
 }
 \examples{
 \dontrun{
-RepoPeriodRange(Path = 'R:/E30183', Type = 'FF', Last = 'MM102014')
+RepoPeriodRange(Path = 'C:/Repo/E30183', Type = 'FF', Last = 'MM102014')
 }
 
 }

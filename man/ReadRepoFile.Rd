@@ -2,9 +2,9 @@
 % Please edit documentation in R/ReadRepoFile.R
 \name{ReadRepoFile}
 \alias{ReadRepoFile}
-\title{Write a file with a key-value pair structure}
+\title{Read a file with a key-value pair structure}
 \usage{
-ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE)
+ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@")
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
@@ -17,6 +17,9 @@ contained in the file to read.}
 (\code{out} = 'StQ'; default) or a \linkS4class{rawStQ} object (\code{out} = 'rawStQ').}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
+
+\item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
+in the input file (default value @).}
 }
 \value{
 Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
@@ -37,6 +40,6 @@ str(Example.StQ)
 
 }
 \seealso{
-\code{\link{ReadSASFile}}, \code{\link{ReadXLSFile}}, \code{\link{WriteRepoFile}}
+\code{\link{WriteRepoFile}}
 }
 
