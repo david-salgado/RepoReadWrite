@@ -38,7 +38,7 @@
 #' }
 #' 
 #' @import data.table xlsx
-#'       
+#' 
 #' @export
 RepoXLSToVNC <- function(ExcelName, SheetNames){
     
@@ -63,7 +63,7 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
             names.Data <- unlist(lapply(names.Data, function(x) {x[1]}))
             setnames(ExcelSheet[[sName]], names(ExcelSheet[[sName]]), names.Data)
         }
-    
+
         ExcelSheet <- lapply(ExcelSheet, function(SheetDT){
                 
             ColNames <- names(SheetDT)

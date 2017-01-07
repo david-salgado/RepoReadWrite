@@ -32,7 +32,7 @@ RepoXLSToDD <- function(ExcelName){
         DDname <- strsplit(DDname, '.', fixed = TRUE)[[1]]
         DDname <- paste0(DDname[-length(DDname)], collapse = '.')
         DDname <- paste0(c(RepoPath, DDname), collapse = '/')
-        VNC <- RepoXLSToVNC(ExcelName)    
+        VNC <- RepoXLSToVNC(ExcelName)
         if (file.exists(DDname)) {
             
             DD <- RepoDDToDD(DDname, VNC)
