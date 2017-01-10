@@ -17,6 +17,10 @@
 #' @param sep Logical vector of length 1 containing the combination of characters used as separator 
 #' in the input file (default value @@).
 #' 
+#' @param encoding Default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
+#' Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
+#' native encoding.
+#' 
 #' @return Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
 #' from the input file.
 #' 
@@ -36,7 +40,7 @@
 #' @importFrom stringi stri_replace_all_regex
 #' 
 #' @export
-ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@') {
+ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', encoding = 'unknown') {
     
     if (out != 'StQ' & out != 'rawStQ') stop('[RepoReadWrite::ReadRepoFile] The input parameter out must be "StQ" or "rawStQ".\n')
     
@@ -46,7 +50,7 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@') {
     
     File <- fread(FileName, sep = '\n', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
                   strip.white = TRUE,
-                  stringsAsFactors = FALSE, colClasses = 'character', encoding = 'UTF-8')
+                  stringsAsFactors = FALSE, colClasses = 'character', encoding = encoding)
     
     cat('\n Parsing IDDD identifiers...')
     regexp <- paste0("(\\w+)", sep, "([A-Za-z0-9_\\. ]+)", sep, "(.*)")
