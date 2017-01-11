@@ -42,7 +42,6 @@ Collate:
     'RepoXLSToRepoDD.R'
     'ValidateXLS.R'
     'WriteRepoFile.R'
-    'xmlToDD.R'
 RoxygenNote: 5.0.1
 URL: https://github.com/david-salgado/RepoReadWrite
 BugReports: https://github.com/david-salgado/RepoReadWrite/issues

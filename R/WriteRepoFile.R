@@ -55,8 +55,7 @@ setMethod(
         setDT(auxDT)[, ROW := Reduce(function(...) paste(..., sep = sep), .SD[, mget(colNames)])]
         auxDT[, (setdiff(colNames, 'ROW')) := NULL]
         
-        fwrite(auxDT, file = Name, quote = FALSE, na = ' ', row.names = FALSE,
-               col.names = FALSE)
+        fwrite(auxDT, file = Name, quote = FALSE, na = ' ', row.names = FALSE, col.names = FALSE)
         cat(paste0('\nKey-value pair file written in ', Name), '\n')
         return(invisible(NULL))
     }

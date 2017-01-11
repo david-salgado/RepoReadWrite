@@ -24,6 +24,13 @@
 #' 
 #' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
 #' 
+#' @param sep Logical vector of length 1 containing the combination of characters used as separator 
+#' in the input file (default value @@).
+#' 
+#' @param encoding Default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
+#' Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
+#' native encoding.
+#' 
 #' @return Object of class \linkS4class{StQList}.
 #' 
 #' @examples
@@ -38,7 +45,7 @@
 #' 
 #' @export
 RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Rot = FALSE, 
-                              includeFI = TRUE, perl = FALSE){
+                              includeFI = TRUE, perl = FALSE, sep = '@@', encoding = 'unknown'){
     
         if (!FileType %in% c('FF', 'FD', 'FG')){
             
@@ -79,7 +86,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
                                RepoFileVersion(RepoPath, paste0(NamePrefix, MonthsNamesM[[Month.index]])))
             }
             
-            StQList[[Month.index]] <- ReadRepoFile(Name, DD, 'StQ', perl)
+            StQList[[Month.index]] <- ReadRepoFile(Name, DD, 'StQ', perl, sep, encoding)
         }
         
         names(StQList) <- MonthsNamesM

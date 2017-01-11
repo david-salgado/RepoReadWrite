@@ -4,7 +4,8 @@
 \alias{ReadRepoFile}
 \title{Read a file with a key-value pair structure}
 \usage{
-ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@")
+ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@",
+  encoding = "unknown")
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
@@ -20,6 +21,10 @@ contained in the file to read.}
 
 \item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
 in the input file (default value @).}
+
+\item{encoding}{Default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
+Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
+native encoding.}
 }
 \value{
 Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
