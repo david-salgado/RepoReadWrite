@@ -1,9 +1,9 @@
-#' @title Obtain the time periods of a given input file type
+#' @title Obtain the time periods of a given input file type in a given directory
 #'
 #' @description \code{RepoPeriodRange} returns the time periods of files of a given input file type 
-#' \code{Type} (FF, FD, FG, FL, FT) in an input directory \code{Path} up to a last given input time 
-#' period \code{Last} (included). By default, it returns all time periods in the queried directory 
-#' unless the input parameter \code{Last} is specified.
+#' \code{Type} (FF, FD, FG, FL, FT, FI, FP, FA) in an input directory \code{Path} up to a last given
+#'  input time period \code{Last} (included). By default, it returns all time periods in the queried
+#'   directory unless the input parameter \code{Last} is specified.
 #' 
 #' @param Path Character vector of length 1 specifying the path of the searching directory.
 #' 
@@ -18,7 +18,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' RepoPeriodRange(Path = 'R:/E30183', Type = 'FF', Last = 'MM102014')
+#' RepoPeriodRange(Path = 'C:/Repo/E30183', Type = 'FF', Last = 'MM102014')
 #' }
 #' 
 #' @export

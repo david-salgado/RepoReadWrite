@@ -1,4 +1,4 @@
-#' @title Produce an object \linkS4class{DD} from an xlsx file
+#' @title Produce an object \linkS4class{DD} from an Excel file
 #' 
 #' @description This function builds an object \linkS4class{DD} using the contents of an xlsx file.
 #' \code{RepoXLSToDD} transforms the content of an xlsx file into a DD file.  
@@ -17,18 +17,32 @@
 #' }
 #' 
 #' @import data.table xlsx XML
-#'       
+#' 
+#' @include RepoXLSToVNC.R RepoFileVersion.R RepoDDToDD.R
+#'                        
 #' @export
 RepoXLSToDD <- function(ExcelName){
-    
+        
+        ParsedExcelName <- strsplit(ExcelName, '/', fixed = TRUE)[[1]]
+        ParsedExcelName <- lapply(ParsedExcelName, strsplit, split = '\\', fixed = TRUE)
+        ParsedExcelName <- unlist(ParsedExcelName)
+        FileName <- ParsedExcelName[length(ParsedExcelName)]
+        RepoPath <- paste0(ParsedExcelName[-length(ParsedExcelName)], collapse = '/')
+        DDname <- gsub('NombresVariables', 'DD', FileName)
+        DDname <- strsplit(DDname, '.', fixed = TRUE)[[1]]
+        DDname <- paste0(DDname[-length(DDname)], collapse = '.')
+        DDname <- paste0(c(RepoPath, DDname), collapse = '/')
         VNC <- RepoXLSToVNC(ExcelName)
-        RepoXLSToRepoDD(ExcelName)
-        ExcelNameParsed <- strsplit(ExcelName, split = '.', fixed = TRUE)[[1]]
-        ExcelNameParsed[length(ExcelNameParsed)] <- NULL
-        Version <- strsplit(ExcelNameParsed, split = '_')[[1]][2]
-        ExcelNameParsed[2] <- paste0('DD_', Version)
-        RepoDDName <- paste0(ExcelNameParsed, collapse = '.')
-        DD <- RepoDDToDD(RepoDDName, VNC)
+        if (file.exists(DDname)) {
+            
+            DD <- RepoDDToDD(DDname, VNC)
+        
+        } else {
+            
+            RepoXLSToRepoDD(ExcelName)
+            DD <- RepoDDToDD(DDname, VNC)
+            
+        }
         return(DD)
 }
 

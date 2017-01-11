@@ -18,12 +18,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' RepoNextFileVerNumber(c('MM012016'), 'R:/E30183', 'FF')
+#' RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF')
 #' }
 #' 
 #' @export
 RepoNextFileVerNumber <- function(Periods, Path, FileType){
   
+  if (length(FileType) != 1) stop('\n[RepoReadWrite::RepoFileVersion] The input parameter FileType must be a character vector of length 1.\n')
+  if (!FileType %in% c('FF', 'FD', 'FG', 'FA', 'FI', 'FP', 'FT', 'FL')) stop('\n[RepoReadWrite::RepoFileVersion] The allowed file types are FF, FD, FG, FA, FI, FP, FT, FL.\n')
+      
   Files <- list.files(Path)
   Files <- Files[grep(FileType, Files)]
 
@@ -31,6 +34,9 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
       
       matchFF <- pmatch('FF', FileType)
       if (!is.na(matchFF)) NextVer <- rep('.D_1', length(Periods))
+      
+      matchFA <- pmatch('FA', FileType)
+      if (!is.na(matchFA)) NextVer <- rep('.D_1', length(Periods))
       
       matchFI <- pmatch('FI', FileType)
       matchFP <- pmatch('FP', FileType)
@@ -56,6 +62,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     if (length(aux) == 0) {
       
         if (length(FileType[grep('FF', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
+        if (length(FileType[grep('FA', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
         Types <- c('FI', 'FP', 'FD', 'FG')
         Flag.Type <- lapply(Types, function(Type){
           
@@ -64,13 +71,9 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
         Flag.Type <- sum(unlist(Flag.Type))
         if (Flag.Type > 0) aux <- matrix(c(Per, '.P_0'), ncol = 2)
         
-    } else if (length(aux) == 1) {
-      
-      aux <- aux[[1]]
-      
     } else {
       
-      aux <- Reduce(rbind, aux)
+      aux <- Reduce(rbind, aux, init = aux[[1]])
       
     }
       

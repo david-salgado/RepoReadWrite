@@ -3,7 +3,7 @@
 \docType{class}
 \name{FileName-class}
 \alias{FileName-class}
-\title{S4 class \code{FileName}}
+\title{S4 class \code{FileName} for the names of files in the repository}
 \description{
 An S4 class called \code{FileName} for the names of the files.
 }

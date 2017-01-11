@@ -1,15 +1,17 @@
 #' @title Write a file with a key-value
 #' 
-#' @description \code{ReadOldRepoFile} returns a \linkS4class{data.table} with the content of the file 
-#' corresponding to the input name.
+#' @description \code{ReadOldRepoFile} returns a \linkS4class{data.table} with the content of the 
+#' file corresponding to the input name.
 #' 
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param language character vector of length 1 with the language of the file to read. The values 
-#' allowed are: 'SP' (Spanish) and 'EN' (English), being the default value is 'SP'.
+#' @param language Character vector of length 1 with the language of the file to read. The values 
+#' allowed are: 'SP' (Spanish) and 'EN' (English), being the default value 'SP'.
 #' 
-#' @return \linkS4class{data.table} with all data from the read file.
+#' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
+#' 
+#' @return \linkS4class{data.table} with all data from the input file.
 #' 
 #' @examples
 #' \dontrun{
@@ -20,12 +22,12 @@
 #' str(Example.kv)
 #' }
 #' 
-#' @seealso \code{\link{ReadSASFile}}, \code{\link{WriteRepoFile}}
+#' @seealso \code{\link{WriteRepoFile}}
 #'
 #' @import data.table
 #' 
 #' @export
-ReadOldRepoFile <- function(FileName, language = 'SP') {
+ReadOldRepoFile <- function(FileName, language = 'SP', perl = FALSE) {
     
     if (language != 'SP' & language != 'EN') {
         
@@ -42,7 +44,7 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     
     if (language == 'SP') {
         
-        FirstLine <- gsub('Valor', 'Value', FirstLine)
+        FirstLine <- gsub('Valor', 'Value', FirstLine, perl = perl)
     }
     
     FileDT <- File[-1]
@@ -55,21 +57,32 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     Names <- unlist(lapply(Param, '[', 1)[-c(1, length(Param))])
     Lengths <- lapply(Param, '[', 2)[-1]
     Lengths <- lapply(Lengths, function(x){
+        
         if (substr(x, 1, 1) == '$') {
+            
             return(substr(x = x, start = 2, stop = nchar(x)))
+        
         } else {
+            
             return(x) 
+        
         }
     })
     Lengths <- lapply(Lengths, function(x){
+        
         if (substr(x = x, start = nchar(x), stop = nchar(x)) == '.') {
+            
             return(as.integer(substr(x = x, start = 1, stop = nchar(x) - 1)))
+        
         } else {
+            
             return(as.integer(x)) 
+        
         }
     })
     Max <- Lengths[[length(Lengths)]]
     Lengths <- unlist(Lengths[-length(Lengths)])
+    
     # Se determinan las posiciones inicial y final de cada variable en cada línea
     Pos1 <- c(1L)
     for (i in seq(along = Lengths)) {Pos1 <- c(Pos1, Lengths[i] + Pos1[length(Pos1)])}
@@ -79,6 +92,7 @@ ReadOldRepoFile <- function(FileName, language = 'SP') {
     
     # Se construye una columna por cada variable
     for (indexVar in seq(along = Names)) {
+        
         FileDT[, Names[indexVar] := gdata::trim(substr(x = FileVector, 
                                                       start = Pos1[indexVar], 
                                                       stop = Pos2[indexVar])), 

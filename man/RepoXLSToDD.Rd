@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoXLSToDD.R
 \name{RepoXLSToDD}
 \alias{RepoXLSToDD}
-\title{Produce an object \linkS4class{DD} from an xlsx file}
+\title{Produce an object \linkS4class{DD} from an Excel file}
 \usage{
 RepoXLSToDD(ExcelName)
 }

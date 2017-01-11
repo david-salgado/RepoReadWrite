@@ -25,7 +25,9 @@
 #'  StQList <- RepoFileToStQList('Z:/', 'XXXXXX', 'C:/', 'E30183', 'MM112014', 'MM122014', 'FF')
 #'  RepoFileToTXT('Z:/', StQList, 'E30183', 'FF', 'C:/')
 #' }
-#'       
+#'
+#' @import StQ     
+#'                     
 #' @export
 RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
     
@@ -45,7 +47,7 @@ RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
         UnitNames <- IDDDToUnitNames(getVNC(StQList[[Period.index]]), IDDDNames)
         UnitNames <- UnitNames[[2]]
         setnames(dcastedStQ, IDDDNames, UnitNames)
-        LastFileVersion <- RepoTopn(RepoPath, paste0(FileType, '_V1.', Periods[Period.index]))
+        LastFileVersion <- RepoFileVersion(RepoPath, paste0(FileType, '_V1.', Periods[Period.index]))
         NewVer <- as.numeric(LastFileVersion) + 1
         if (FileType == 'FF'){
             

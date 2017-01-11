@@ -1,4 +1,4 @@
-#' @title S4 class \code{FileName}
+#' @title S4 class \code{FileName} for the names of files in the repository
 #' 
 #' @description An S4 class called \code{FileName} for the names of the files.
 #'
@@ -115,10 +115,10 @@ setClass(Class = "FileName",
              DD.Syntax <- "E[0-9]{5}\\.DD_V[0-9]+$"
              ValidDD <- regexpr(DD.Syntax, object) != -1
              
-             F.Syntax <- "E[0-9]{5}\\.((FF)|(FG)|(FD)|(FI)|(FT)|(FL))_V[0-9]+\\.((Q(Q|R)(1|2)((0[1-9])|(1[0-2]))[0-9]{4})|(M(M|R)((0[1-9])|(1[0-2]))[0-9]{4})|(B(B|R)[1-6][0-9]{4})|(T(T|R)[1-4][0-9]{4})|(S(S|R)[1-2][0-9]{4})|(A(A|R)[0-9]{4}))\\.(D|P)_[0-9]+$"
+             F.Syntax <- "E[0-9]{5}\\.((FF)|(FG)|(FD)|(FI)|(FT)|(FL)|(FA))_V[0-9]+\\.((Q(Q|R)(1|2)((0[1-9])|(1[0-2]))[0-9]{4})|(M(M|R)((0[1-9])|(1[0-2]))[0-9]{4})|(B(B|R)[1-6][0-9]{4})|(T(T|R)[1-4][0-9]{4})|(S(S|R)[1-2][0-9]{4})|(A(A|R)[0-9]{4}))\\.(D|P)_[0-9]+$"
              ValidF <- regexpr(F.Syntax, object) != -1
              
-             xlsx.Syntax <- "E[0-9]{5}\\.((NombresVariables|VariableNames))\\.xls[x]*$"
+             xlsx.Syntax <- "E[0-9]{5}\\.((NombresVariables|VariableNames)_V[0-9]+)\\.xls[x]*$"
              Validxls <- regexpr(xlsx.Syntax, object) != -1
              
              Validany <- ValidDD | ValidF | Validxls

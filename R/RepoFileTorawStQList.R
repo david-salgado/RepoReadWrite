@@ -1,5 +1,5 @@
-#' @title Produce an object of class \linkS4class{rawStQList} from files with the structure
-#' key-value pair.
+#' @title Produce an object of class \linkS4class{rawStQList} from files with key-value pair 
+#' structure
 #' 
 #' @description \code{RepoFileTorawStQList} returns an object of class \linkS4class{rawStQList} from
 #' files with the structure key-value pair.
@@ -23,6 +23,8 @@
 #' @param includeFI Logical vector of length 1 indicating whether ID variables will be included in
 #' the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.
 #' 
+#' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
+#' 
 #' @return Object of class \linkS4class{rawStQList}.
 #' 
 #' @examples
@@ -33,11 +35,11 @@
 #'
 #' @include RepoXLSToVNC.R ReadRepoFile.R RepoDDToDD.R ReadRepoFile.R
 #' 
-#' @import data.table 
+#' @import data.table RepoTime
 #' 
 #' @export
 RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Rot = FALSE, 
-                              includeFI = TRUE){
+                              includeFI = TRUE, perl = FALSE){
     
     if (!FileType %in% c('FF', 'FD', 'FG')){
         
@@ -50,54 +52,36 @@ RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinP
     MonthsNamesM <- getRepo(Months)
     
     ## VNC Construction
-    ExcelName <- paste0(RepoPath, SurveyCode, '.NombresVariables', '.xlsx')
-    wb <- loadWorkbook(ExcelName)
-    SheetNames <- names(getSheets(wb))
+    Version <- RepoFileVersion(RepoPath, 'DD')
     
-    VNC <- list()
-    for (sheet in SheetNames[SheetNames != 'ID']) {
-        
-        VNC[[sheet]] <- RepoXLSToVNC(ExcelName, sheet)
-        
-    }
-    
-    if (includeFI) VNC[['ID']] <- RepoXLSToVNC(ExcelName, 'ID')
-    
-    VNC <- Reduce(`+`, VNC, VNC[[1L]])       
-  
+    ExcelName <- paste0(RepoPath, SurveyCode, '.NombresVariables_V', Version, '.xlsx')
+    VNC <- RepoXLSToVNC(ExcelName)
+
     ## DD Construction
-    
-    DDName <- paste0(RepoPath, SurveyCode, '.DD_V', RepoTopn(RepoPath, 'DD'))
-    RepoDD <- ReadRepoFile(DDName)
-    DD <- RepoDDToDD(RepoDD, VNC)
-   
-    #####                 Creación de lista de objetos StQ             #####
-    rawQList <- list()
-    
+    DDName <- paste0(RepoPath, SurveyCode, '.DD_V', Version)
+    DD <- RepoDDToDD(DDName, VNC)
+
+    #####                 Creación de lista de objetos rawStQ             #####
+    rawStQList <- list()
     for (Month.index in seq(along = MonthsNamesM)) {
         
+        cat(paste0('\n[RepoReadWrite::RepoFileTorawStQList] Reading file of time period ', MonthsNamesM[Month.index], '...\n'))
         NamePrefix <- paste0(SurveyCode, '.', FileType, '_V1.')
         
         if (FileType == 'FF') {
             
             Name <- paste0(RepoPath, NamePrefix, MonthsNamesM[[Month.index]], '.D_', 
-                           RepoTopn(RepoPath, paste0(NamePrefix, MonthsNamesM[[Month.index]])))
+                           RepoFileVersion(RepoPath, paste0(NamePrefix, MonthsNamesM[[Month.index]])))
             
         } else {
             
             Name <- paste0(RepoPath, NamePrefix, MonthsNamesM[[Month.index]], '.P_', 
-                           RepoTopn(RepoPath, paste0(NamePrefix, MonthsNamesM[[Month.index]])))
+                           RepoFileVersion(RepoPath, paste0(NamePrefix, MonthsNamesM[[Month.index]])))
         }
         
-        Repo <- ReadRepoFile(Name)
-        key <- new(Class='rawKey', Repo[['Key']])
-        Repo[['Key']] <- key
-        
-        rawQList[[Month.index]] <- new(Class = 'rawStQ', Data = new(Class = 'rawDatadt', Repo), DD = DD)
+        rawStQList[[Month.index]] <- ReadRepoFile(Name, DD, 'rawStQ', perl)
+        cat('\n  ok.\n\n')
     }
-    
-    names(rawQList) <- MonthsNamesM
-    rawStQList <- BuildrawStQList(rawQList)
-    
+    names(rawStQList) <- MonthsNamesM
     return(rawStQList)
 }

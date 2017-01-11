@@ -285,9 +285,17 @@ RepoXLSToRepoDD <- function(ExcelName){
         addChildren(identifiers, identifiers.list)
         
         # Save the DD object in a xml file  (DD file)
-        outName <- paste0(SurveyCode, '.DD_V', Version)
-        saveXML(doc = xmlDoc(DD), file = outName)
-        cat(paste0('The DD file (xml file) ', outName, ' has been generated and written in ', getwd(), '/\n'))
+        ParsedExcelName <- strsplit(ExcelName, '/', fixed = TRUE)[[1]]
+        ParsedExcelName <- lapply(ParsedExcelName, strsplit, split = '\\', fixed = TRUE)
+        ParsedExcelName <- unlist(ParsedExcelName)
+        FileName <- ParsedExcelName[length(ParsedExcelName)]
+        RepoPath <- paste0(ParsedExcelName[-length(ParsedExcelName)], collapse = '/')
+        DDname <- gsub('NombresVariables', 'DD', FileName)
+        DDname <- strsplit(DDname, '.', fixed = TRUE)[[1]]
+        DDname <- paste0(DDname[-length(DDname)], collapse = '.')
+        outDDname <- paste0(c(RepoPath, DDname), collapse = '/')
+        saveXML(doc = xmlDoc(DD), file = outDDname)
+        cat(paste0('The DD file (xml file) ', DDname, ' has been generated and written in ', RepoPath, '/\n'))
         
     } else {
         

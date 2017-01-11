@@ -2,11 +2,11 @@
 % Please edit documentation in R/RepoFileTorawStQList.R
 \name{RepoFileTorawStQList}
 \alias{RepoFileTorawStQList}
-\title{Produce an object of class \linkS4class{rawStQList} from files with the structure
-key-value pair.}
+\title{Produce an object of class \linkS4class{rawStQList} from files with key-value pair 
+structure}
 \usage{
 RepoFileTorawStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
-  Rot = FALSE, includeFI = TRUE)
+  Rot = FALSE, includeFI = TRUE, perl = FALSE)
 }
 \arguments{
 \item{SurveyCode}{Character vector of length 1 with the code of each survey.}
@@ -27,6 +27,8 @@ repository notation).}
 
 \item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
 the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.}
+
+\item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 }
 \value{
 Object of class \linkS4class{rawStQList}.

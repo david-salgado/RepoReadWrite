@@ -28,7 +28,9 @@ contents (either definitive or partial version).
 }
 \examples{
 \dontrun{
-RepoFileVersion('C:/Repo//E30183', 'FF_V1.MM122014')
+RepoFileVersion('C:/Repo/E30183', 'FF_V1.MM122014')
+RepoFileVersion('C:/Repo/E30183', 'FT_V1.MM122016')
+RepoFileVersion('C:/Repo/E30183', 'FT_V1.MM122016')
 }
 
 }
