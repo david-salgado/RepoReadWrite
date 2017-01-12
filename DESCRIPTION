@@ -27,7 +27,6 @@ Collate:
     'FileName-class.R'
     'ReadSASWeights.R'
     'GenerateWeights.R'
-    'ParseUnitName.R'
     'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'

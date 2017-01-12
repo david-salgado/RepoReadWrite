@@ -33,6 +33,6 @@ must not be another txt file of the same periods which are being considered.}
  StQList <- RepoFileToStQList('Z:/', 'XXXXXX', 'C:/', 'E30183', 'MM112014', 'MM122014', 'FF')
  RepoFileToTXT('Z:/', StQList, 'E30183', 'FF', 'C:/')
 }
-      
+
 }
 
