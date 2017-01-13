@@ -5,7 +5,8 @@
 \title{Produce an object of class \linkS4class{StQList} from files with key-value pair structure}
 \usage{
 RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
-  Rot = FALSE, includeFI = TRUE, perl = FALSE)
+  Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
+  encoding = "unknown")
 }
 \arguments{
 \item{SurveyCode}{Character vector of length 1 with the code of each survey.}
@@ -28,6 +29,13 @@ repository notation).}
 the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
+
+\item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
+in the input file (default value @).}
+
+\item{encoding}{Default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
+Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
+native encoding.}
 }
 \value{
 Object of class \linkS4class{StQList}.
