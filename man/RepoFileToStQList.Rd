@@ -4,9 +4,18 @@
 \alias{RepoFileToStQList}
 \title{Produce an object of class \linkS4class{StQList} from files with key-value pair structure}
 \usage{
+<<<<<<< HEAD
 RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
   Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
   encoding = "unknown")
+||||||| merged common ancestors
+RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
+  Rot = FALSE, includeFI = TRUE, perl = FALSE)
+=======
+RepoFileToStQList(SurveyCode, RepoPath, FileTypes, IniPeriod, FinPeriod,
+  Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
+  encoding = "unknown")
+>>>>>>> d350e16d01a0d428e5289f1be7f1c88cec8114f0
 }
 \arguments{
 \item{SurveyCode}{Character vector of length 1 with the code of each survey.}
@@ -14,7 +23,7 @@ RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
 \item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
 to be read.}
 
-\item{FileType}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
+\item{FileTypes}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
 
 \item{IniPeriod}{Character vector of length 1 with the initial time period to be read (in the 
 repository notation).}
