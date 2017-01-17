@@ -160,7 +160,7 @@ ValidateXLS <- function(ExcelName){
         
         
         difNonIDQual <- setdiff(NonIDQual, Name)
-        if (length(difIDQual) > 0) {
+        if (length(difNonIDQual) > 0) {
             stop(paste0('[RepoReadWrite::validateXLS] The following non-unit qualifiers (NonIDQual) in sheet "', sName, '" are not in the sheet VarSpec: ', 
                         paste0(difNonIDQual, collapse = ', '),
                         '.\n'))
@@ -168,7 +168,7 @@ ValidateXLS <- function(ExcelName){
         
         
         difIDDD <- setdiff(IDDD, Name)
-        if (length(difIDQual) > 0) {
+        if (length(difIDDD) > 0) {
             stop(paste0('[RepoReadWrite::validateXLS] The following variables (IDDD) in sheet "', sName, '" are not in the sheet VarSpec: ', 
                         paste0(difIDDD, collapse = ', '),
                         '.\n')) 
