@@ -22,7 +22,7 @@
 #' @export
 ValidateXLS <- function(ExcelName){
     
-    if (!require(xlsx)) stop('[RepoReadWrite::ValidateXLS] Package xlsx must be installed in the system.\n')
+    if (!requireNamespace('xlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package xlsx must be installed in the system.\n')
     wb <- loadWorkbook(ExcelName)
     SheetNames <- names(getSheets(wb))
     
