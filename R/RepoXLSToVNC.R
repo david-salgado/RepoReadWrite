@@ -42,7 +42,7 @@
 #' @export
 RepoXLSToVNC <- function(ExcelName, SheetNames){
     
-    if (require(xlsx, quietly = TRUE)){
+    if (requireNamespace('xlsx', quietly = TRUE)) {
     
         if (missing(SheetNames)) {
             
