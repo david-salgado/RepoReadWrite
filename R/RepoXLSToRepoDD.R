@@ -21,7 +21,7 @@
 #' @export
 RepoXLSToRepoDD <- function(ExcelName){
     
-    if (require(xlsx, quietly = TRUE)) {
+    if (requireNamespace('xlsx', quietly = TRUE)) {
         
         # Read the contents of the xlsx file 
         StrSplExcelName <- gsub('\\\\', '/', ExcelName)
