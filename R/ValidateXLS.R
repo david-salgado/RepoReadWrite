@@ -215,7 +215,7 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
 
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for name consistency in VarSpec...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for names consistency in VarSpec...)
     IDQualTot <- c()
     NonIDQualTot <- c()
     IDDDTot <- c()
@@ -237,9 +237,11 @@ ValidateXLS <- function(ExcelName){
         stop('[RepoReadWrite::validateXLS] The following variables in Excel sheet "VarSpec" are not in any other valid sheet: ', 
               toString(difName))
     }
+    cat(' ok.\n')
     
     
-    ###### HAY QUE COMPROBRAR EL ORDEN RELATIVO DE LOS CALIFICADORES EN CADA PESTAÑA
+
+        ###### HAY QUE COMPROBRAR EL ORDEN RELATIVO DE LOS CALIFICADORES EN CADA PESTAÑA
     
     cat(paste0('\n[RepoReadWrite::validateXLS] The Excel file ', ExcelName, ' is valid.\n\n'))
     return(TRUE)
