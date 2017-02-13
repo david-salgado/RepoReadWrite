@@ -20,6 +20,9 @@
 #' @param OutPath Character vector of length 1 with the path where files will be written. It
 #'  must not be another txt file of the same periods which are being considered.
 #'  
+#' @param sep Logical vector of length 1 containing the combination of characters used as separator 
+#' in the file (default value ~).
+#'  
 #' @examples
 #' \dontrun{
 #'  StQList <- RepoFileToStQList('Z:/', 'XXXXXX', 'C:/', 'E30183', 'MM112014', 'MM122014', 'FF')
@@ -29,12 +32,19 @@
 #' @import StQ     
 #'                     
 #' @export
-RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
+RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath, sep = '~'){
+    
+    if (length(FileType) != 1){
+        
+        stop('[RepoFiletoTXT] Only one file type is allowed.')
+    }
     
     if (!FileType %in% c('FI', 'FF', 'FD', 'FG')){
         
         stop('[RepoFiletoTXT] Only FI, FF, FG or FD files are allowed.')
     }
+    
+    if (length(sep) != 1) stop('[RepoReadWrite::WriteRepoFile] The input parameter sep must a character vector of length 1.\n')
     
     Data <- getData(StQList)
     Periods <- names(Data)
@@ -58,6 +68,6 @@ RepoFileToTXT <- function(RepoPath, StQList, SurveyCode, FileType, OutPath){
             NewFile <- paste0(OutPath, SurveyCode, '.', FileType, '_matricial.', Periods[Period.index], '.P_', NewVer)
         }
         Ficheros[Period.index] <- NewFile
-        write.table(dcastedStQ, NewFile, sep='~', row.names = FALSE, quote = FALSE, na = '', dec = '.')
+        fwrite(dcastedStQ, NewFile, sep = sep, row.names = FALSE, quote = FALSE, na = '')
     }
 }
