@@ -215,7 +215,7 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
 
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for names consistency in VarSpec...)
+    cat('[RepoReadWrite::ValidateXLS] Checking for names consistency in VarSpec...')
     IDQualTot <- c()
     NonIDQualTot <- c()
     IDDDTot <- c()

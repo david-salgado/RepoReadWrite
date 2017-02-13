@@ -211,10 +211,8 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileTypes, IniPeriod, FinPer
         
         cat('...ok.\n\n')
         
-        
         cat(paste0(SurveyCode, '::: Data have been read successfully.\n\n'))
-        
-        
+
         StQList <- BuildStQList(StQ_Files)
         
         return(StQList)
