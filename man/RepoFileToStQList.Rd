@@ -4,11 +4,7 @@
 \alias{RepoFileToStQList}
 \title{Produce an object of class \linkS4class{StQList} from files with key-value pair structure}
 \usage{
-<<<<<<< HEAD
-RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
-=======
 RepoFileToStQList(SurveyCode, RepoPath, FileTypes, IniPeriod, FinPeriod,
->>>>>>> 3b8826c80b65da078e58ce54758731d55b1e4758
   Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
   encoding = "unknown")
 }
