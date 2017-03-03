@@ -41,7 +41,7 @@
 #' RepoDDToDD(ExampleRepoDD, ExampleVNC)
 #' }
 #' 
-#' @import data.table
+#' @import data.table xlsx
 #'
 #' @export
 RepoDDToDD <- function(FileName, VNC){

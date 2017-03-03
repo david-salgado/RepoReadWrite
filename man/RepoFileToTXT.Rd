@@ -4,7 +4,7 @@
 \alias{RepoFileToTXT}
 \title{Write a key-value pair txt file.}
 \usage{
-RepoFileToTXT(RepoPath, StQList, SurveyCode, FileType, OutPath)
+RepoFileToTXT(RepoPath, StQList, SurveyCode, FileType, OutPath, sep = "~")
 }
 \arguments{
 \item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
@@ -19,6 +19,9 @@ or FD).}
 
 \item{OutPath}{Character vector of length 1 with the path where files will be written. It
 must not be another txt file of the same periods which are being considered.}
+
+\item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
+in the file (default value ~).}
 }
 \description{
 \code{RepoFileToTXT} writes the key-value objects found in the input parameter 
