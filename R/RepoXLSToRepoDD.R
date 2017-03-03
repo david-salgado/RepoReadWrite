@@ -31,11 +31,11 @@ RepoXLSToRepoDD <- function(ExcelName){
         SurveyCode <- StrSplExcelName[1]
         Version <- strsplit(StrSplExcelName[2], split = '[_][Vv]')[[1]][2]
         
-        VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
+        VarSpec <- xlsx::read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
         
         VarSpec <- as.data.table(VarSpec)
-        wb <- loadWorkbook(ExcelName)
-        SheetNames <- names(getSheets(wb))
+        wb <- xlsx::loadWorkbook(ExcelName)
+        SheetNames <- names(xlsx::getSheets(wb))
         SheetNames <- SheetNames[SheetNames != 'VarSpec']
         Data.list <- list()
         for (sheet in SheetNames){

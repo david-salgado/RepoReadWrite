@@ -39,7 +39,7 @@
 #'                     'FF', 'MM022016', 'MM022016')
 #' }
 #'
-#' @include RepoXLSToVNC.R ReadRepoFile.R RepoDDToDD.R ReadRepoFile.R
+#' @include ReadRepoFile.R RepoXLSToDD.R
 #' 
 #' @import data.table RepoTime
 #' 
@@ -112,9 +112,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         
         DD.list <- lapply(unique(Version), function(vers){
           
-          VNC <- RepoXLSToVNC(paste0(RepoPath, SurveyCode, '.NombresVariables_V', vers, '.xlsx'))
-          DDName <- paste0(RepoPath, SurveyCode, '.DD_V', vers)
-          out <- RepoDDToDD(DDName, VNC)
+          out <- RepoXLSToDD(paste0(RepoPath, SurveyCode, '.NombresVariables_V', vers, '.xlsx'))
           return(out)
         })
         names(DD.list) <- unique(Version)

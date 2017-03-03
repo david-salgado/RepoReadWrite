@@ -1,10 +1,10 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.3.5
+Version: 0.3.6
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
-    files of the microdata repository.
+    files of a microdata repository.
 Depends:
     R (>= 3.3.0)
 Imports:
@@ -28,14 +28,14 @@ Collate:
     'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'
+    'RepoFileVersion.R'
     'RepoXLSToVNC.R'
+    'RepoXLSToDD.R'
     'RepoFileToStQList.R'
     'RepoFileToTXT.R'
     'RepoFileTorawStQList.R'
-    'RepoFileVersion.R'
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
-    'RepoXLSToDD.R'
     'RepoXLSToRepoDD.R'
     'ValidateXLS.R'
     'WriteRepoFile.R'

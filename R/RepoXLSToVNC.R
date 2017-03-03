@@ -53,7 +53,13 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         ExcelSheet <- list()
         for (sName in SheetNames) {
     
-            ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
+            ExcelSheet[[sName]] <- try(read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE))
+            if (inherits(ExcelSheet[[sName]], 'try-error')) {
+                
+                warning('\n[RepoReadWrite::RepoXLSToVNC] The package xlsx will be loaded.\n')
+                library(xlsx)
+                ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
+            }
             OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
             ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
             ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
@@ -91,8 +97,8 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
     
     } else {
         
-       warning('[RepoReadWrite::RepoXLSToVNC] Package xlsx not installed.')
-       return(invisible(NULL))
+       stop('[RepoReadWrite::RepoXLSToVNC] Package xlsx not installed.')
+
     }
 }
 
