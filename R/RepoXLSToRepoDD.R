@@ -11,9 +11,10 @@
 #' @examples
 #' # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
 #' # in the working directory (change accordingly otherwise):
+#' 
 #' \dontrun{
-#' RepoDD <- RepoXLSToRepoDD('ExampleXLS')
-#' show(RepoDD)
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' RepoXLSToRepoDD(ExcelName)
 #' }
 #' 
 #' @import data.table xlsx XML

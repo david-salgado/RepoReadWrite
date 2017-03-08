@@ -32,7 +32,7 @@
 #' \dontrun{
 #' # We assume that the xlsx file \code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
 #' # structure is in the administrator desktop (change accordingly otherwise):
-#' ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
 #' VNC <- RepoXLSToVNC(ExcelName)
 #' show(VNC)
 #' }
@@ -88,11 +88,9 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
             }
             return(SheetDT)
         })
-    
-        VNCdts <- lapply(ExcelSheet, new, Class = 'VNCdt')
+
+        VNC <- StQ::BuildVNC(ExcelSheet)
         
-        VNC <- BuildVNC(VNCdts)
-            
         return(VNC)
     
     } else {

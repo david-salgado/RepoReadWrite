@@ -35,8 +35,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#'  RepoFileToStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 
-#'                     'FF', 'MM022016', 'MM022016')
+#'  RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
 #' }
 #'
 #' @include ReadRepoFile.R RepoXLSToDD.R
@@ -144,13 +143,13 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           DDFile <- DD.list[[DDVersion]]
           out <- ReadRepoFile(FileName, DDFile)
               
-          names(out) <- FileNames.local[ThisFileVersion]
+          #names(out) <- FileNames.local[ThisFileVersion]
           output <- list(DataMatrix = out, NoFiles = NoFiles)
           return(output)
             
         })
         cat(' ok;\n')
-        
+
         ## Missing files
         MissPeriod <- unlist(lapply(StQ_Files, '[[', 'NoFiles'))
         FaltanPeriodos <- MonthsNamesM[MissPeriod]
@@ -164,7 +163,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         StQ_Files <-  lapply(StQ_Files, '[[', 'DataMatrix')
         names(StQ_Files) <- MonthsNamesM
         cat('...ok.\n\n')
-        
+
         StQList <- BuildStQList(StQ_Files)
         cat(paste0(SurveyCode, '::: Data have been read successfully into an StQList.\n\n'))
         

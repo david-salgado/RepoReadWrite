@@ -29,8 +29,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#'  RepoFileTorawStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 
-#'                     'FF', 'MM022016', 'MM022016')
+#'  RepoFileTorawStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
 #' }
 #'
 #' @include RepoXLSToDD.R ReadRepoFile.R

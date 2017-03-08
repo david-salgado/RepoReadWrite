@@ -11,8 +11,10 @@
 #' @examples
 #' # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
 #' # in the working directory (change accordingly otherwise):
+#' 
 #' \dontrun{
-#' DD <- RepoXLSToDD('ExampleXLS')
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' DD <- RepoXLSToDD(ExcelName)
 #' show(DD)
 #' }
 #' 

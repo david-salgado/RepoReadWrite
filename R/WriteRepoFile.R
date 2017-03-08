@@ -26,19 +26,21 @@
 #' 
 #' @seealso \code{\link{ReadRepoFile}}
 #' 
+#' @import data.table
+#' 
+#' @importFrom StQ getData StQTorawStQ getPeriods
+#' 
+#' 
 #' @export
 setGeneric("WriteRepoFile", function(object, Name, sep = '@@'){standardGeneric("WriteRepoFile")})
 
+
 #' @rdname WriteRepoFile
-#' 
-#' @import data.table
-#' 
-#' @importFrom StQ DatadtToDT
 #' 
 #' @export
 setMethod(
     f = "WriteRepoFile",
-    signature = c("rawDatadt"),
+    signature = c("rawStQ"),
     function(object, Name, sep = '@@'){
         
         if (length(Name) != 1) {
@@ -50,32 +52,20 @@ setMethod(
         if (length(sep) != 1) stop('[RepoReadWrite::WriteRepoFile] The input parameter sep must a character vector of length 1.\n')
         
         # Este paso es necesario porque la función fwrite no admite separadores compuestos
-        auxDT <- DatadtToDT(object)
+        auxDT <- getData(object)
         colNames <- names(auxDT)
         setDT(auxDT)[, ROW := Reduce(function(...) paste(..., sep = sep), .SD[, mget(colNames)])]
         auxDT[, (setdiff(colNames, 'ROW')) := NULL]
         
         fwrite(auxDT, file = Name, quote = FALSE, na = ' ', row.names = FALSE, col.names = FALSE)
         cat(paste0('\nKey-value pair file written in ', Name), '\n')
-        return(invisible(NULL))
-    }
-)
-#' @rdname WriteRepoFile
-#' 
-#' @export
-setMethod(
-    f = "WriteRepoFile",
-    signature = c("rawStQ"),
-    function(object, Name, sep = '@@'){
         
-        WriteRepoFile(object = getData(object), Name = Name, sep = sep)
+        
         return(invisible(NULL))
         
     }
 )
 #' @rdname WriteRepoFile
-#' 
-#' @importFrom StQ StQTorawStQ
 #' 
 #' @export
 setMethod(
@@ -84,15 +74,13 @@ setMethod(
     function(object, Name, sep = '@@'){
         
         object <- StQTorawStQ(object)
-        WriteRepoFile(object = getData(object), Name = Name, sep = sep)
+        WriteRepoFile(object = object, Name = Name, sep = sep)
         return(invisible(NULL))
         
     }
 )
 
 #' @rdname WriteRepoFile
-#' 
-#' @importFrom StQ getPeriods getData
 #' 
 #' @export
 setMethod(
@@ -110,7 +98,7 @@ setMethod(
             }
             for (i in seq(along = Periods)) {
                 
-                WriteRepoFile(object = getData(object)[[i]], Name = Name[i], sep = sep) 
+                WriteRepoFile(object = object[[i]], Name = Name[i], sep = sep) 
             }
         }
 
@@ -121,8 +109,6 @@ setMethod(
 
 
 #' @rdname WriteRepoFile
-#' 
-#' @importFrom StQ getPeriods getData
 #' 
 #' @export
 setMethod(

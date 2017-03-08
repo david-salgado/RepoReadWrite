@@ -38,8 +38,10 @@ from the input file.
 \dontrun{
 #We assume that the key-value ASCII file \\code{E30183.FF_V1.MM032014.D_1} is in the administrator 
 desktop (change accordingly otherwise): 
-RepoName <- 'C:/Users/Administrador/Desktop/E30183.FF_V1.MM032014.D_1'
-Example.StQ <- ReadRepoFile(RepoName)
+ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+DD <- RepoXLSToDD(ExcelName)
+RepoName <- 'T:/E30163/E30163.FF_V1.MM032014.D_1'
+Example.StQ <- ReadRepoFile(RepoName, DD, perl = TRUE)
 str(Example.StQ)
 }
 
