@@ -36,12 +36,13 @@
 #' @examples
 #' # An example with data created previosly:
 #' \dontrun{
-#' RepoDDFileName <- 'C:/SurveyCode'
-#' data(ExampleVNC)
-#' RepoDDToDD(ExampleRepoDD, ExampleVNC)
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' VNC <- RepoXLSToVNC(ExcelName)
+#' RepoDDFileName <- 'T:/E30163/E30163.DD_V1'
+#' RepoDDToDD(RepoDDFileName, VNC)
 #' }
 #' 
-#' @import data.table
+#' @import data.table XML StQ
 #'
 #' @export
 RepoDDToDD <- function(FileName, VNC){
@@ -117,27 +118,41 @@ RepoDDToDD <- function(FileName, VNC){
     # Si no se especifica DDslot, cada variable se asigna al slot
     # correspondiente a la componente del VNC en el que aparece.
     
-    DD <- new(Class = "DD", VarNameCorresp = VNC)
     VNCnames <- names(VNC)
-    DDnames <- unlist(lapply(VNCnames, function(VNCname){ strsplit(VNCname, '_')[[1]][[1]] }))
+    DDnames <- unique(unlist(lapply(VNCnames, function(VNCname){ strsplit(VNCname, '_')[[1]][[1]] })))
+    
+    VarList_DD <- vector('list', length(DDnames))
+    names(VarList_DD) <- DDnames
 
     for (i in seq(along = VNCnames)) {
         
-        Var <- c(getIDQual(VNC[[VNCnames[i]]]), getIDDD(VNC[[VNCnames[i]]]), getNonIDQual(VNC[[VNCnames[i]]]))
-        Var <- unique(Var[Var != ""])
+        IDQuals <- VNC[[VNCnames[i]]][['IDQual']]
+        IDQuals <- IDQuals[IDQuals != '']
         
+        NonIDQuals <- VNC[[VNCnames[i]]][['NonIDQual']]
+        NonIDQuals <- NonIDQuals[NonIDQuals != '']
+        
+        IDDDs <- VNC[[VNCnames[i]]][['IDDD']]
+        IDDDs <- IDDDs[IDDDs != '']
+        
+        Var <- unique(c(IDQuals, NonIDQuals, IDDDs))
         DDdt <- DDData[Variable %in% Var ]
-        
-        if (dim(slot(DD, DDnames[i]))[1] == 0){
+        localDDname <- strsplit(VNCnames[[i]], '_')[[1]][[1]]
+        if (is.null(VarList_DD[[localDDname]])){
             
-            slot(DD, DDnames[i]) <- new(Class = "DDdt", DDdt)
+            VarList_DD[[localDDname]] <- DDdt
             
         } else {
             
-            slot(DD, DDnames[i]) <- slot(DD, DDnames[i]) + new(Class = "DDdt", DDdt)
+            auxDT <- rbindlist(list(VarList_DD[[localDDname]], DDdt), fill = TRUE)
+            setkeyv(auxDT, names(auxDT))
+            auxDT <- auxDT[!duplicated(auxDT, by = key(auxDT))]
+            VarList_DD[[localDDname]] <- auxDT
         }
             
     }
-    return(DD)
+    DD <- BuildDD(c(list(VNC = VNC), VarList_DD))
+    return(DD)    
+
     
 }
