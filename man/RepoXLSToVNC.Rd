@@ -40,7 +40,7 @@ The column \code{Unit1} specifies the variable names used by production Unit1
 \dontrun{
 # We assume that the xlsx file \\code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
 # structure is in the administrator desktop (change accordingly otherwise):
-ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
+ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
 VNC <- RepoXLSToVNC(ExcelName)
 show(VNC)
 }

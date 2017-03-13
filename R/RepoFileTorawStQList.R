@@ -29,11 +29,10 @@
 #' 
 #' @examples
 #' \dontrun{
-#'  RepoFileTorawStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 
-#'                     'FF', 'MM022016', 'MM022016')
+#'  RepoFileTorawStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
 #' }
 #'
-#' @include RepoXLSToVNC.R ReadRepoFile.R RepoDDToDD.R ReadRepoFile.R
+#' @include RepoXLSToDD.R ReadRepoFile.R
 #' 
 #' @import data.table RepoTime
 #' 
@@ -51,15 +50,10 @@ RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinP
     Months <- Seq(IniRepoTime, FinRepoTime, Rot = Rot)
     MonthsNamesM <- getRepo(Months)
     
-    ## VNC Construction
-    Version <- RepoFileVersion(RepoPath, 'DD')
-    
-    ExcelName <- paste0(RepoPath, SurveyCode, '.NombresVariables_V', Version, '.xlsx')
-    VNC <- RepoXLSToVNC(ExcelName)
-
     ## DD Construction
-    DDName <- paste0(RepoPath, SurveyCode, '.DD_V', Version)
-    DD <- RepoDDToDD(DDName, VNC)
+    Version <- RepoFileVersion(RepoPath, 'DD')
+    ExcelName <- paste0(RepoPath, SurveyCode, '.NombresVariables_V', Version, '.xlsx')
+    DD <- RepoXLSToDD(ExcelName)
 
     #####                 Creación de lista de objetos rawStQ             #####
     rawStQList <- list()

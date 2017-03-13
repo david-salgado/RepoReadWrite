@@ -4,7 +4,7 @@
 \alias{RepoFileToStQList}
 \title{Produce an object of class \linkS4class{StQList} from files with key-value pair structure}
 \usage{
-RepoFileToStQList(SurveyCode, RepoPath, FileTypes, IniPeriod, FinPeriod,
+RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
   Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
   encoding = "unknown")
 }
@@ -14,7 +14,7 @@ RepoFileToStQList(SurveyCode, RepoPath, FileTypes, IniPeriod, FinPeriod,
 \item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
 to be read.}
 
-\item{FileTypes}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
+\item{FileType}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
 
 \item{IniPeriod}{Character vector of length 1 with the initial time period to be read (in the 
 repository notation).}
@@ -46,8 +46,7 @@ with key-value pair structure.
 }
 \examples{
 \dontrun{
- RepoFileToStQList('E30183', 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/DemIRIAaSP_IASS/E30183/', 
-                    'FF', 'MM022016', 'MM022016')
+ RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
 }
 
 }

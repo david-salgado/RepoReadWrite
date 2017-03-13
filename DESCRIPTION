@@ -1,44 +1,43 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.3.4
+Version: 0.4.1
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
-    files of the microdata repository.
+    files of a microdata repository.
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.3.0),
+    xlsx (>= 0.5.7)
 Imports:
     methods,
     haven (>= 0.2.0),
     XML (>= 3.98),
-    xlsx (>= 0.5.7),
     gdata (>= 2.17.0),
     stringi (>= 1.1.2),
     data.table (>= 1.10.0),
+    xlsx (>= 0.5.7),
     StQ (>= 0.3.0),
     RepoTime (>= 0.1.0)
 License: file LICENSE
 Encoding: UTF-8
-LazyData: true
 Collate:
     'ExampleDD.R'
     'ExampleStQ.R'
     'ExampleVNC.R'
-    'FileName-class.R'
     'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'
-    'RepoXLSToVNC.R'
-    'RepoFileToStQList.R'
-    'RepoFileToTXT.R'
-    'RepoFileTorawStQList.R'
     'RepoFileVersion.R'
+    'RepoXLSToVNC.R'
+    'RepoXLSToDD.R'
+    'RepoFileToStQList.R'
+    'RepoFileTorawStQList.R'
     'RepoNextFileVerNumber.R'
     'RepoPeriodRange.R'
-    'RepoXLSToDD.R'
     'RepoXLSToRepoDD.R'
     'ValidateXLS.R'
     'WriteRepoFile.R'
+LazyData: true
 RoxygenNote: 5.0.1
 URL: https://github.com/david-salgado/RepoReadWrite
 BugReports: https://github.com/david-salgado/RepoReadWrite/issues

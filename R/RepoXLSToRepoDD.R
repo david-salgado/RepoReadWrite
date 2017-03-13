@@ -11,9 +11,10 @@
 #' @examples
 #' # We assume that the xlsx file ExampleXLS.NombresVariables.xlsx with the appropriate structure is
 #' # in the working directory (change accordingly otherwise):
+#' 
 #' \dontrun{
-#' RepoDD <- RepoXLSToRepoDD('ExampleXLS')
-#' show(RepoDD)
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' RepoXLSToRepoDD(ExcelName)
 #' }
 #' 
 #' @import data.table xlsx XML
@@ -31,11 +32,11 @@ RepoXLSToRepoDD <- function(ExcelName){
         SurveyCode <- StrSplExcelName[1]
         Version <- strsplit(StrSplExcelName[2], split = '[_][Vv]')[[1]][2]
         
-        VarSpec <- read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
+        VarSpec <- xlsx::read.xlsx2(ExcelName, sheetName = 'VarSpec', stringsAsFactors = FALSE)
         
         VarSpec <- as.data.table(VarSpec)
-        wb <- loadWorkbook(ExcelName)
-        SheetNames <- names(getSheets(wb))
+        wb <- xlsx::loadWorkbook(ExcelName)
+        SheetNames <- names(xlsx::getSheets(wb))
         SheetNames <- SheetNames[SheetNames != 'VarSpec']
         Data.list <- list()
         for (sheet in SheetNames){

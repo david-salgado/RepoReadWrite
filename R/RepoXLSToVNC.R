@@ -32,7 +32,7 @@
 #' \dontrun{
 #' # We assume that the xlsx file \code{ExampleXLS.NombresVariables.xlsx} with the appropriate 
 #' # structure is in the administrator desktop (change accordingly otherwise):
-#' ExcelName <- 'C:/Users/Administrador/Desktop/ExampleXLS.NombresVariables.xlsx'
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
 #' VNC <- RepoXLSToVNC(ExcelName)
 #' show(VNC)
 #' }
@@ -53,7 +53,13 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         ExcelSheet <- list()
         for (sName in SheetNames) {
     
-            ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
+            ExcelSheet[[sName]] <- try(read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE))
+            if (inherits(ExcelSheet[[sName]], 'try-error')) {
+                
+                warning('\n[RepoReadWrite::RepoXLSToVNC] The package xlsx will be loaded.\n')
+                library(xlsx)
+                ExcelSheet[[sName]] <- read.xlsx2(ExcelName, sheetName = sName, stringsAsFactors = FALSE)
+            }
             OrigOrder <- dimnames(ExcelSheet[[sName]])[1][[1]]
             ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])
             ExcelSheet[[sName]][, OrigOrder := as.integer(OrigOrder)]
@@ -82,17 +88,15 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
             }
             return(SheetDT)
         })
-    
-        VNCdts <- lapply(ExcelSheet, new, Class = 'VNCdt')
+
+        VNC <- StQ::BuildVNC(ExcelSheet)
         
-        VNC <- BuildVNC(VNCdts)
-            
         return(VNC)
     
     } else {
         
-       warning('[RepoReadWrite::RepoXLSToVNC] Package xlsx not installed.')
-       return(invisible(NULL))
+       stop('[RepoReadWrite::RepoXLSToVNC] Package xlsx not installed.')
+
     }
 }
 

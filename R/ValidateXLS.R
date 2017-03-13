@@ -11,8 +11,8 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ExcelName <- 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/E30163/E30163.NombresVariables.xlsx'
-#' Validate(ExcelName)
+#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' ValidateXLS(ExcelName)
 #' }
 #' 
 #' @import data.table xlsx

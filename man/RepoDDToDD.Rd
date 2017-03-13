@@ -45,9 +45,10 @@ The column \code{ValueRegExp} contains a regexp with the accepted values for eac
 \examples{
 # An example with data created previosly:
 \dontrun{
-RepoDDFileName <- 'C:/SurveyCode'
-data(ExampleVNC)
-RepoDDToDD(ExampleRepoDD, ExampleVNC)
+ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+VNC <- RepoXLSToVNC(ExcelName)
+RepoDDFileName <- 'T:/E30163/E30163.DD_V1'
+RepoDDToDD(RepoDDFileName, VNC)
 }
 
 }

@@ -17,8 +17,8 @@ This function validate the xls file it will be used to create the XLM file DD.
 }
 \examples{
 \dontrun{
-ExcelName <- 'N:/UDMTD/UDTMDCOM/DepSel.Repositorio/E30163/E30163.NombresVariables.xlsx'
-Validate(ExcelName)
+ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+ValidateXLS(ExcelName)
 }
 
 }

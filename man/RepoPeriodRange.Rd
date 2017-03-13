@@ -27,7 +27,7 @@ up to the last one specified (included).
 }
 \examples{
 \dontrun{
-RepoPeriodRange(Path = 'C:/Repo/E30183', Type = 'FF', Last = 'MM102014')
+RepoPeriodRange(Path = 'T:/E30183', Type = 'FF', Last = 'MM102014')
 }
 
 }
