@@ -150,35 +150,6 @@ ValidateXLS <- function(ExcelName){
         cat(' ok.\n')
     }
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...\n')
-    Qual.list <- list()
-    for (sName in setdiff(SheetNames, 'VarSpec')) {
-        
-        IDQual <- ExcelSheets.list[[sName]][['IDQual']]
-        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
-        
-        NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
-        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
-    
-        Qual.list[[sName]] <- c(IDQual, NonIDQual)
-    }
-    RangeIndices <- setdiff(seq(along = names(Qual.list)), length(Qual.list))
-    for (indexsName in RangeIndices) {
-
-        CurrentQuals <- Qual.list[[indexsName]]
-        for (indexOthersName in (indexsName + 1):(length(Qual.list))) {
-            OtherQuals <- Qual.list[[indexOthersName]]
-            localCurrentQual <- CurrentQuals[CurrentQuals %in% OtherQuals]
-            localOtherQuals <- OtherQuals[OtherQuals %in% CurrentQuals]
-
-            if (!all(localCurrentQual == localOtherQuals)) {
-                
-                stop(paste0('[[RepoReadWrite::ValidateXLS] The order of qualifiers in sheet ', names(Qual.list)[indexsName], ' and ', names(Qual.list)[indexOthersName], ' is not consistent.'))
-            }
-        }
-    }
-    cat(' ok.\n')
-    
     cat('\n[RepoReadWrite::ValidateXLS] Checking for qualifier columns in sheet according to columns IDQual and NonIDQual ...\n')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
@@ -242,7 +213,7 @@ ValidateXLS <- function(ExcelName){
         cat(' ok.\n')
     }    
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for qualifier length consistency between VarSpec and the rest of sheets...')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for qualifier length consistency between VarSpec and the rest of sheet...')
     QualLength <- data.table(Qual = character(0), Length = character(0))
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
@@ -277,6 +248,35 @@ ValidateXLS <- function(ExcelName){
                     paste0(InconsistLength, collapse = ', '), 
                     '.\n'))
         
+    }
+    cat(' ok.\n')
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...\n')
+    Qual.list <- list()
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        IDQual <- ExcelSheets.list[[sName]][['IDQual']]
+        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+        
+        NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
+        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+        
+        Qual.list[[sName]] <- c(IDQual, NonIDQual)
+    }
+    RangeIndices <- setdiff(seq(along = names(Qual.list)), length(Qual.list))
+    for (indexsName in RangeIndices) {
+        
+        CurrentQuals <- Qual.list[[indexsName]]
+        for (indexOthersName in (indexsName + 1):(length(Qual.list))) {
+            OtherQuals <- Qual.list[[indexOthersName]]
+            localCurrentQual <- CurrentQuals[CurrentQuals %in% OtherQuals]
+            localOtherQuals <- OtherQuals[OtherQuals %in% CurrentQuals]
+            
+            if (!all(localCurrentQual == localOtherQuals)) {
+                
+                stop(paste0('[[RepoReadWrite::ValidateXLS] The order of qualifiers in sheet ', names(Qual.list)[indexsName], ' and ', names(Qual.list)[indexOthersName], ' is not consistent.'))
+            }
+        }
     }
     cat(' ok.\n')
     
@@ -343,6 +343,26 @@ ValidateXLS <- function(ExcelName){
         if (length(WrongUnitNames) != 0) {
             
             stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed: ', paste0(WrongUnitNames, collapse = ', '), '.'))
+            
+        }
+    }
+    cat(' ok.\n')
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicates in IDDD + Qualifiers ...')
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        sheet <- ExcelSheets.list[[sName]]
+        
+        IDQual <- sheet[['IDQual']]
+        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+        
+        NonIDQual <- sheet[['NonIDQual']]
+        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+        
+        DTdup <- sheet[duplicated(sheet, by = c('IDDD', IDQual, NonIDQual))]
+        if (dim(DTdup)[1] != 0) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The following keys in sheet ', sName, ' are duplicated: ', DTdup))
             
         }
     }
