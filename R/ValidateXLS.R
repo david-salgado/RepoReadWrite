@@ -285,7 +285,8 @@ ValidateXLS <- function(ExcelName){
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
-        if (!'TipoMicrodato' %in% names(sheet)) {
+        NamesSheet <- unlist(lapply(names(sheet), function(names) {strsplit(names, '_')[[1]][1]}))
+        if (!'TipoMicrodato' %in% NamesSheet) {
             
             stop(paste0('[RepoReadWrite::validateXLS] Qualifier "TipoMicrodato" is missing in sheet ', sName, '.'))
             
@@ -341,6 +342,7 @@ ValidateXLS <- function(ExcelName){
         DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
         MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
         WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
+
         if (length(WrongUnitNames) != 0) {
             
             stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed: ', paste0(WrongUnitNames, collapse = ', '), '.'))
@@ -354,17 +356,23 @@ ValidateXLS <- function(ExcelName){
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
+        NamesSheet <- unlist(lapply(names(sheet), function(names) {strsplit(names, '_')[[1]][1]}))
+        setnames(sheet, names(sheet), NamesSheet)
         
         IDQual <- sheet[['IDQual']]
         IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
         
         NonIDQual <- sheet[['NonIDQual']]
         NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+   
+        sheet <- sheet[!(IDQual != '' | NonIDQual != '')]
         
-        DTdup <- sheet[duplicated(sheet, by = c('IDDD', IDQual, NonIDQual))]
+        byKey <- c('IDDD', IDQual, NonIDQual)
+        DTdup <- sheet[duplicated(sheet, by = byKey)]
+
         if (dim(DTdup)[1] != 0) {
             
-            stop(paste0('[RepoReadWrite::validateXLS] The following keys in sheet ', sName, ' are duplicated: ', DTdup))
+            stop(paste0('[RepoReadWrite::validateXLS] The following keys in sheet ', sName, ' are duplicated: ', DTdup, '\n\n'))
             
         }
     }
