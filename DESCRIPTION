@@ -15,7 +15,6 @@ Imports:
     gdata (>= 2.17.0),
     stringi (>= 1.1.2),
     data.table (>= 1.10.0),
-    xlsx (>= 0.5.7),
     StQ (>= 0.3.0),
     RepoTime (>= 0.2.0)
 License: file LICENSE
