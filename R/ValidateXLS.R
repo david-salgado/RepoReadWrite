@@ -228,6 +228,7 @@ ValidateXLS <- function(ExcelName){
             
         }
         AuxExcel <- ExcelSheets.list[[sName]][IDDD != '', localNonIDQual, with = F]
+        if (dim(AuxExcel)[1] == 0) next
         AuxExcel[is.na(AuxExcel)] <- ''
         auxLength <- apply(AuxExcel, 1 , FUN = nchar)
         auxLength <- apply(auxLength, 1, FUN = max)
@@ -338,6 +339,7 @@ ValidateXLS <- function(ExcelName){
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
+        if (dim(sheet)[1] == 0) next
         DoubleDot <- as.logical(rowSums(as.matrix(sheet == '..')))
         DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
         MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
