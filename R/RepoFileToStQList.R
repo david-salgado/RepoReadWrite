@@ -52,9 +52,9 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           
         }
   
-        if (!FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP')) {
+        if (!FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP', 'FL', 'FT')) {
             
-            stop('[StQ::RepoFileToStQList] Only FI, FF, FG , FD or FP files are allowed.')
+            stop('[StQ::RepoFileToStQList] Only FI, FF, FG , FD, FP, FL or FT files are allowed.')
         }
         
         ## Validation
@@ -70,12 +70,12 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         if (inherits(FinPeriod.RepoTime, 'try-error')) stop(paste0(SurveyCode, '::: The final time period does not have a valid format. Please, introduce a valid period.\n\n'))
         cat(paste0(SurveyCode, '::: The final time period is ', FinPeriod, '.\n\n'))
         
-        if (substr(FileType, 1, 1) %in% c("'", '"')) FileType <- substr(FileType, 2, nchar(FileType) - 1)
-        FileType <- gsub('~', ' ', FileType)
-        FileType <- strsplit(FileType, split = ',')[[1]]
-        FileType <- stringi::stri_trim_both(FileType)
-        if (!all(FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP', 'FL', 'FT'))) stop(paste0(SurveyCode, '::: The types of the files to read must be FF, FD, FG, FI, FP, FL or FT. Please, introduce a valid type.\n\n'))
-        cat(paste0(SurveyCode, '::: The types of the files to read are ', paste0(FileType, collapse = ', '), '.\n\n'))
+        # if (substr(FileType, 1, 1) %in% c("'", '"')) FileType <- substr(FileType, 2, nchar(FileType) - 1)
+        # FileType <- gsub('~', ' ', FileType)
+        # FileType <- strsplit(FileType, split = ',')[[1]]
+        # FileType <- stringi::stri_trim_both(FileType)
+        # if (!all(FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP', 'FL', 'FT'))) stop(paste0(SurveyCode, '::: The types of the files to read must be FF, FD, FG, FI, FP, FL or FT. Please, introduce a valid type.\n\n'))
+        # cat(paste0(SurveyCode, '::: The types of the files to read are ', paste0(FileType, collapse = ', '), '.\n\n'))
         
         if (Rot != 'TRUE' & Rot != 'FALSE') stop(paste0(SurveyCode, '::: The parameter Rot must be TRUE or FALSE.\n\n'))
         
@@ -128,15 +128,22 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           FileNames.local <- FileNames.local[grep(MonthsNamesM[Month.index], FileNames.local)]
           if (length(FileNames.local) == 0) NoFiles <- TRUE
  
-          FileVersions <- lapply(FileNames.local, function(Name){
+          if (FileType %in% c('FL', 'FT')){
             
-            if (FileType == 'FF') out <- strsplit(Name, 'D_')[[1]][2]
-            if (FileType %in% c('FD', 'FG', 'FI', 'FP')) out <- strsplit(Name, 'P_')[[1]][2]
-            return(out)
-          })
+            FileName <- FileNames.local
+          } else {
+            
+            FileVersions <- lapply(FileNames.local, function(Name){
+              
+              if (FileType == 'FF') out <- strsplit(Name, 'D_')[[1]][2]
+              if (FileType %in% c('FD', 'FG', 'FI', 'FP')) out <- strsplit(Name, 'P_')[[1]][2]
+              return(out)
+            })
+            
+            ThisFileVersion <- which.max(FileVersions) 
+            FileName <- FileNames.local[ThisFileVersion]
+          }
 
-          ThisFileVersion <- which.max(FileVersions) 
-          FileName <- FileNames.local[ThisFileVersion]
           DDVersion <- strsplit(strsplit(FileName, '.', fixed = TRUE)[[1]][2], '_V')[[1]][2]
           cat(paste0('     file ', FileName, '...ok\n'))
           FileName <- paste0(RepoPath, FileName)

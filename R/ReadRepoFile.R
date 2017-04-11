@@ -96,6 +96,7 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
     cat('\n Building rawStQ object...')
     rawDatadt <- File
     output <- rawStQ(rawData = rawDatadt, DD = DD)
+
     cat(' ok.\n')
     if (out == 'StQ'){
         
