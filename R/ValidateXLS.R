@@ -110,7 +110,7 @@ ValidateXLS <- function(ExcelName){
         stop('[RepoReadWrite::validateXLS] The following variables in Excel sheet "VarSpec" are not in any other valid sheet: ', 
              toString(difName))
     }
-    
+    cat(' ok.\n')
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for correct syntax of column "IDDD" in each sheet...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
