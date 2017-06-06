@@ -89,7 +89,6 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         MonthsNamesM <- getRepo(Months)
         cat(' ok.\n\n')
         
-        
         ## Files names Construction
         FileNames <- lapply(seq(along = MonthsNamesM), function(Month.index){
           
@@ -100,7 +99,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         })
         FileNames <- unlist(FileNames)
         
-        
+
         ## DD Construction
         cat(paste0(SurveyCode, '::: Generating DDs for the survey... '))
         Version <- unlist(lapply(FileNames, function(Name){
@@ -127,16 +126,17 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           FileNames.local <- FileNames[grep(FileType, FileNames)]
           FileNames.local <- FileNames.local[grep(MonthsNamesM[Month.index], FileNames.local)]
           if (length(FileNames.local) == 0) NoFiles <- TRUE
- 
+
           FileVersions <- lapply(FileNames.local, function(Name){
             
-            if (FileType == 'FF') out <- strsplit(Name, 'D_')[[1]][2]
-            if (FileType %in% c('FD', 'FG', 'FI', 'FP')) out <- strsplit(Name, 'P_')[[1]][2]
+            if (FileType == 'FF') out <- strsplit(Name, '.D_', fixed = TRUE)[[1]][2]
+            if (FileType %in% c('FD', 'FG', 'FI', 'FP')) out <- strsplit(Name, '.P_', fixed = TRUE)[[1]][2]
             return(out)
           })
 
           ThisFileVersion <- which.max(FileVersions) 
           FileName <- FileNames.local[ThisFileVersion]
+
           DDVersion <- strsplit(strsplit(FileName, '.', fixed = TRUE)[[1]][2], '_V')[[1]][2]
           cat(paste0('     file ', FileName, '...ok\n'))
           FileName <- paste0(RepoPath, FileName)
@@ -148,6 +148,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           return(output)
             
         })
+
         cat(' ok;\n')
 
         ## Missing files
