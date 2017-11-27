@@ -11,7 +11,7 @@
 #' @param Name Character vectorof length 1 specifying the name of the output file. The file will be 
 #' written in the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param sep Logical vector of length 1 containing the combination of characters used as separator 
+#' @param sep Character vector of length 1 containing the combination of characters used as separator 
 #' in the file (default value @@).
 #' 
 #' @return These methods return the invisible \code{\link{NULL}} object writing as a side-effect the 

@@ -40,9 +40,9 @@
 RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Rot = FALSE, 
                               includeFI = TRUE, perl = FALSE){
     
-    if (!FileType %in% c('FF', 'FD', 'FG')){
+    if (!FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP')){
         
-        stop('[StQ::RepoFileToStQList] Only FI, FF, FG or FD files are allowed.')
+        stop('[StQ::RepoFileTorawStQList] Only FI, FP, FF, FG or FD files are allowed.')
     }
     
     IniRepoTime <- newRepoTime(IniPeriod)
