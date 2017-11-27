@@ -94,7 +94,9 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           
           out <- c()
           FileNames.local <- list.files(RepoPath, paste0(FileType, '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
-          if (length(FileNames.local) != 0) out <- c(out, FileNames.local)
+          #if (length(FileNames.local) != 0) out <- c(out, FileNames.local)
+          if (length(FileNames.local) == 0) stop(paste0(SurveyCode, '::: Files ', FileType, ' for the period ', MonthsNamesM[Month.index], ' are missing.\n\n'))
+          out <- c(out, FileNames.local)
           return(out) 
         })
         FileNames <- unlist(FileNames)
