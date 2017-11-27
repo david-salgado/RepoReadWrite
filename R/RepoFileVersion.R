@@ -6,7 +6,7 @@
 #' This function searches in the input directory \code{Path} the last version of the input file name 
 #' \code{FileNamePattern} and returns the corresponding index number of such version.
 #' 
-#' This function is thought for files whose names has a suffix the version corresponding to its 
+#' This function is thought for files whose names has a suffix with the version corresponding to its 
 #' contents (either definitive or partial version).
 #'
 #' @param Path Character vector of length 1 with the path of the search directory.

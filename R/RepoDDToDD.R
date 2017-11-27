@@ -1,16 +1,16 @@
-#' @title Produce an object of class \linkS4class{DD} from a DD file 
+#' @title Produce an object of class \link{DD} from a DD file 
 #' 
-#' @description This function is a constructor for the class \linkS4class{DD} using the contents of 
+#' @description This function is a constructor for the class \link{DD} using the contents of 
 #' the input DD file name (an xml file).
 #' 
 #' \code{RepoDDToDD} reads xml files with the definition and properties of every variable (a DD 
-#' file) and transforms this content into an object of class \linkS4class{DD}. 
+#' file) and transforms this content into an object of class \link{DD}. 
 #' 
 #' This function internally builds a \linkS4class{data.table} with columns \code{Variable}, 
 #' \code{Sort}, \code{Class}, \code{Qual1} to \code{Qual}\emph{q} and \code{ValueRegExp}.
 #'  
 #' The column \code{Variable} contains the names of all variables, both questionnaire variables and 
-#' metadata. This internal \linkS4class{data.table} is then used to initialize a \linkS4class{DD} 
+#' metadata. This internal \linkS4class{data.table} is then used to initialize a \link{DD} 
 #' object.
 #' 
 #' The column \code{Sort} takes values \code{'IDQual'}, \code{'NonIDQual'} or \code{'IDDD'}, for 
