@@ -1,16 +1,16 @@
-#' @title Produce an object of class \linkS4class{VarNameCorresp} from an xls file
+#' @title Produce an object of class \link{VarNameCorresp} from an xls file
 #' 
-#' @description This function is a constructor for the class \linkS4class{VarNameCorresp} using the 
+#' @description This function is a constructor for the class \link{VarNameCorresp} using the 
 #' contents of a xls file.
 #' 
 #' \code{RepoXLSToVNC} transforms the content of a xls file into an object of class 
-#' \linkS4class{VarNameCorresp}. 
+#' \link{VarNameCorresp}. 
 #' 
-#' This function internally builds a \linkS4class{list} whose components are 
+#' This function internally builds a \link{list} whose components are 
 #' \linkS4class{data.table} with a row per each variable and with the columns: \code{IDQual}, 
 #' \code{NonIDQual}, \code{IDDD} and \code{Unit1}. 
 #' These internal \linkS4class{data.table} are then used to initialize a 
-#' \linkS4class{VarNameCorresp} object.
+#' \link{VarNameCorresp} object.
 #' 
 #' The column \code{IDQual} contains the names of unit qualifiers.
 #' 
@@ -26,7 +26,7 @@
 #' 
 #' @param SheetNames Character vector with the names of the sheets in the file to read.
 #' 
-#' @return Object of class \linkS4class{VarNameCorresp}.
+#' @return Object of class \link{VarNameCorresp}.
 #' 
 #' @examples
 #' \dontrun{

@@ -1,27 +1,27 @@
 #' @title Read a file with a key-value pair structure
 #' 
-#' @description \code{ReadRepoFile} returns an \linkS4class{StQ} (default) or a \linkS4class{rawStQ}
+#' @description \code{ReadRepoFile} returns an \link{StQ} (default) or a \link{rawStQ}
 #'  object with the content of the file corresponding to the input name.
 #' 
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param DD Object of class \linkS4class{DD} with the definition and characteristics of the data 
+#' @param DD Object of class \linkS{DD} with the definition and characteristics of the data 
 #' contained in the file to read.
 #' 
-#' @param out Character vector of length 1 indicating whether to output an \linkS4class{StQ} object
-#' (\code{out} = 'StQ'; default) or a \linkS4class{rawStQ} object (\code{out} = 'rawStQ').
+#' @param out Character vector of length 1 indicating whether to output an \link{StQ} object
+#' (\code{out} = 'StQ'; default) or a \link{rawStQ} object (\code{out} = 'rawStQ').
 #' 
 #' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
 #' 
-#' @param sep Logical vector of length 1 containing the combination of characters used as separator 
+#' @param sep Character vector of length 1 containing the combination of characters used as separator 
 #' in the input file (default value @@).
 #' 
-#' @param encoding Default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
+#' @param encoding Character vector of length 1 with default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
 #' Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
 #' native encoding.
 #' 
-#' @return Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
+#' @return Return an object of class \link{StQ} or class \link{rawStQ} with all data 
 #' from the input file.
 #' 
 #' @examples
