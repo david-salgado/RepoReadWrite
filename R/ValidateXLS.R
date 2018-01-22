@@ -113,14 +113,18 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for correct syntax of column "IDDD" in each sheet...')
+    specialchar <- c('_', 'á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', 'ç')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         IDDD <- ExcelSheets.list[[sName]][['IDDD']]
-        IDDDwUnderscore <- IDDD[grepl('_', IDDD)]
-        if (length(IDDDwUnderscore) != 0) {
+        IDDDwUnderscore <- unique(unlist(lapply(specialchar, function(char){
             
+            return(IDDD[grepl(char, IDDD)])
+        })))
+        if (length(IDDDwUnderscore) != 0) {
+
             stop(paste0('[RepoReadWrite::validateXLS] The following variable identifiers (IDDD) in sheet ', sName, ' are not valid: ', paste0(IDDDwUnderscore, collapse = ', ')))
-        }      
+        }
     }
     cat(' ok.\n')
     
