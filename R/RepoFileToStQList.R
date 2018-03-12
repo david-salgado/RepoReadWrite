@@ -163,7 +163,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           cat(paste0('     file ', FileName, '...ok\n'))
           FileName <- paste0(RepoPath, FileName)
           DDFile <- DD.list[[DDVersion]]
-          out <- ReadRepoFile(FileName, DDFile, perl, sep, encoding)
+          out <- ReadRepoFile(FileName, DDFile, perl = perl, sep = sep, encoding = encoding)
            
           #names(out) <- FileNames.local[ThisFileVersion]
           output <- list(DataMatrix = out, NoFiles = NoFiles)
