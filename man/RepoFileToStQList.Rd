@@ -23,8 +23,8 @@ repository notation).}
 \item{FinPeriod}{Character vector of length 1 with the final time period to be read (in the 
 repository notation).}
 
-\item{Base}{Character vector of length 1 with the year of the base to which data are referred. If
-it has no sense, "Base" is a empty character vector.}
+\item{Base}{Character vector of length 1 with the year ('aaaa') of the base to which data are
+referred. If it has no sense, "Base" is a empty character vector.}
 
 \item{Rot}{Logical vector of length 1 indicating whether rotated sample files are to be included 
 (default value FALSE).}
@@ -50,7 +50,7 @@ with key-value pair structure.
 }
 \examples{
 \dontrun{
- RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
+ RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', '', perl = TRUE)
 }
 
 }

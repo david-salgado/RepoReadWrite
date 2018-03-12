@@ -11,8 +11,8 @@
 #' @param FinPeriod Character vector of length 1 with the final time period to be read (in the 
 #' repository notation).
 #' 
-#' @param Base Character vector of length 1 with the year of the base to which data are referred. If
-#' it has no sense, "Base" is a empty character vector.
+#' @param Base Character vector of length 1 with the year ('aaaa') of the base to which data are
+#' referred. If it has no sense, "Base" is a empty character vector.
 #' 
 #' @param FileType Character vector of length 1 with the type of the file to be read (FI, FP, FF, FG
 #' FD, FL or FT).
@@ -39,7 +39,7 @@
 #' 
 #' @examples
 #' \dontrun{
-#'  RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', perl = TRUE)
+#'  RepoFileToStQList('E30163', 'T:/E30163/', 'FF', 'MM022016', 'MM032016', '', perl = TRUE)
 #' }
 #'
 #' @include ReadRepoFile.R RepoXLSToDD.R
@@ -51,6 +51,8 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
                               Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = '@@',
                               encoding = 'unknown'){
         
+        ## Validation
+    
         if (length(FileType) != 1) {
           
           stop('[StQ::RepoFileToStQList] Only one FileType at a time is allowed.')
@@ -61,8 +63,6 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
             
             stop('[StQ::RepoFileToStQList] Only FI, FF, FG , FD, FP, FL or FT files are allowed.')
         }
-        
-        ## Validation
   
         if (gregexpr('E[0-9]{5}', SurveyCode) == -1) stop('The survey code must of the form Ennnnn. Please, introduce a valid code.\n\n')
         cat(paste0(SurveyCode, '::: The survey code is ', SurveyCode, '.\n\n'))
@@ -81,6 +81,8 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         # FileType <- stringi::stri_trim_both(FileType)
         # if (!all(FileType %in% c('FF', 'FD', 'FG', 'FI', 'FP', 'FL', 'FT'))) stop(paste0(SurveyCode, '::: The types of the files to read must be FF, FD, FG, FI, FP, FL or FT. Please, introduce a valid type.\n\n'))
         # cat(paste0(SurveyCode, '::: The types of the files to read are ', paste0(FileType, collapse = ', '), '.\n\n'))
+        
+        if (gregexpr('2[0-9]{3}', Base) == -1 & Base != '') stop('The year for the parameter Base is not correct. Please, introduce a valid year.\n\n')
         
         if (Rot != 'TRUE' & Rot != 'FALSE') stop(paste0(SurveyCode, '::: The parameter Rot must be TRUE or FALSE.\n\n'))
         
@@ -105,7 +107,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
             
             FileNames.local <- list.files(RepoPath, paste0(FileType, '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
           }
-          #if (length(FileNames.local) != 0) out <- c(out, FileNames.local)
+
           if (length(FileNames.local) == 0) stop(paste0(SurveyCode, '::: Files ', FileType, ' for the period ', MonthsNamesM[Month.index], ' are missing.\n\n'))
           out <- c(out, FileNames.local)
           return(out) 
@@ -161,7 +163,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           cat(paste0('     file ', FileName, '...ok\n'))
           FileName <- paste0(RepoPath, FileName)
           DDFile <- DD.list[[DDVersion]]
-          out <- ReadRepoFile(FileName, DDFile)
+          out <- ReadRepoFile(FileName, DDFile, perl, sep, encoding)
            
           #names(out) <- FileNames.local[ThisFileVersion]
           output <- list(DataMatrix = out, NoFiles = NoFiles)
