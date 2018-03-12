@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoXLSToVNC.R
 \name{RepoXLSToVNC}
 \alias{RepoXLSToVNC}
-\title{Produce an object of class \linkS4class{VarNameCorresp} from an xls file}
+\title{Produce an object of class \link{VarNameCorresp} from an xls file}
 \usage{
 RepoXLSToVNC(ExcelName, SheetNames)
 }
@@ -13,20 +13,20 @@ read from the working directory (see \link[base]{getwd}) unless the full path is
 \item{SheetNames}{Character vector with the names of the sheets in the file to read.}
 }
 \value{
-Object of class \linkS4class{VarNameCorresp}.
+Object of class \link{VarNameCorresp}.
 }
 \description{
-This function is a constructor for the class \linkS4class{VarNameCorresp} using the 
+This function is a constructor for the class \link{VarNameCorresp} using the 
 contents of a xls file.
 
 \code{RepoXLSToVNC} transforms the content of a xls file into an object of class 
-\linkS4class{VarNameCorresp}. 
+\link{VarNameCorresp}. 
 
-This function internally builds a \linkS4class{list} whose components are 
+This function internally builds a \link{list} whose components are 
 \linkS4class{data.table} with a row per each variable and with the columns: \code{IDQual}, 
 \code{NonIDQual}, \code{IDDD} and \code{Unit1}. 
 These internal \linkS4class{data.table} are then used to initialize a 
-\linkS4class{VarNameCorresp} object.
+\link{VarNameCorresp} object.
 
 The column \code{IDQual} contains the names of unit qualifiers.
 
@@ -46,4 +46,3 @@ show(VNC)
 }
 
 }
-

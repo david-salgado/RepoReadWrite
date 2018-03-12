@@ -11,6 +11,9 @@
 #' @param FinPeriod Character vector of length 1 with the final time period to be read (in the 
 #' repository notation).
 #' 
+#' @param Base Character vector of length 1 with the year of the base to which data are referred. If
+#' it has no sense, "Base" is a empty character vector.
+#' 
 #' @param FileType Character vector of length 1 with the type of the file to be read (FI, FP, FF, FG
 #' FD, FL or FT).
 #' 
@@ -44,8 +47,9 @@
 #' @import data.table RepoTime
 #' 
 #' @export
-RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Rot = FALSE, 
-                              includeFI = TRUE, perl = FALSE, sep = '@@', encoding = 'unknown'){
+RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Base,  
+                              Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = '@@',
+                              encoding = 'unknown'){
         
         if (length(FileType) != 1) {
           
@@ -94,7 +98,13 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         FileNames <- lapply(seq(along = MonthsNamesM), function(Month.index){
           
           out <- c()
-          FileNames.local <- list.files(RepoPath, paste0(FileType, '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
+          if (FileType == 'FF' & Base != '') {
+            
+            FileNames.local <- list.files(RepoPath, paste0(FileType, '_B', substr(Base, 3, 4), '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
+          } else {
+            
+            FileNames.local <- list.files(RepoPath, paste0(FileType, '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
+          }
           #if (length(FileNames.local) != 0) out <- c(out, FileNames.local)
           if (length(FileNames.local) == 0) stop(paste0(SurveyCode, '::: Files ', FileType, ' for the period ', MonthsNamesM[Month.index], ' are missing.\n\n'))
           out <- c(out, FileNames.local)

@@ -23,7 +23,7 @@ input directory.
 This function searches in the input directory \code{Path} the last version of the input file name 
 \code{FileNamePattern} and returns the corresponding index number of such version.
 
-This function is thought for files whose names has a suffix the version corresponding to its 
+This function is thought for files whose names has a suffix with the version corresponding to its 
 contents (either definitive or partial version).
 }
 \examples{
@@ -34,4 +34,3 @@ RepoFileVersion('T:/E30183', 'FT_V1.MM122016')
 }
 
 }
-

@@ -3,9 +3,9 @@
 \docType{methods}
 \name{WriteRepoFile}
 \alias{WriteRepoFile}
+\alias{WriteRepoFile,rawStQ-method}
 \alias{WriteRepoFile,StQ-method}
 \alias{WriteRepoFile,StQList-method}
-\alias{WriteRepoFile,rawStQ-method}
 \alias{WriteRepoFile,rawStQList-method}
 \title{Write a key-value pair ASCII file}
 \usage{
@@ -25,7 +25,7 @@ WriteRepoFile(object, Name, sep = "@@")
 \item{Name}{Character vectorof length 1 specifying the name of the output file. The file will be 
 written in the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{sep}{Logical vector of length 1 containing the combination of characters used as separator 
+\item{sep}{Character vector of length 1 containing the combination of characters used as separator 
 in the file (default value @).}
 }
 \value{
@@ -50,4 +50,3 @@ WriteRepoFile(ExampleStQ, Name)
 \seealso{
 \code{\link{ReadRepoFile}}
 }
-

@@ -2,9 +2,9 @@
 % Please edit documentation in R/RepoFileToStQList.R
 \name{RepoFileToStQList}
 \alias{RepoFileToStQList}
-\title{Produce an object of class \linkS4class{StQList} from files with key-value pair structure}
+\title{Produce an object of class \link{StQList} from files with key-value pair structure}
 \usage{
-RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
+RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Base,
   Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
   encoding = "unknown")
 }
@@ -14,7 +14,8 @@ RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
 \item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
 to be read.}
 
-\item{FileType}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
+\item{FileType}{Character vector of length 1 with the type of the file to be read (FI, FP, FF, FG
+FD, FL or FT).}
 
 \item{IniPeriod}{Character vector of length 1 with the initial time period to be read (in the 
 repository notation).}
@@ -22,11 +23,14 @@ repository notation).}
 \item{FinPeriod}{Character vector of length 1 with the final time period to be read (in the 
 repository notation).}
 
+\item{Base}{Character vector of length 1 with the year of the base to which data are referred. If
+it has no sense, "Base" is a empty character vector.}
+
 \item{Rot}{Logical vector of length 1 indicating whether rotated sample files are to be included 
 (default value FALSE).}
 
 \item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
-the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.}
+the  slot of class \link{VarNameCorresp} of the \link{DD} object.}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 
@@ -38,10 +42,10 @@ Note: it is not used to re-encode the input, rather enables handling of encoded 
 native encoding.}
 }
 \value{
-Object of class \linkS4class{StQList}.
+Object of class \link{StQList}.
 }
 \description{
-\code{RepoFileToStQList} returns an object of class \linkS4class{StQList} from files
+\code{RepoFileToStQList} returns an object of class \link{StQList} from files
 with key-value pair structure.
 }
 \examples{
@@ -50,4 +54,3 @@ with key-value pair structure.
 }
 
 }
-

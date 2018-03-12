@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoFileTorawStQList.R
 \name{RepoFileTorawStQList}
 \alias{RepoFileTorawStQList}
-\title{Produce an object of class \linkS4class{rawStQList} from files with key-value pair 
+\title{Produce an object of class \link{rawStQList} from files with key-value pair 
 structure}
 \usage{
 RepoFileTorawStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
@@ -14,7 +14,8 @@ RepoFileTorawStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
 \item{RepoPath}{Character vector of length 1 with the path of the repository from which files are
 to be read.}
 
-\item{FileType}{Character vector of length 1 with the type of the file to be read (FF, FG or FD).}
+\item{FileType}{Character vector of length 1 with the type of the file to be read (FI, FP, FF, FG
+or FD).}
 
 \item{IniPeriod}{Character vector of length 1 with the initial time period to be read (in the 
 repository notation).}
@@ -26,15 +27,15 @@ repository notation).}
 (default value FALSE).}
 
 \item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
-the  slot of class \linkS4class{VarNameCorresp} of the \linkS4class{DD} object.}
+the  slot of class \link{VarNameCorresp} of the \link{DD} object.}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 }
 \value{
-Object of class \linkS4class{rawStQList}.
+Object of class \link{rawStQList}.
 }
 \description{
-\code{RepoFileTorawStQList} returns an object of class \linkS4class{rawStQList} from
+\code{RepoFileTorawStQList} returns an object of class \link{rawStQList} from
 files with the structure key-value pair.
 }
 \examples{
@@ -43,4 +44,3 @@ files with the structure key-value pair.
 }
 
 }
-

@@ -35,4 +35,3 @@ str(Example.kv)
 \seealso{
 \code{\link{WriteRepoFile}}
 }
-
