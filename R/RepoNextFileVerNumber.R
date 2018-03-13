@@ -12,39 +12,49 @@
 #' @param Path Character vector with the path of the search directory.
 #' 
 #' @param FileType Character vector with the sort (FF, FD, FG, DD, ...) of the files.
+#' 
+#' @param Base Character vector of length 1 with the year ('aaaa') of the base to which data are
+#' referred. If it has no sense, "Base" is a empty character vector.
 #'  
 #' @return It returns a character vector of length equal to the length of \code{Periods} with the 
 #' next version of each input file name.
 #'
 #' @examples
 #' \dontrun{
-#' RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF')
+#' RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF', '2015')
 #' }
 #' 
 #' @export
-RepoNextFileVerNumber <- function(Periods, Path, FileType){
+RepoNextFileVerNumber <- function(Periods, Path, FileType, Base){
   
-  if (length(FileType) != 1) stop('\n[RepoReadWrite::RepoFileVersion] The input parameter FileType must be a character vector of length 1.\n')
-  if (!FileType %in% c('FF', 'FD', 'FG', 'FA', 'FI', 'FP', 'FT', 'FL')) stop('\n[RepoReadWrite::RepoFileVersion] The allowed file types are FF, FD, FG, FA, FI, FP, FT, FL.\n')
+  Periods.RepoTime <- try(newRepoTime(Periods))
+  if (inherits(Periods.RepoTime, 'try-error')) stop('[RepoReadWrite::RepoNextFileVerNumber] The time period does not have a valid format. Please, introduce a valid period.\n\n')
+  
+  if (gregexpr('2[0-9]{3}', Base) == -1 & Base != '') stop('[RepoReadWrite::RepoNextFileVerNumber] The year for the parameter Base is not correct. Please, introduce a valid year.\n\n')
+  
+  if (length(FileType) != 1) stop('[RepoReadWrite::RepoNextFileVerNumber] The input parameter FileType must be a character vector of length 1.\n')
+  
+  if (!FileType %in% c('FF', 'FD', 'FG', 'FA', 'FI', 'FP', 'FT', 'FL')) stop('[RepoReadWrite::RepoNextFileVerNumber] The allowed file types are FF, FD, FG, FA, FI, FP, FT, FL.\n')
       
   Files <- list.files(Path)
   Files <- Files[grep(FileType, Files)]
+  if (Base != '') Files <- Files[grep(paste0('B', substr(Base, 3, 4)), Files)]
 
   if (length(Files) == 0) {
       
       matchFF <- pmatch('FF', FileType)
-      if (!is.na(matchFF)) NextVer <- rep('.D_1', length(Periods))
-      
       matchFA <- pmatch('FA', FileType)
-      if (!is.na(matchFA)) NextVer <- rep('.D_1', length(Periods))
+      matchFX <- sum(c(matchFF, matchFA), na.rm = TRUE)
+      if (!is.na(matchFX) & matchFX == 1) NextVer <- rep('.D_1', length(Periods))
       
       matchFI <- pmatch('FI', FileType)
       matchFP <- pmatch('FP', FileType)
       matchFD <- pmatch('FD', FileType)
       matchFG <- pmatch('FG', FileType)
-      matchFX <- sum(c(matchFI, matchFP, matchFD, matchFG), na.rm = TRUE)
-      if (!is.na(matchFX) & matchFX == 1) NextVer <- rep('.P_1', length(Periods))
+      matchFY <- sum(c(matchFI, matchFP, matchFD, matchFG), na.rm = TRUE)
+      if (!is.na(matchFY) & matchFY == 1) NextVer <- rep('.P_1', length(Periods))
       names(NextVer) <- Periods
+      
       return(NextVer)
   }
   
@@ -61,15 +71,21 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType){
     
     if (length(aux) == 0) {
       
-        if (length(FileType[grep('FF', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
-        if (length(FileType[grep('FA', FileType)]) > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
-        Types <- c('FI', 'FP', 'FD', 'FG')
-        Flag.Type <- lapply(Types, function(Type){
+        TypesX <- c('FF', 'FA')
+        Flag.TypeX <- lapply(TypesX, function(Type){
+          
+          length(FileType[grep(Type, FileType)])
+        })
+        Flag.TypeX <- sum(unlist(Flag.TypeX))
+        if (Flag.TypeX > 0) aux <- matrix(c(Per, '.D_0'), ncol = 2)
+      
+        TypesY <- c('FI', 'FP', 'FD', 'FG')
+        Flag.TypeY <- lapply(TypesY, function(Type){
           
                     length(FileType[grep(Type, FileType)])
                   })
-        Flag.Type <- sum(unlist(Flag.Type))
-        if (Flag.Type > 0) aux <- matrix(c(Per, '.P_0'), ncol = 2)
+        Flag.TypeY <- sum(unlist(Flag.TypeY))
+        if (Flag.TypeY > 0) aux <- matrix(c(Per, '.P_0'), ncol = 2)
         
     } else {
       

@@ -4,7 +4,7 @@
 \alias{RepoNextFileVerNumber}
 \title{Create the name of the next version of a file}
 \usage{
-RepoNextFileVerNumber(Periods, Path, FileType)
+RepoNextFileVerNumber(Periods, Path, FileType, Base)
 }
 \arguments{
 \item{Periods}{Character vector with time periods included in the file names.}
@@ -12,6 +12,9 @@ RepoNextFileVerNumber(Periods, Path, FileType)
 \item{Path}{Character vector with the path of the search directory.}
 
 \item{FileType}{Character vector with the sort (FF, FD, FG, DD, ...) of the files.}
+
+\item{Base}{Character vector of length 1 with the year ('aaaa') of the base to which data are
+referred. If it has no sense, "Base" is a empty character vector.}
 }
 \value{
 It returns a character vector of length equal to the length of \code{Periods} with the 
@@ -27,7 +30,7 @@ of their next version.
 }
 \examples{
 \dontrun{
-RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF')
+RepoNextFileVerNumber(c('MM012016'), 'C:/Repo/E30183', 'FF', '2015')
 }
 
 }

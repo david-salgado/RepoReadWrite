@@ -66,15 +66,13 @@ RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinP
     }
     
     if (gregexpr('E[0-9]{5}', SurveyCode) == -1) stop('The survey code must of the form Ennnnn. Please, introduce a valid code.\n\n')
-    cat(paste0(SurveyCode, '::: The survey code is ', SurveyCode, '.\n\n'))
+
     
     IniPeriod.RepoTime <- try(newRepoTime(IniPeriod))
-    if (inherits(IniPeriod.RepoTime, 'try-error')) stop(paste0(SurveyCode, '::: The initial time period does not have a valid format. Please, introduce a valid period.\n\n'))
-    cat(paste0(SurveyCode, '::: The initial time period is ', IniPeriod, '.\n\n'))
+    if (inherits(IniPeriod.RepoTime, 'try-error')) stop('The initial time period does not have a valid format. Please, introduce a valid period.\n\n')
     
     FinPeriod.RepoTime <- try(newRepoTime(FinPeriod))
-    if (inherits(FinPeriod.RepoTime, 'try-error')) stop(paste0(SurveyCode, '::: The final time period does not have a valid format. Please, introduce a valid period.\n\n'))
-    cat(paste0(SurveyCode, '::: The final time period is ', FinPeriod, '.\n\n'))
+    if (inherits(FinPeriod.RepoTime, 'try-error')) stop('The final time period does not have a valid format. Please, introduce a valid period.\n\n')
     
     if (gregexpr('2[0-9]{3}', Base) == -1 & Base != '') stop('The year for the parameter Base is not correct. Please, introduce a valid year.\n\n')
     
