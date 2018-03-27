@@ -18,7 +18,7 @@
 #' show(DD)
 #' }
 #' 
-#' @import data.table xlsx XML
+#' @import data.table openxlsx XML
 #' 
 #' @include RepoXLSToVNC.R RepoFileVersion.R RepoDDToDD.R
 #'                        

@@ -15,16 +15,18 @@
 #' ValidateXLS(ExcelName)
 #' }
 #' 
-#' @import data.table xlsx
+#' @import data.table openxlsx
 #' 
 #' @importFrom StQ ExtractNames
 #'       
 #' @export
 ValidateXLS <- function(ExcelName){
     
-    if (!requireNamespace('xlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package xlsx must be installed in the system.\n')
-    wb <- loadWorkbook(ExcelName)
-    SheetNames <- names(getSheets(wb))
+    if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package openxlsx must be installed in the system.\n')
+    
+    # wb <- loadWorkbook(ExcelName)
+    # SheetNames <- names(getSheets(wb))
+    SheetNames <- openxlsx::getSheetNames(ExcelName)
     
     
     cat('\n[RepoReadWrite::ValidateXLS] Minimal compulsory sheet names: VarSpec, ID, MicroData...')
@@ -47,13 +49,20 @@ ValidateXLS <- function(ExcelName){
     
     ExcelSheets.list <- list()
     for (sName in SheetNames) {
-        
-        ExcelSheets.list[[sName]] <- read.xlsx2(ExcelName, 
-                                                sheetName = sName, 
-                                                colClasses = 'character',
-                                                stringsAsFactors = F)
-        OrigOrder <- dimnames(ExcelSheets.list[[sName]])[1][[1]]
+      
+        # ExcelSheets.list[[sName]] <- read.xlsx2(ExcelName, 
+        #                                         sheetName = sName, 
+        #                                         colClasses = 'character',
+        #                                         stringsAsFactors = F)
+        ExcelSheets.list[[sName]] <- openxlsx::read.xlsx(ExcelName, sheet = sName)
         ExcelSheets.list[[sName]] <- as.data.table(ExcelSheets.list[[sName]])
+        for (col in names(ExcelSheets.list[[sName]])) {
+            
+            ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][, (col) := as.character(get(col))]
+            ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][is.na(get(col)), (col) := '']
+        }
+        OrigOrder <- dimnames(ExcelSheets.list[[sName]])[1][[1]]
+        # ExcelSheets.list[[sName]] <- as.data.table(ExcelSheets.list[[sName]])
         ExcelSheets.list[[sName]][, OrigOrder := as.integer(OrigOrder)]
         ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][order(rank(OrigOrder)),]
         ExcelSheets.list[[sName]][, OrigOrder := NULL]
@@ -392,100 +401,5 @@ ValidateXLS <- function(ExcelName){
     cat(paste0('\n[RepoReadWrite::validateXLS] The Excel file ', ExcelName, ' is valid.\n\n'))
     return(TRUE)
     
-    
-    
-    
-    
-    # SheetNames <- setdiff(SheetNames, 'VarSpec')
-    # IDQualTot <- c()
-    # NonIDQualTot <- c()
-    # IDDDTot <- c()
-    # for (sName in SheetNames) {
-    #     
-    #     IDQual <- ExcelSheets.list[[sName]][['IDQual']]
-    #     IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
-    #     NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
-    #     NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
-    #     IDDD <- ExcelSheets.list[[sName]][['IDDD']]
-    #     IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
-    #     
-    #     IDQualTot <- unique(c(IDQualTot, IDQual))
-    #     NonIDQualTot <- unique(c(NonIDQualTot, NonIDQual))
-    #     IDDDTot <- unique(c(IDDDTot, IDDD))
-    #     
-    # #Validations
-    # 
-    #     #Duplicados
-    #     DupIDQual <-  IDQual[duplicated(IDQual, by = key(IDQual))]
-    #     DupNonIDQual <-  NonIDQual[duplicated(NonIDQual, by = key(NonIDQual))]
-    #     
-    #     if (length(DupIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] There are duplicated IDQual variables in sheet "', sName, '": ', DupIDQual, '.\n')) 
-    #     }
-    #     
-    #     if (length(DupNonIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] There are duplicated NonIDQual variables in sheet "', sName, '": ', DupNonIDQual, '.\n')) 
-    #     }
-    #     
-    #     #Columnas de calificadores
-    #     colNames <- names(ExcelSheets.list[[sName]])
-    #     
-    #     difcolIDQual <- setdiff(IDQual, ExtractNames(colNames))
-    #     if (length(difcolIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] There must be a column in sheet "', sName, '" with the following IDQual variables": ', difcolIDQual, '.\n')) 
-    #     }
-    # 
-    #     difcolNonIDQual <- setdiff(NonIDQual, ExtractNames(colNames))
-    #     if (length(difcolNonIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] There must be a column in sheet "', sName, '" with the following NonIDQual variables": ', difcolNonIDQual, '.\n')) 
-    #     }
-    #     
-    #     #Coherencia con VarSpec
-    #     difIDQual <- setdiff(IDQual, Name)
-    #     if (length(difIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] The following variables in sheet "', sName, '" are not in "VarSpec": ', difIDQual, '.\n')) 
-    #     }
-    #     
-    #     
-    #     difNonIDQual <- setdiff(NonIDQual, Name)
-    #     if (length(difNonIDQual) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] The following variables in sheet "', sName, '" are not in "VarSpec": ', difNonIDQual, '.\n')) 
-    #     }
-    #     
-    # 
-    #     difIDDD <- setdiff(IDDD, Name)
-    #     if (length(difIDDD) > 0) {
-    #         stop(paste0('[RepoReadWrite::validateXLS] The following variables in sheet "', sName, '" are not in "VarSpec": ', difIDDD, '.\n')) 
-    #     }
-    #     
-    #     
-    #     #Longitudes
-    # 
-    #     localNonIDQual <- c()
-    #     for (aux in NonIDQual) {
-    #         
-    #         localNonIDQual <- c(localNonIDQual, colNames[grep(aux, colNames)])
-    # 
-    #     }
-    #     AuxExcel <- ExcelSheets.list[[sName]][IDDD != '', localNonIDQual, with = F]
-    #     AuxExcel[is.na(AuxExcel)] <- ''
-    #     aux <- apply(AuxExcel, 1 , FUN = nchar)
-    #     aux <- apply(aux, 1, FUN = max)
-    #     for (Col in localNonIDQual) {
-    #         
-    #         if (aux[Col] > LengthVal[ExtractNames(Col)]) {
-    #             
-    #             stop('[RepoReadWrite::validateXLS] There are inconsistent values lengths in column "', Col, '" from sheet "', sName,'".')
-    #         }
-    #     }
-    # }
-    # 
-    # 
-    # difName <- setdiff(Name, c(IDQualTot, NonIDQualTot, IDDDTot))
-    # if (length(difName) > 0) {
-    #         stop('[RepoReadWrite::validateXLS] The following variables in Excel sheet "VarSpec" are not in any other valid sheet: ', 
-    #                             toString(difName))
-    # }
-    # return(cat('[RepoReadWrite::validateXLS] Excel file validated.\n'))
 }
 
