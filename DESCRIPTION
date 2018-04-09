@@ -7,7 +7,7 @@ Description: This package contains the functions necessary to read and write
     files of a microdata repository.
 Depends:
     R (>= 3.3.0),
-    xlsx (>= 0.5.7)
+    openxlsx (>= 4.0.17)
 Imports:
     methods,
     haven (>= 0.2.0),
