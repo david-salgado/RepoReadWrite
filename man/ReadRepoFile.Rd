@@ -11,11 +11,11 @@ ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@",
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{DD}{Object of class \linkS{DD} with the definition and characteristics of the data 
+\item{DD}{Object of class \linkS4class{DD} with the definition and characteristics of the data 
 contained in the file to read.}
 
-\item{out}{Character vector of length 1 indicating whether to output an \link{StQ} object
-(\code{out} = 'StQ'; default) or a \link{rawStQ} object (\code{out} = 'rawStQ').}
+\item{out}{Character vector of length 1 indicating whether to output an \linkS4class{StQ} object
+(\code{out} = 'StQ'; default) or a \linkS4class{rawStQ} object (\code{out} = 'rawStQ').}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 
@@ -27,11 +27,11 @@ Note: it is not used to re-encode the input, rather enables handling of encoded 
 native encoding.}
 }
 \value{
-Return an object of class \link{StQ} or class \link{rawStQ} with all data 
+Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
 from the input file.
 }
 \description{
-\code{ReadRepoFile} returns an \link{StQ} (default) or a \link{rawStQ}
+\code{ReadRepoFile} returns an \linkS4class{StQ} (default) or a \linkS4class{rawStQ}
  object with the content of the file corresponding to the input name.
 }
 \examples{
