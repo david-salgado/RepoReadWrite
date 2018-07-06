@@ -243,12 +243,20 @@ ValidateXLS <- function(ExcelName){
         AuxExcel <- ExcelSheets.list[[sName]][IDDD != '', localNonIDQual, with = F]
         if (dim(AuxExcel)[1] == 0) next
         AuxExcel[is.na(AuxExcel)] <- ''
+
         if (dim(AuxExcel)[1] == 1 ){
-          auxLength <- vapply(AuxExcel, 1 , FUN = nchar)
-          auxLength <- vapply(auxLength, 1, FUN = max)  
-        }else {  
-          auxLength <- apply(AuxExcel, 1 , FUN = nchar)
-          auxLength <- apply(auxLength, 1, FUN = max)
+
+            auxLength <- vapply(AuxExcel, 1 , FUN = nchar)
+            auxLength <- vapply(auxLength, 1, FUN = max)  
+        
+        } else {
+
+            auxLength <- apply(AuxExcel, 1 , FUN = nchar)
+            if (is.null(dim(auxLength))) auxLength <- matrix(auxLength, nrow = 1, dimnames = list(names(AuxExcel), NULL))
+            auxLength <- apply(auxLength, 1, FUN = max)
+
+            
+        
         }
         auxDT <- data.table(Qual = names(auxLength), Length = auxLength)
         QualLength <- rbindlist(list(QualLength, auxDT))
