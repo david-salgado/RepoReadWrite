@@ -97,7 +97,7 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for name consistency in VarSpec...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for name consistency in VarSpec...')
     IDQualTot <- c()
     NonIDQualTot <- c()
     IDDDTot <- c()
@@ -278,7 +278,7 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...')
     Qual.list <- list()
 
     for (sName in setdiff(SheetNames, 'VarSpec')) {
@@ -322,7 +322,7 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
     
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for missing values in qualifier "TipoMicrodato" ...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for missing values in qualifier "TipoMicrodato" ...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
