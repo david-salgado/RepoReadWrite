@@ -49,7 +49,7 @@ ValidateXLS <- function(ExcelName){
     
     ExcelSheets.list <- list()
     for (sName in SheetNames) {
-      
+        
         # ExcelSheets.list[[sName]] <- read.xlsx2(ExcelName, 
         #                                         sheetName = sName, 
         #                                         colClasses = 'character',
@@ -97,7 +97,7 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for name consistency in VarSpec...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for name consistency in VarSpec...')
     IDQualTot <- c()
     NonIDQualTot <- c()
     IDDDTot <- c()
@@ -131,7 +131,7 @@ ValidateXLS <- function(ExcelName){
             return(IDDD[grepl(char, IDDD)])
         })))
         if (length(IDDDwUnderscore) != 0) {
-
+            
             stop(paste0('[RepoReadWrite::validateXLS] The following variable identifiers (IDDD) in sheet ', sName, ' are not valid: ', paste0(IDDDwUnderscore, collapse = ', ')))
         }
     }
@@ -183,6 +183,69 @@ ValidateXLS <- function(ExcelName){
         difcolNonIDQual <- setdiff(NonIDQual, ExtractNames(colNames))
         if (length(difcolNonIDQual) > 0) {
             stop(paste0('[RepoReadWrite::validateXLS] There must be a column in sheet "', sName, '" with the following NonIDQual variables": ', difcolNonIDQual, '.\n')) 
+        }
+        cat(' ok.\n')
+    }
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for other columns in the sheet ...\n')
+    
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        cat(paste0('  ', sName, '...'))
+        
+        colNames <- names(ExcelSheets.list[[sName]])
+        otherCol <- c("UnitName", "InFiles", "VarDescription", "table_column", "filter", "function")
+        
+        difcol <- setdiff(otherCol, colNames)
+        if (length(difcol) > 0) {
+            stop(paste0('[RepoReadWrite::validateXLS] The following columns are missing in sheet ', sName, ': ', paste0(difcol, collapse = ', '), '.\n')) 
+        }
+        
+        IDQual <- ExcelSheets.list[[sName]][['IDQual']]
+        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+        
+        NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
+        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+        
+        otherColExtractedNotIRIA <- c("UnitName", "InFiles", "VarDescription")
+        
+        IRIAcols <- c("table_column", "filter", "function")
+        
+        correctCol <- c('IDQual', 'NonIDQual', 'IDDD', IDQual, NonIDQual, otherColExtractedNotIRIA, IRIAcols)
+        colNamesNotIRIA <- setdiff(colNames, IRIAcols)
+        wrongCol <- setdiff(c(ExtractNames(colNamesNotIRIA), IRIAcols), correctCol)
+        wrongCol <- gsub('^X[0-9]+', 'With_no_name', wrongCol)
+        if (length(wrongCol) > 0) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The following columns do not appear as valid qualifiers in the sheet ', sName, ': ', paste0(wrongCol, collapse = ', '), '.\n')) 
+        }
+        cat(' ok.\n')
+    }
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of other columns in all sheet...\n')
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        cat(paste0('  ', sName, '...'))
+        
+        colNames <- names(ExcelSheets.list[[sName]])
+        
+        otherCol <- c("UnitName", "InFiles", "VarDescription", "table_column", "filter", "function")
+        
+        IDQual <- ExcelSheets.list[[sName]][['IDQual']]
+        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+        
+        NonIDQual <- ExcelSheets.list[[sName]][['NonIDQual']]
+        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+        
+        otherColExtractedNotIRIA <- c("UnitName", "InFiles", "VarDescription")
+        
+        IRIAcols <- c("table_column", "filter", "function")
+        
+        colNamesNotIRIA <- setdiff(colNames, IRIAcols)
+        otherColSheet <- setdiff(c(ExtractNames(colNamesNotIRIA), IRIAcols), c('IDQual', 'NonIDQual', 'IDDD', IDQual, NonIDQual))
+        if (!identical(otherColSheet, otherCol)) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The order of qualifiers in sheet ', sName, ' is not ', paste0(otherCol , collapse = ', '), '.\n')) 
         }
         cat(' ok.\n')
     }
@@ -243,12 +306,20 @@ ValidateXLS <- function(ExcelName){
         AuxExcel <- ExcelSheets.list[[sName]][IDDD != '', localNonIDQual, with = F]
         if (dim(AuxExcel)[1] == 0) next
         AuxExcel[is.na(AuxExcel)] <- ''
+        
         if (dim(AuxExcel)[1] == 1 ){
-          auxLength <- vapply(AuxExcel, 1 , FUN = nchar)
-          auxLength <- vapply(auxLength, 1, FUN = max)  
-        }else {  
-          auxLength <- apply(AuxExcel, 1 , FUN = nchar)
-          auxLength <- apply(auxLength, 1, FUN = max)
+            
+            auxLength <- vapply(AuxExcel, 1 , FUN = nchar)
+            auxLength <- vapply(auxLength, 1, FUN = max)  
+            
+        } else {
+            
+            auxLength <- apply(AuxExcel, 1 , FUN = nchar)
+            if (is.null(dim(auxLength))) auxLength <- matrix(auxLength, nrow = 1, dimnames = list(names(AuxExcel), NULL))
+            auxLength <- apply(auxLength, 1, FUN = max)
+            
+            
+            
         }
         auxDT <- data.table(Qual = names(auxLength), Length = auxLength)
         QualLength <- rbindlist(list(QualLength, auxDT))
@@ -270,9 +341,9 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...')
     Qual.list <- list()
-
+    
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         IDQual <- ExcelSheets.list[[sName]][['IDQual']]
@@ -314,7 +385,7 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
     
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking for missing values in qualifier "TipoMicrodato" ...\n')
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for missing values in qualifier "TipoMicrodato" ...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
@@ -362,7 +433,7 @@ ValidateXLS <- function(ExcelName){
         DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
         MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
         WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
-
+        
         if (length(WrongUnitNames) != 0) {
             
             stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed: ', paste0(WrongUnitNames, collapse = ', '), '.'))
@@ -371,7 +442,7 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-
+    
     cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicates in IDDD + Qualifiers ...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
@@ -384,12 +455,12 @@ ValidateXLS <- function(ExcelName){
         
         NonIDQual <- sheet[['NonIDQual']]
         NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
-   
+        
         sheet <- sheet[!(IDQual != '' | NonIDQual != '')]
         
         byKey <- c('IDDD', IDQual, NonIDQual)
         DTdup <- sheet[duplicated(sheet, by = byKey)]
-
+        
         if (dim(DTdup)[1] != 0) {
             
             stop(paste0('[RepoReadWrite::validateXLS] The following keys in sheet ', sName, ' are duplicated: ', DTdup, '\n\n'))
@@ -397,7 +468,7 @@ ValidateXLS <- function(ExcelName){
         }
     }
     cat(' ok.\n')
-
+    
     cat(paste0('\n[RepoReadWrite::validateXLS] The Excel file ', ExcelName, ' is valid.\n\n'))
     return(TRUE)
     
