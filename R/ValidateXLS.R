@@ -66,6 +66,7 @@ ValidateXLS <- function(ExcelName){
         ExcelSheets.list[[sName]][, OrigOrder := as.integer(OrigOrder)]
         ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][order(rank(OrigOrder)),]
         ExcelSheets.list[[sName]][, OrigOrder := NULL]
+        if (dim(ExcelSheets.list[[sName]])[1] == 0) stop(paste0('[RepoReadWrite::ValidateXLS] The following sheet is empty: ', sName, '.\n'))
         ExcelSheets.list[[sName]] <- ExcelSheets.list[[sName]][!apply(is.na(ExcelSheets.list[[sName]]) | ExcelSheets.list[[sName]] == "", 1, all),]
         
     }
