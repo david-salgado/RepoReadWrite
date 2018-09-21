@@ -55,7 +55,7 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
                   stringsAsFactors = FALSE, colClasses = 'character', encoding = encoding)
     
     cat('\n Parsing IDDD identifiers...')
-    regexp <- paste0("(\\w+)", sep, "([A-Za-z0-9_\\:\\-\\. ]+)", sep, "(.*)")
+    regexp <- paste0("(\\w+)", sep, "([A-Za-z0-9_\\:\\-\\. /\\+]+)", sep, "(.*)")
     
     if (perl) {
         
