@@ -21,6 +21,8 @@
 #' Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
 #' native encoding.
 #' 
+#' @param verbose Logical vector of length 1 indicating whether report timings are shown or not.
+#' 
 #' @return Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 
 #' from the input file.
 #' 
@@ -42,7 +44,7 @@
 #' @importFrom stringi stri_replace_all_regex
 #' 
 #' @export
-ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', encoding = 'unknown') {
+ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', encoding = 'unknown', verbose = TRUE) {
     
     if (out != 'StQ' & out != 'rawStQ') stop('[RepoReadWrite::ReadRepoFile] The input parameter out must be "StQ" or "rawStQ".\n')
     
@@ -52,9 +54,9 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
     
     File <- fread(FileName, sep = '\n', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
                   strip.white = TRUE,
-                  stringsAsFactors = FALSE, colClasses = 'character', encoding = encoding)
+                  stringsAsFactors = FALSE, verbose = verbose, colClasses = 'character', encoding = encoding)
     
-    cat('\n Parsing IDDD identifiers...')
+    if (verbose) cat('\n Parsing IDDD identifiers...')
     regexp <- paste0("(\\w+)", sep, "([A-Za-z0-9_\\:\\-\\. /\\+]+)", sep, "(.*)")
     
     if (perl) {
@@ -66,9 +68,9 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
         File[, IDDDKey := stri_replace_all_regex(V1, regexp, "$1")]
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n Parsing qualifiers...')
+    if (verbose) cat('\n Parsing qualifiers...')
     if (perl) {
         
         File[, QualKey := gsub(regexp, "\\2", File$V1, perl = TRUE)]
@@ -78,9 +80,9 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
     File[, QualKey := stri_replace_all_regex(V1, regexp, "$2")]
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n Parsing values...')
+    if (verbose) cat('\n Parsing values...')
     if (perl) {
     
         File[, Value := gsub(regexp, "\\3", File$V1, perl = TRUE)]
@@ -90,19 +92,19 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
         File[, Value := stri_replace_all_regex(V1, regexp, "$3")]
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
     File[, V1 := NULL]
-    cat('\n Building rawStQ object...')
+    if (verbose) cat('\n Building rawStQ object...')
     rawDatadt <- File
     output <- rawStQ(rawData = rawDatadt, DD = DD)
 
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     if (out == 'StQ'){
         
-        cat('\n Transforming rawStQ object into an StQ object...')
+        if (verbose) cat('\n Transforming rawStQ object into an StQ object...')
         output <- rawStQToStQ(output)
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     return(output)
 }
