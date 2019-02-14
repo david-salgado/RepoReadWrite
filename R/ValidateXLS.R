@@ -15,7 +15,7 @@
 #' ValidateXLS(ExcelName)
 #' }
 #' 
-#' @import data.table openxlsx
+#' @import data.table openxlsx gdata
 #' 
 #' @importFrom StQ ExtractNames
 #'       
