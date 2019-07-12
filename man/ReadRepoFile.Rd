@@ -5,7 +5,7 @@
 \title{Read a file with a key-value pair structure}
 \usage{
 ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@",
-  encoding = "unknown")
+  encoding = "unknown", verbose = TRUE)
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
@@ -25,6 +25,8 @@ in the input file (default value @).}
 \item{encoding}{Character vector of length 1 with default value is "unknown". Other possible options are "UTF-8" and "Latin-1". 
 Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
 native encoding.}
+
+\item{verbose}{Logical vector of length 1 indicating whether report timings are shown or not.}
 }
 \value{
 Return an object of class \linkS4class{StQ} or class \linkS4class{rawStQ} with all data 

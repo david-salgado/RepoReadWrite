@@ -15,7 +15,7 @@
 #' ValidateXLS(ExcelName)
 #' }
 #' 
-#' @import data.table openxlsx
+#' @import data.table openxlsx gdata
 #' 
 #' @importFrom StQ ExtractNames
 #'       
@@ -469,6 +469,42 @@ ValidateXLS <- function(ExcelName){
         }
     }
     cat(' ok.\n')
+    
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for missing and not valid values in column "InFiles" ...')
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+      
+      sheet <- ExcelSheets.list[[sName]]
+      IDQual <- sheet[['IDQual']]
+      IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+      NonIDQual <- sheet[['NonIDQual']]
+      NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+      IDDD <- sheet[['IDDD']]
+      IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
+      nquals <- length(c(IDQual, NonIDQual))
+      indexInFiles <- grep('InFiles', names(sheet))
+      InFiles <- sheet[[indexInFiles]]
+      InFiles <- InFiles[(nquals + 1): (nquals + length(IDDD))]
+      
+      if (any(is.na(InFiles)) | any(InFiles == '')) {
+        
+        stop(paste0('[RepoReadWrite::validateXLS] There are missing values in column InFiles in sheet ', sName))
+        
+      }
+      
+      InFilesValues <- unique(unlist(lapply(InFiles, function(x){
+        
+          fileTypes <- unlist(strsplit(x, ','))
+          fileTypes <- trim(fileTypes)
+      })))
+      if (any(!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT'))) {
+        
+        stop(paste0('[RepoReadWrite::validateXLS] Some values in column InFiles in sheet ', sName, ' are not valid. The valid values are: FG, FD, FF, FL, FT'))
+        
+      }
+    }
+    cat(' ok.\n')
+    
     
     cat(paste0('\n[RepoReadWrite::validateXLS] The Excel file ', ExcelName, ' is valid.\n\n'))
     return(TRUE)

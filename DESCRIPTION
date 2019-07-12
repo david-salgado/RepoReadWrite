@@ -1,13 +1,12 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.4.15
+Version: 0.4.20
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
     files of a microdata repository.
 Depends:
-    R (>= 3.3.0),
-    openxlsx (>= 4.0.17)
+    R (>= 3.3.0)
 Imports:
     methods,
     haven (>= 0.2.0),
@@ -15,6 +14,7 @@ Imports:
     gdata (>= 2.17.0),
     stringi (>= 1.1.2),
     data.table (>= 1.10.0),
+    openxlsx (>= 4.0.17),
     StQ (>= 0.3.0),
     RepoTime (>= 0.2.0)
 License: file LICENSE
