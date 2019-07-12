@@ -5,8 +5,8 @@
 \title{Produce an object of class \link{rawStQList} from files with key-value pair 
 structure}
 \usage{
-RepoFileTorawStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Base,
-  Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
+RepoFileTorawStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
+  Base, Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
   encoding = "unknown")
 }
 \arguments{
