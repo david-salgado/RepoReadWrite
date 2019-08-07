@@ -52,7 +52,7 @@ ReadRepoFile <- function(FileName, DD, out = 'StQ', perl = FALSE, sep = '@@', en
     
     if (length(sep) != 1) stop('[RepoReadWrite::ReadRepoFile] The input parameter sep must a character vector of length 1.\n')
     
-    File <- fread(FileName, sep = '\n', header = FALSE, skip = 0L, nrows = -1, na.strings = ' ',
+    File <- fread(FileName, sep = '\n', header = FALSE, skip = 0L, nrows = -1, na.strings = '',
                   strip.white = TRUE,
                   stringsAsFactors = FALSE, verbose = verbose, colClasses = 'character', encoding = encoding)
     
