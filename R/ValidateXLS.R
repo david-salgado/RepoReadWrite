@@ -342,6 +342,74 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the number of qualifiers for each variable in all sheet...')
+    IDDD.list <- lapply(setdiff(SheetNames, 'VarSpec'), function(sName){
+        
+                    IDDD <- ExcelSheets.list[[sName]][['IDDD']]
+                    IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
+                    IDDD <- unique(IDDD)
+                })
+    names(IDDD.list) <- setdiff(SheetNames, 'VarSpec')
+    
+    IDDDComm <- unlist(lapply(1:(length(IDDD.list) - 1), function(i) {
+        
+        intersect(IDDD.list[[i]], IDDD.list[[i + 1]])
+    }))
+    
+    Quals.list <- lapply(names(IDDD.list), function(sName){
+            
+            DT <- ExcelSheets.list[[sName]]
+            Quals <- setdiff(names(DT), c('IDQual', 'NonIDQual', 'IDDD', 'UnitName', 'InFiles', 'VarDescription', 'table_column', 'filter', 'function'))    
+            return(Quals)
+    })
+    names(Quals.list) <- names(IDDD.list)
+    
+    IDDDComm.list <- lapply(IDDDComm, function(iddd){
+        
+        Quals.iddd <- lapply(names(Quals.list), function(sName){
+            
+            DT <- ExcelSheets.list[[sName]][IDDD == iddd]
+            Quals <- Quals.list[[sName]]
+            Quals.length <- unlist(lapply(Quals, function(qual){
+                long <- DT[[qual]]
+                long <- length(long[long != ''])
+            }))
+            Quals <- Quals[Quals.length > 0]
+            return(Quals)
+        })
+        names(Quals.iddd) <- names(IDDD.list)
+        return(Quals.iddd)
+    })
+    names(IDDDComm.list) <- IDDDComm
+    
+    IDDD.Quals <- lapply(IDDDComm, function(iddd){
+        
+        unique(ExtractNames(unlist(IDDDComm.list[[iddd]])))
+    })
+    names(IDDD.Quals) <- IDDDComm
+    
+    IDDD.sheets <- lapply(IDDDComm, function(iddd){
+        
+        sheets <- c()
+        for (sheet in names(IDDDComm.list[[iddd]])){
+            if (length(IDDDComm.list[[iddd]][[sheet]]) > 0) sheets <- c(sheets, sheet)
+        }
+        return(sheets)
+    })
+    names(IDDD.sheets) <- IDDDComm
+    
+    for (iddd in IDDDComm){
+        
+        iddd.quals <- IDDD.Quals[[iddd]]
+        iddd.sheets <- IDDD.sheets[[iddd]]
+        for (sheet in iddd.sheets){
+            if (!all(iddd.quals %chin% ExtractNames(Quals.list[[sheet]]))){
+                
+                stop(paste0('[[RepoReadWrite::ValidateXLS] Variable (IDDD) ', iddd, ' has not all its non-unit qualifiers (NonIDQual) in sheet ', sheet))
+            }
+        }
+    }
+    
     cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...')
     Qual.list <- list()
     

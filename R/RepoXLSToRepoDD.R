@@ -228,6 +228,7 @@ RepoXLSToRepoDD <- function(ExcelName){
                     
                     if (any(is.na(OrderQuals[[col]]))) OrderQuals[, (col) := NULL]
                 }
+
                 OrderQuals <- OrderQuals[, 1:2 , with = FALSE]
                 setkeyv(OrderQuals, names(OrderQuals)[2])
                 OrderQuals[, Order := seq(along = QualsVec2)]
@@ -288,7 +289,6 @@ RepoXLSToRepoDD <- function(ExcelName){
         return(identifiers.list)
         
     })
-    
     identifiers.list <- Reduce(c, identifiers.list.QualType)
     
     addChildren(identifiers, identifiers.list)
