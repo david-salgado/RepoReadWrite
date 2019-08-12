@@ -147,7 +147,7 @@ ValidateXLS <- function(ExcelName){
         UnitName <- UnitName[!is.na(UnitName) & UnitName != '']
         
         DupUnitName <-  UnitName[duplicated(UnitName, by = key(UnitName))]
-        if (length(UnitName) > 0) {
+        if (length(DupUnitName) > 0) {
             stop(paste0('[RepoReadWrite::validateXLS] There are duplicated unitnames (UnitName) in sheet "', sName, '": ', DupUnitName, '.\n')) 
         }
         
