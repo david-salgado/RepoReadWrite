@@ -138,6 +138,22 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
+    cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicated UnitNames in sheet...\n')
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        cat(paste0('  ', sName, '...'))
+        
+        UnitName <- ExcelSheets.list[[sName]][['UnitName']]
+        UnitName <- UnitName[!is.na(UnitName) & UnitName != '']
+        
+        DupUnitName <-  UnitName[duplicated(UnitName, by = key(UnitName))]
+        if (length(UnitName) > 0) {
+            stop(paste0('[RepoReadWrite::validateXLS] There are duplicated unitnames (UnitName) in sheet "', sName, '": ', DupUnitName, '.\n')) 
+        }
+        
+        cat(' ok.\n')
+    }
+    
     cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicated qualifiers in sheet...\n')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         

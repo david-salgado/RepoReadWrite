@@ -49,7 +49,7 @@ RepoDDToDD <- function(FileName, VNC){
     
     doc <- xmlParse(FileName)
     nodes <- getNodeSet(doc, "//identifier[@identifierType]") #lista de clases 'XMLInternalElementNode'
-  
+
     # Generamos listas de dataframes con los datos de cada variable y sus calificadores
     quals <- getNodeSet(doc, "//quals")
 
@@ -57,7 +57,7 @@ RepoDDToDD <- function(FileName, VNC){
         
         as.data.table(xmlToDataFrame(union(x[1], x[3:4]), stringsAsFactors = FALSE))
     })
-    
+
     QualOrder <- lapply(quals, xmlChildren)
 
     quals <- lapply(quals, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))})
@@ -114,7 +114,7 @@ RepoDDToDD <- function(FileName, VNC){
     }
 
     DDData[, ValueRegExp := ValueRegExp]
-        
+
     # Si no se especifica DDslot, cada variable se asigna al slot
     # correspondiente a la componente del VNC en el que aparece.
     
