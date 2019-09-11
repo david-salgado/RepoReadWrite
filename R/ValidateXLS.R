@@ -367,10 +367,8 @@ ValidateXLS <- function(ExcelName){
                 })
     names(IDDD.list) <- setdiff(SheetNames, 'VarSpec')
     
-    IDDDComm <- unlist(lapply(1:(length(IDDD.list) - 1), function(i) {
-        
-        intersect(IDDD.list[[i]], IDDD.list[[i + 1]])
-    }))
+    IDDDComm <- Reduce(c, IDDD.list)
+    IDDDComm <- IDDDComm[duplicated(IDDDComm)]
     
     Quals.list <- lapply(names(IDDD.list), function(sName){
             
@@ -425,6 +423,7 @@ ValidateXLS <- function(ExcelName){
             }
         }
     }
+    cat(' ok.\n')
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the order of qualifiers in all sheet...')
     Qual.list <- list()
