@@ -1,6 +1,6 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.4.24
+Version: 0.5.00
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
@@ -23,6 +23,7 @@ Collate:
     'ExampleDD.R'
     'ExampleStQ.R'
     'ExampleVNC.R'
+    'FileDDVersion.R'
     'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'
