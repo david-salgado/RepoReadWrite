@@ -361,20 +361,20 @@ ValidateXLS <- function(ExcelName){
     cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency in the number of qualifiers for each variable in all sheet...')
     IDDD.list <- lapply(setdiff(SheetNames, 'VarSpec'), function(sName){
         
-                    IDDD <- ExcelSheets.list[[sName]][['IDDD']]
-                    IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
-                    IDDD <- unique(IDDD)
-                })
+        IDDD <- ExcelSheets.list[[sName]][['IDDD']]
+        IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
+        IDDD <- unique(IDDD)
+    })
     names(IDDD.list) <- setdiff(SheetNames, 'VarSpec')
     
     IDDDComm <- Reduce(c, IDDD.list)
     IDDDComm <- IDDDComm[duplicated(IDDDComm)]
     
     Quals.list <- lapply(names(IDDD.list), function(sName){
-            
-            DT <- ExcelSheets.list[[sName]]
-            Quals <- setdiff(names(DT), c('IDQual', 'NonIDQual', 'IDDD', 'UnitName', 'InFiles', 'VarDescription', 'table_column', 'filter', 'function'))    
-            return(Quals)
+        
+        DT <- ExcelSheets.list[[sName]]
+        Quals <- setdiff(names(DT), c('IDQual', 'NonIDQual', 'IDDD', 'UnitName', 'InFiles', 'VarDescription', 'table_column', 'filter', 'function'))    
+        return(Quals)
     })
     names(Quals.list) <- names(IDDD.list)
     
@@ -556,35 +556,35 @@ ValidateXLS <- function(ExcelName){
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for missing and not valid values in column "InFiles" ...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
-      
-      sheet <- ExcelSheets.list[[sName]]
-      IDQual <- sheet[['IDQual']]
-      IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
-      NonIDQual <- sheet[['NonIDQual']]
-      NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
-      IDDD <- sheet[['IDDD']]
-      IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
-      nquals <- length(c(IDQual, NonIDQual))
-      indexInFiles <- grep('InFiles', names(sheet))
-      InFiles <- sheet[[indexInFiles]]
-      InFiles <- InFiles[(nquals + 1): (nquals + length(IDDD))]
-      
-      if (any(is.na(InFiles)) | any(InFiles == '')) {
         
-        stop(paste0('[RepoReadWrite::validateXLS] There are missing values in column InFiles in sheet ', sName))
+        sheet <- ExcelSheets.list[[sName]]
+        IDQual <- sheet[['IDQual']]
+        IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
+        NonIDQual <- sheet[['NonIDQual']]
+        NonIDQual <- NonIDQual[!is.na(NonIDQual) & NonIDQual != '']
+        IDDD <- sheet[['IDDD']]
+        IDDD <- IDDD[!is.na(IDDD) & IDDD != '']
+        nquals <- length(c(IDQual, NonIDQual))
+        indexInFiles <- grep('InFiles', names(sheet))
+        InFiles <- sheet[[indexInFiles]]
+        InFiles <- InFiles[(nquals + 1): (nquals + length(IDDD))]
         
-      }
-      
-      InFilesValues <- unique(unlist(lapply(InFiles, function(x){
+        if (any(is.na(InFiles)) | any(InFiles == '')) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] There are missing values in column InFiles in sheet ', sName))
+            
+        }
         
-          fileTypes <- unlist(strsplit(x, ','))
-          fileTypes <- trim(fileTypes)
-      })))
-      if (any(!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT'))) {
-        
-        stop(paste0('[RepoReadWrite::validateXLS] Some values in column InFiles in sheet ', sName, ' are not valid. The valid values are: FG, FD, FF, FL, FT'))
-        
-      }
+        InFilesValues <- unique(unlist(lapply(InFiles, function(x){
+            
+            fileTypes <- unlist(strsplit(x, ','))
+            fileTypes <- trim(fileTypes)
+        })))
+        if (any(!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT'))) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] Some values in column InFiles in sheet ', sName, ' are not valid. The valid values are: FG, FD, FF, FL, FT'))
+            
+        }
     }
     cat(' ok.\n')
     
@@ -593,4 +593,3 @@ ValidateXLS <- function(ExcelName){
     return(TRUE)
     
 }
-
