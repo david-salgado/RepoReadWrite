@@ -1,6 +1,6 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.5.1
+Version: 0.5.2
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write
@@ -38,6 +38,7 @@ Collate:
     'ValidateXLS.R'
     'WriteRepoFile.R'
     'is.validXLSX.R'
+    'is.compatibleXLSX.R'
 LazyData: true
 RoxygenNote: 6.1.1
 URL: https://github.com/david-salgado/RepoReadWrite

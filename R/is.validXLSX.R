@@ -5,6 +5,8 @@
 #' 
 #' @param ExcelName Character vector of length 1 with the name of the file to read.
 #' 
+#' @param verbose \code{TRUE} or \code{FALSE} (default) to request verbose mode.
+#' 
 #' @details The input xlsx file is a naive user interface to generate a data dictionary in XML 
 #' format with the specification of each single key-value pair in the dictionary. The function 
 #' performs a sequence of checks over each sheet of the input xlsx file. These checks are necessary 
@@ -26,7 +28,7 @@
 #' @importFrom openxlsx getSheetNames
 #'       
 #' @export
-is.validXLSX <- function(ExcelName){
+is.validXLSX <- function(ExcelName, verbose = FALSE){
     
     # Global Variables
     SheetNames <- openxlsx::getSheetNames(ExcelName)
@@ -95,15 +97,15 @@ is.validXLSX <- function(ExcelName){
     Name <- ExcelSheets.list[['VarSpec']][['Name']]
     
     #######                                      CHECKS                                ######
-    cat('\n[RepoReadWrite::ValidateXLS] Checking minimal compulsory sheet names: VarSpec, ID, MicroData...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking minimal compulsory sheet names: VarSpec, ID, MicroData...')
     CompulsorySheets <- setdiff(c('VarSpec', 'ID', 'MicroData'), SheetNames)
     if (length(CompulsorySheets) > 0) {
         
         stop(paste0('[RepoReadWrite::ValidateXLS] The following sheets must be in the Excel file:', CompulsorySheets, '.\n'))
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking optional (possibly compound) sheet names: ParaData, Aggregates, AggWeights, Other...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking optional (possibly compound) sheet names: ParaData, Aggregates, AggWeights, Other...')
     OptionalSheets <- setdiff(SheetNames, c('VarSpec', 'ID', 'MicroData'))
     OptionalSheets <- sapply(OptionalSheets, ExtractNames)
     OptionalValSheet <- setdiff(OptionalSheets, c('ParaData', 'Aggregates', 'AggWeights', 'Other'))
@@ -111,35 +113,35 @@ is.validXLSX <- function(ExcelName){
         
         stop(paste0('[RepoReadWrite::ValidateXLS] The following prefixes in the Excel sheet names are not valid:', OptionalValSheet, '.\n'))
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
 
-    cat('\n[RepoReadWrite::ValidateXLS] Checking no duplicates in column Name in the sheet VarSpec...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplicates in column Name in the sheet VarSpec...')
     DupName <-  Name[duplicated(Name, by = 'Name')]
     if (length(DupName) > 0) {
         
         stop(paste0('[RepoReadWrite::validateXLS] The following variables in sheet VarSpec are duplicated: ', DupName, '.\n'))
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking column Type in the sheet VarSpec...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking column Type in the sheet VarSpec...')
     TypeVal <- ExcelSheets.list[['VarSpec']][['Type']]
     names(TypeVal) <- Name
     if (!all(TypeVal %in% c('STRING', 'NUMBER'))) {
         
         stop('[RepoReadWrite::validateXLS] Column Type of sheet VarSpec must have the value STRING or NUMBER.\n')
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking format of column Length in the sheet VarSpec...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking format of column Length in the sheet VarSpec...')
     LengthVal <- ExcelSheets.list[['VarSpec']][['Length']]
     names(LengthVal) <- Name
     if (any(is.na(LengthVal) | LengthVal <= 0)) {
         
         stop('[RepoReadWrite::validateXLS] Column Length of sheet VarSpec must be a positive integer.\n')
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking that all variables in VarSpec are included in the other sheet...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking that all variables in VarSpec are included in the other sheet...')
     IDQualTot <- c()
     NonIDQualTot <- c()
     IDDDTot <- c()
@@ -161,9 +163,9 @@ is.validXLSX <- function(ExcelName){
         stop('[RepoReadWrite::validateXLS] The following variables in Excel sheet VarSpec are not in any other valid sheet: ', 
              toString(difName))
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking correct syntax of column IDDD in each sheet...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking correct syntax of column IDDD in each sheet...')
     specialchar <- c('_', 'á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', 'ç')
     for (sName in varSheetNames) {
         
@@ -177,9 +179,9 @@ is.validXLSX <- function(ExcelName){
             stop(paste0('[RepoReadWrite::validateXLS] The following variable identifiers (IDDD) in sheet ', sName, ' are not valid: ', paste0(IDDDwUnderscore, collapse = ', ')))
         }
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
     unitNames <- c()
 
     for (sName in varSheetNames) {
@@ -200,12 +202,12 @@ is.validXLSX <- function(ExcelName){
     }
     
     
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in qualifiers in sheet...\n')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in qualifiers in sheet...\n')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         IDQual <- ExcelSheets.list[[sName]][['IDQual']]
         IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
@@ -223,13 +225,13 @@ is.validXLSX <- function(ExcelName){
             stop(paste0('[RepoReadWrite::validateXLS] There are duplicated non-unit qualifiers (NonIDQual) in sheet "', sName, '": ', DupNonIDQual, '.\n'))
         }
         
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking no duplication in qualifier values (including IDDD) in sheet...\n')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking no duplication in qualifier values (including IDDD) in sheet...\n')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         DupQual.dt <- ExcelSheets.list[[sName]]
         DupQual.dt <- DupQual.dt[!is.na(IDDD) & IDDD != '']
@@ -256,13 +258,13 @@ is.validXLSX <- function(ExcelName){
         if (dim(DupQual.dt)[1] > 0) {
             stop(paste0('[RepoReadWrite::is.validXLSX] There are duplicated qualifiers (including IDDD) in sheet ', sName, ': ', paste0(DupQual.dt[['IDDD']], collapse = ' ,'), '.\n'))
         }
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
 
-    cat('\n[RepoReadWrite::is.validXLSX] Checking qualifier column names according to columns IDQual and NonIDQual in sheet ...\n')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking qualifier column names according to columns IDQual and NonIDQual in sheet ...\n')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         colNames <- names(ExcelSheets.list[[sName]])
         IDQual <- ExcelSheets.list[[sName]][['IDQual']]
@@ -280,14 +282,14 @@ is.validXLSX <- function(ExcelName){
         if (length(difcolNonIDQual) > 0) {
             stop(paste0('[RepoReadWrite::is.validXLSX] There must be a column in sheet ', sName, ' with the following NonIDQual variables: ', paste0(difcolNonIDQual, collapse = ' ,'), '.\n')) 
         }
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking existence of columns UnitName, InFiles, VarDescription, table_column, filter, function in sheet ...\n')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking existence of columns UnitName, InFiles, VarDescription, table_column, filter, function in sheet ...\n')
     
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         colNames <- names(ExcelSheets.list[[sName]])
         otherCol <- c("UnitName", "InFiles", "VarDescription", "table_column", "filter", "function")
@@ -315,13 +317,13 @@ is.validXLSX <- function(ExcelName){
             
             stop(paste0('[RepoReadWrite::is.validXLSX] The following columns do not appear as valid qualifiers in the sheet ', sName, ': ', paste0(wrongCol, collapse = ', '), '.\n')) 
         }
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the order of columns UnitName, InFiles, VarDescription, table_column, filter, function in sheet...\n')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the order of columns UnitName, InFiles, VarDescription, table_column, filter, function in sheet...\n')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         colNames <- names(ExcelSheets.list[[sName]])
         
@@ -343,13 +345,13 @@ is.validXLSX <- function(ExcelName){
             
             stop(paste0('[RepoReadWrite::is.validXLSX] The order of qualifiers in sheet ', sName, ' is not ', paste0(otherCol , collapse = ', '), '.\n')) 
         }
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking that IDDDs are in column Name of VarSpec for sheet ...\n')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking that IDDDs are in column Name of VarSpec for sheet ...\n')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         IDQual <- ExcelSheets.list[[sName]][['IDQual']]
         IDQual <- IDQual[!is.na(IDQual) & IDQual != '']
@@ -382,10 +384,10 @@ is.validXLSX <- function(ExcelName){
                         paste0(difIDDD, collapse = ', '),
                         '.\n')) 
         }
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }    
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in length of qualifiers between column Length of VarSpec and sheet ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in length of qualifiers between column Length of VarSpec and sheet ...')
     QualLength <- data.table(Qual = character(0), Length = character(0))
     for (sName in varSheetNames) {
         
@@ -435,9 +437,9 @@ is.validXLSX <- function(ExcelName){
                     '.\n'))
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the number of qualifiers for each variable in sheet ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the number of qualifiers for each variable in sheet ...')
     IDDD.list <- lapply(varSheetNames, function(sName){
         
                     IDDD <- ExcelSheets.list[[sName]][['IDDD']]
@@ -502,9 +504,9 @@ is.validXLSX <- function(ExcelName){
             }
         }
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
 
-    cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the order of qualifiers in all sheet ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking consistency in the order of qualifiers in all sheet ...')
     Qual.list <- list()
     
     for (sName in varSheetNames) {
@@ -533,9 +535,9 @@ is.validXLSX <- function(ExcelName){
             }
         }
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking existence of column TipoMicrodato in sheet ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking existence of column TipoMicrodato in sheet ...')
     for (sName in varSheetNames) {
         
         sheet <- ExcelSheets.list[[sName]]
@@ -546,10 +548,10 @@ is.validXLSX <- function(ExcelName){
             
         }
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking absence of missing values in qualifier TipoMicrodato ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking absence of missing values in qualifier TipoMicrodato ...')
     for (sName in varSheetNames) {
         
         sheet <- ExcelSheets.list[[sName]]
@@ -562,9 +564,9 @@ is.validXLSX <- function(ExcelName){
         }
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking consistency of qualifier TipoMicrodato for each variable among all sheet ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking consistency of qualifier TipoMicrodato for each variable among all sheet ...')
     UnitNameTipo <- list()
     for (sName in varSheetNames) {
         
@@ -587,12 +589,12 @@ is.validXLSX <- function(ExcelName){
         stop(paste0('[RepoReadWrite::is.validXLSX] The following variables do not have consistent TipoMicrodato qualifier: ', paste0(NotUniqueTipo[['UnitName']], collapse = ' ,')))
         
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
 ##    
-    cat('\n[RepoReadWrite::is.validXLSX] Checking correct syntax of columns UnitNames with .. qualifiers ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking correct syntax of columns UnitNames with .. qualifiers ...')
     for (sName in varSheetNames) {
         
-        cat(paste0('  ', sName, '...'))
+        if (verbose) cat(paste0('  ', sName, '...'))
         
         sheet <- ExcelSheets.list[[sName]]
         if (dim(sheet)[1] == 0) next
@@ -607,13 +609,13 @@ is.validXLSX <- function(ExcelName){
             
         }
         
-        cat(' ok.\n')
+        if (verbose) cat(' ok.\n')
     }
     
-    cat('Check manually the expression inside each square bracket!\n')
+    if (verbose) cat('Check manually the expression inside each square bracket!\n')
     
     
-    # cat('\n[RepoReadWrite::is.validXLSX] Checking no duplication in IDDD + Qualifiers ...')
+    # if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking no duplication in IDDD + Qualifiers ...')
     # for (sName in varSheetNames) {
     #     
     #     sheet <- ExcelSheets.list[[sName]]
@@ -637,10 +639,10 @@ is.validXLSX <- function(ExcelName){
     #         
     #     }
     # }
-    # cat(' ok.\n')
+    # if (verbose) cat(' ok.\n')
     
     
-    cat('\n[RepoReadWrite::is.validXLSX] Checking no missing and invalid values in column InFiles ...')
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking no missing and invalid values in column InFiles ...')
     for (sName in varSheetNames) {
       
       sheet <- ExcelSheets.list[[sName]]
@@ -673,10 +675,10 @@ is.validXLSX <- function(ExcelName){
         
       }
     }
-    cat(' ok.\n')
+    if (verbose) cat(' ok.\n')
     
     
-    cat(paste0('\n                       THE EXCEL FILE IS VALID!\n\n'))
+    if (verbose) cat(paste0('\n                       THE EXCEL FILE IS VALID!\n\n'))
     return(TRUE)
     
 }
