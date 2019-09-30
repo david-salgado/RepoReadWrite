@@ -196,8 +196,9 @@ is.compatibleXLSX <- function(oldVersion, newVersion, verbose = FALSE){
         commonIDDDs <- intersect(names(lst_old), names(lst_new))
         symDif_incomp <- sapply(commonIDDDs, function(iddd){
             
-            ( length(setdiff(lst_old[[iddd]], lst_new[[iddd]])) > 0 ) &  
-            ( length(setdiff(lst_new[[iddd]], lst_old[[iddd]])) > 0 )
+            ( length(setdiff(lst_old[[iddd]], lst_new[[iddd]])) > 0 )
+#            ( length(setdiff(lst_old[[iddd]], lst_new[[iddd]])) > 0 ) &  
+#            ( length(setdiff(lst_new[[iddd]], lst_old[[iddd]])) > 0 )
         })
         names(symDif_incomp) <- commonIDDDs
         return(!symDif_incomp)
