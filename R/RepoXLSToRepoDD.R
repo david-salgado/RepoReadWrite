@@ -304,8 +304,7 @@ RepoXLSToRepoDD <- function(ExcelName){
     DDname <- strsplit(DDname, '.', fixed = TRUE)[[1]]
     DDname <- paste0(DDname[-length(DDname)], collapse = '.')
     outDDname <- paste0(c(RepoPath, DDname), collapse = '/')
-    #saveXML(doc = xmlDoc(DD), file = outDDname)
-    xml2::write_xml(x = xmlDoc(DD), file = outDDname)
+    saveXML(doc = xmlDoc(DD), file = outDDname)
     cat(paste0('The DD file (xml file) ', DDname, ' has been generated and written in ', RepoPath, '/\n'))
     
     return(invisible(NULL))
