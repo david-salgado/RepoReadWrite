@@ -4,7 +4,7 @@
 \alias{is.compatibleXLSX}
 \title{Check compatibility of two xlsx files to create DDs}
 \usage{
-is.compatibleXLSX(oldVersion, newVersion)
+is.compatibleXLSX(oldVersion, newVersion, verbose = FALSE)
 }
 \arguments{
 \item{oldVersion}{Character vector of length 1 with the name of the file with the old version of 
@@ -12,6 +12,8 @@ the data dictionary.}
 
 \item{newVersion}{Character vector of length 1 with the name of the file with the new version of 
 the data dictionary.}
+
+\item{verbose}{\code{TRUE} or \code{FALSE} (default) to request verbose mode.}
 }
 \value{
 \code{TRUE} or \code{FALSE}.

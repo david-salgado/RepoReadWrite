@@ -15,7 +15,7 @@
 #' ValidateXLS(ExcelName)
 #' }
 #' 
-#' @import data.table openxlsx gdata
+#' @import data.table openxlsx
 #' 
 #' @importFrom StQ ExtractNames
 #'       
@@ -578,7 +578,7 @@ ValidateXLS <- function(ExcelName){
         InFilesValues <- unique(unlist(lapply(InFiles, function(x){
             
             fileTypes <- unlist(strsplit(x, ','))
-            fileTypes <- trim(fileTypes)
+            fileTypes <- trimws(fileTypes)
         })))
         if (any(!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT'))) {
             
