@@ -11,7 +11,7 @@ ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@",
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{DD}{Object of class \linkS4class{DD} with the definition and characteristics of the data 
+\item{DD}{Object of class \code{\link[StQ]{DD}} with the definition and characteristics of the data 
 contained in the file to read.}
 
 \item{out}{Character vector of length 1 indicating whether to output an \linkS4class{StQ} object

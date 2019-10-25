@@ -1,10 +1,10 @@
-#' @title Object of class \linkS4class{DD}
+#' @title Object of class \code{\link[StQ]{DD}}.
 #'
-#' @description \code{ExampleDD} is an object of class \linkS4class{DD}.
+#' @description \code{ExampleDD} is an object of class \code{\link[StQ]{DD}}.
 #'
-#' The slot \code{VarNameCorresp} is of class \linkS4class{VarNameCorresp} with components
+#' The slot \code{VarNameCorresp} is of class \code{\link[StQ]{VNC}} with components
 #' \code{MicroData} and \code{Aggregates}. The corresponding slots \code{MicroData} and 
-#' \code{Aggregates} are of class \linkS4class{DDdt} as the rest of them, although they are empty 
+#' \code{Aggregates} are of class \code{\link[StQ]{DDdt}} as the rest of them, although they are empty 
 #' (thus they do not appear on screen according to the method show).
 #'
 #' The columns of slots \code{MicroData} and \code{Aggregates} are:
@@ -25,9 +25,9 @@
 #'
 #' @usage data(ExampleDD)
 #'
-#' @format Object of class \linkS4class{DD}. Its slot \code{VarNameCorresp} has two components of
+#' @format Object of class \code{\link[StQ]{DD}}. Its slot \code{VarNameCorresp} has two components of
 #' class \linkS4class{VNCdt}: \code{MicroData}, with 15 rows and 7 columns; and \code{Aggregates},
-#' with 3 rows and 6 columns. Its slot \code{MicroData} is a data.table of class \linkS4class{DDdt}
+#' with 3 rows and 6 columns. Its slot \code{MicroData} is a data.table of class \code{\link[StQ]{DDdt}}
 #' with 13 rows and 7 columns and its slot \code{Aggregates} is a data.table of class
-#' \linkS4class{DDdt} with 2 rows and 6 columns.
+#' \code{\link[StQ]{DDdt}} with 2 rows and 6 columns.
 NULL

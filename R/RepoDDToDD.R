@@ -29,9 +29,9 @@
 #' @param FileName Character vector of length 1 with the name of the file to read. The file will be 
 #' read from the working directory (see \link[base]{getwd}) unless the full path is specified.
 #' 
-#' @param VNC Object of class \linkS4class{VarNameCorresp}.
+#' @param VNC Object of class \code{\link[StQ]{VNC}}.
 #'  
-#' @return Return an object of class \linkS4class{DD}.
+#' @return Return an object of class \code{\link[StQ]{DD}}.
 #' 
 #' @examples
 #' # An example with data created previosly:

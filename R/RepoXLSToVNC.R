@@ -42,7 +42,7 @@
 #' @export
 RepoXLSToVNC <- function(ExcelName, SheetNames){
     
-    if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::RepoXLSToVNC] Package openxlsx must be installed in the system.\n')
+    #if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::RepoXLSToVNC] Package openxlsx must be installed in the system.\n')
     
     if (missing(SheetNames)) {
         
@@ -59,7 +59,6 @@ RepoXLSToVNC <- function(ExcelName, SheetNames){
         if (inherits(ExcelSheet[[sName]], 'try-error')) {
             
             warning('\n[RepoReadWrite::RepoXLSToVNC] The package openxlsx will be loaded.\n')
-            library(openxlsx)
             ExcelSheet[[sName]] <- openxlsx::read.xlsx(ExcelName, sheet = sName)
         }
         ExcelSheet[[sName]] <- as.data.table(ExcelSheet[[sName]])

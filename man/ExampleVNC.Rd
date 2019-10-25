@@ -3,14 +3,14 @@
 \docType{data}
 \name{ExampleVNC}
 \alias{ExampleVNC}
-\title{Object of class \linkS4class{VarNameCorresp}}
+\title{Object of class \code{\link[StQ]{VNC}}}
 \format{Object of class \code{VarNameCorresp}. Its component \code{MicroData} has 15 rows and 7
 columns and its component \code{Aggregates} has 3 rows and 6 columns.}
 \usage{
 data(ExampleVNC)
 }
 \description{
-\code{ExampleVNC} is an object of class \linkS4class{VarNameCorresp} with components
+\code{ExampleVNC} is an object of class \code{\link[StQ]{VNC}} with components
 \code{MicroData} and \code{Aggregates}.
 
 The columns of component \code{MicroData} of this object are:
