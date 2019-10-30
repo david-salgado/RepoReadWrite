@@ -100,6 +100,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           if (FileType == 'FF' & Base != '') {
             
             FileNames.local <- list.files(RepoPath, paste0(FileType, '_B', substr(Base, 3, 4), '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
+          
           } else {
             
             FileNames.local <- list.files(RepoPath, paste0(FileType, '_V[1-9][0-9]*.', MonthsNamesM[Month.index]))
@@ -122,7 +123,8 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
         
         DD.list <- lapply(unique(Version), function(vers){
           
-          out <- RepoXLSToDD(paste0(RepoPath, SurveyCode, '.NombresVariables_V', vers, '.xlsx'))
+          out <- RepoXLSToDD(file.path(RepoPath, paste0(SurveyCode, '.NombresVariables_V', vers, '.xlsx')))
+          
           return(out)
         })
         names(DD.list) <- unique(Version)
@@ -158,7 +160,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
 
           DDVersion <- strsplit(strsplit(FileName, '.', fixed = TRUE)[[1]][2], '_V')[[1]][2]
           cat(paste0('     file ', FileName, '...ok\n'))
-          FileName <- paste0(RepoPath, FileName)
+          FileName <- file.path(RepoPath, FileName)
           DDFile <- DD.list[[DDVersion]]
           out <- ReadRepoFile(FileName, DDFile, perl = perl, sep = sep, encoding = encoding)
            
