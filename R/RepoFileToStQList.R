@@ -111,7 +111,7 @@ RepoFileToStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeri
           return(out) 
         })
         FileNames <- unlist(FileNames)
-        
+       
 
         ## DD Construction
         cat(paste0(SurveyCode, '::: Generating DDs for the survey... '))

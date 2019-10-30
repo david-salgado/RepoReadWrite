@@ -15,14 +15,14 @@
 #' ValidateXLS(ExcelName)
 #' }
 #' 
-#' @import data.table openxlsx gdata
+#' @import data.table openxlsx
 #' 
 #' @importFrom StQ ExtractNames
 #'       
 #' @export
 ValidateXLS <- function(ExcelName){
     
-    if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package openxlsx must be installed in the system.\n')
+    #if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package openxlsx must be installed in the system.\n')
     
     # wb <- loadWorkbook(ExcelName)
     # SheetNames <- names(getSheets(wb))
@@ -123,7 +123,8 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for correct syntax of column "IDDD" in each sheet...')
-    specialchar <- c('_', 'á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', 'ç')
+    specialchar <- c('_', "\\u00e1", "\\u00e9", "\\u00ed", "\\u00f3",
+                     "\\u00fa", "\\u00f1", "\\u00fc", "\\u00e7")
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         IDDD <- ExcelSheets.list[[sName]][['IDDD']]
@@ -578,7 +579,7 @@ ValidateXLS <- function(ExcelName){
         InFilesValues <- unique(unlist(lapply(InFiles, function(x){
             
             fileTypes <- unlist(strsplit(x, ','))
-            fileTypes <- trim(fileTypes)
+            fileTypes <- trimws(fileTypes)
         })))
         if (any(!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT'))) {
             

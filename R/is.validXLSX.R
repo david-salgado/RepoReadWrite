@@ -166,7 +166,8 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     if (verbose) cat(' ok.\n')
     
     if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking correct syntax of column IDDD in each sheet...')
-    specialchar <- c('_', 'á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', 'ç')
+    specialchar <- c('_', "\\u00e1", "\\u00e9", "\\u00ed", "\\u00f3",
+                     "\\u00fa", "\\u00f1", "\\u00fc", "\\u00e7")
     for (sName in varSheetNames) {
         
         IDDD <- ExcelSheets.list[[sName]][['IDDD']]

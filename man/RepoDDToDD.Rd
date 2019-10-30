@@ -10,10 +10,10 @@ RepoDDToDD(FileName, VNC)
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
 read from the working directory (see \link[base]{getwd}) unless the full path is specified.}
 
-\item{VNC}{Object of class \linkS4class{VarNameCorresp}.}
+\item{VNC}{Object of class \code{\link[StQ]{VNC}}.}
 }
 \value{
-Return an object of class \linkS4class{DD}.
+Return an object of class \code{\link[StQ]{DD}}.
 }
 \description{
 This function is a constructor for the class \link{DD} using the contents of 

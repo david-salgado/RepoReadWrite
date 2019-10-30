@@ -1,6 +1,6 @@
-#' @title Object of class \linkS4class{VarNameCorresp}
+#' @title Object of class \code{\link[StQ]{VNC}}
 #'
-#' @description \code{ExampleVNC} is an object of class \linkS4class{VarNameCorresp} with components
+#' @description \code{ExampleVNC} is an object of class \code{\link[StQ]{VNC}} with components
 #' \code{MicroData} and \code{Aggregates}.
 #'
 #' The columns of component \code{MicroData} of this object are:

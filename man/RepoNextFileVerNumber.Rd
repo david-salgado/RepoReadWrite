@@ -4,7 +4,7 @@
 \alias{RepoNextFileVerNumber}
 \title{Create the name of the next version of a file}
 \usage{
-RepoNextFileVerNumber(Periods, Path, FileType, Base)
+RepoNextFileVerNumber(Periods, Path, FileType, Base, DorP = "D")
 }
 \arguments{
 \item{Periods}{Character vector with time periods included in the file names.}
@@ -15,6 +15,8 @@ RepoNextFileVerNumber(Periods, Path, FileType, Base)
 
 \item{Base}{Character vector of length 1 with the year ('aaaa') of the base to which data are
 referred. If it has no sense, "Base" is a empty character vector.}
+
+\item{DorP}{Character vector with the type of version (D or P) of the files.}
 }
 \value{
 It returns a character vector of length equal to the length of \code{Periods} with the 

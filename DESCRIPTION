@@ -11,12 +11,12 @@ Imports:
     methods,
     haven (>= 0.2.0),
     XML (>= 3.98),
-    gdata (>= 2.17.0),
     stringi (>= 1.1.2),
     data.table (>= 1.10.0),
     openxlsx (>= 4.0.17),
     StQ (>= 0.3.0),
-    RepoTime (>= 0.2.0)
+    RepoTime (>= 0.2.0),
+    xml2 (>= 1.2.2)
 License: file LICENSE
 Encoding: UTF-8
 Collate:
@@ -24,7 +24,6 @@ Collate:
     'ExampleStQ.R'
     'ExampleVNC.R'
     'FileDDVersion.R'
-    'ReadOldRepoFile.R'
     'ReadRepoFile.R'
     'RepoDDToDD.R'
     'RepoFileVersion.R'

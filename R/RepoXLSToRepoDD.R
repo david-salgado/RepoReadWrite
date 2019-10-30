@@ -17,12 +17,13 @@
 #' RepoXLSToRepoDD(ExcelName)
 #' }
 #' 
-#' @import data.table openxlsx XML
+#' @import data.table XML
+#' 
 #'       
 #' @export
 RepoXLSToRepoDD <- function(ExcelName){
     
-    if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::RepoXLSToRepoDD] Package openxlsx must be installed in the system.\n')
+    #if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::RepoXLSToRepoDD] Package openxlsx must be installed in the system.\n')
         
     # Read the contents of the xlsx file 
     StrSplExcelName <- gsub('\\\\', '/', ExcelName)
