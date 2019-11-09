@@ -2,7 +2,7 @@
 % Please edit documentation in R/is.validXLSX.R
 \name{is.validXLSX}
 \alias{is.validXLSX}
-\title{Check validity of xlsx file to create DD}
+\title{Check validity of an xlsx file to create an DD (Data Dictionary).}
 \usage{
 is.validXLSX(ExcelName, verbose = FALSE)
 }
@@ -15,8 +15,8 @@ is.validXLSX(ExcelName, verbose = FALSE)
 \code{TRUE} or \code{FALSE}.
 }
 \description{
-This function checks the validity of the xlsx file which will be used to create the
- data dictionary with XML format.
+This function checks the validity of the xlsx file used as a GUI to create the data 
+dictionary with XML format.
 }
 \details{
 The input xlsx file is a naive user interface to generate a data dictionary in XML 
@@ -26,9 +26,8 @@ performs a sequence of checks over each sheet of the input xlsx file. These chec
 \code{\link{RepoXLSToDD}}.
 }
 \examples{
-\dontrun{
-ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
-is.validXLSX(ExcelName)
-}
+path <- system.file('extdata', package = 'RepoReadWrite')
+ExcelName <- 'E30103.NombresVariables_V1.xlsx'
+is.validXLSX(file.path(path, ExcelName), verbose = TRUE)
 
 }

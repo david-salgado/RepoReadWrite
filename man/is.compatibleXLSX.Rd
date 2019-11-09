@@ -2,7 +2,7 @@
 % Please edit documentation in R/is.compatibleXLSX.R
 \name{is.compatibleXLSX}
 \alias{is.compatibleXLSX}
-\title{Check compatibility of two xlsx files to create DDs}
+\title{Check compatibility of two xlsx files to create DD (Data Dictionaries).}
 \usage{
 is.compatibleXLSX(oldVersion, newVersion, verbose = FALSE)
 }
@@ -19,8 +19,8 @@ the data dictionary.}
 \code{TRUE} or \code{FALSE}.
 }
 \description{
-This function checks the validity of the xlsx file which will be used to create the
- data dictionary with XML format.
+This function checks the validity of the xlsx file used as GUI to create the data 
+dictionary with XML format.
 }
 \details{
 The input xlsx file is a naive user interface to generate a data dictionary in XML 
@@ -31,8 +31,9 @@ performs a sequence of checks over each sheet of the input xlsx file. These chec
 }
 \examples{
 \dontrun{
-ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
-is.validXLSX(ExcelName)
+ExcelName_old <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+ExcelName_new <- 'T:/E30163/E30163.NombresVariables_V2.xlsx'
+is.compatibleXLSX(ExcelName_old, ExcelName_new)
 }
 
 }

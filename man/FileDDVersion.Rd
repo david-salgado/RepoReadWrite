@@ -2,7 +2,7 @@
 % Please edit documentation in R/FileDDVersion.R
 \name{FileDDVersion}
 \alias{FileDDVersion}
-\title{Return version number of associated DD file.}
+\title{Return version number of the associated DD file of the input file names.}
 \usage{
 FileDDVersion(FileNames)
 }
@@ -10,17 +10,15 @@ FileDDVersion(FileNames)
 \item{FileNames}{Character vector with the names of the files.}
 }
 \value{
-Integer vector with the DD number version of each filename.
+Character vector with the DD number version of each filename.
 }
 \description{
 \code{FileDDVersion} returns the version number of the DD file 
-(data dictionary) corresponding to the input file name.
+(data dictionary) corresponding to the input file names.
 }
 \examples{
-\dontrun{
 FileDDVersion('E30183.FF_V1.MM122014.D_3')
 FileDDVersion('T:/E30183.FF_B15_V1.MM122016.P_2')
 FileDDVersion(c('E30183.FF_V1.MM122014.D_3', 'T:/E30183.FF_B15_V10.MM122016.P_2'))
-}
 
 }

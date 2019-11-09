@@ -22,10 +22,8 @@
 #' @export
 ValidateXLS <- function(ExcelName){
     
-    #if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::ValidateXLS] Package openxlsx must be installed in the system.\n')
+    Correct <- Length.y <- Length.x <- Variable <- NULL
     
-    # wb <- loadWorkbook(ExcelName)
-    # SheetNames <- names(getSheets(wb))
     SheetNames <- openxlsx::getSheetNames(ExcelName)
     
     

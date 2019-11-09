@@ -1,6 +1,6 @@
-#' @title Produce an object of class \link{StQList} from files with key-value pair structure 
+#' @title Produce an object of class \code{\link[StQ]{StQList}} from files with key-value pair structure 
 #' 
-#' @description \code{RepoFileToStQList} returns an object of class \link{StQList} from files
+#' @description \code{RepoFileToStQList} returns an object of class \code{\link[StQ]{StQList}} from files
 #' with key-value pair structure.
 #' 
 #' @param SurveyCode Character vector of length 1 with the code of each survey.
@@ -24,7 +24,7 @@
 #' (default value FALSE).
 #' 
 #' @param includeFI Logical vector of length 1 indicating whether ID variables will be included in
-#' the  slot of class \link{VarNameCorresp} of the \link{DD} object.
+#' the  slot of class \code{\link[StQ]{VNC}} of the \link{DD} object.
 #' 
 #' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
 #' 
@@ -35,7 +35,7 @@
 #' Note: it is not used to re-encode the input, rather enables handling of encoded strings in their 
 #' native encoding.
 #' 
-#' @return Object of class \link{StQList}.
+#' @return Object of class \code{\link[StQ]{StQList}}.
 #' 
 #' @examples
 #' \dontrun{

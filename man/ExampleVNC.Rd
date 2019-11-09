@@ -3,8 +3,8 @@
 \docType{data}
 \name{ExampleVNC}
 \alias{ExampleVNC}
-\title{Object of class \code{\link[StQ]{VNC}}}
-\format{Object of class \code{VarNameCorresp}. Its component \code{MicroData} has 15 rows and 7
+\title{Object of class \code{\link[StQ]{VNC}}.}
+\format{Object of class \code{\link[StQ]{VNC}}. Its component \code{MicroData} has 15 rows and 7
 columns and its component \code{Aggregates} has 3 rows and 6 columns.}
 \usage{
 data(ExampleVNC)

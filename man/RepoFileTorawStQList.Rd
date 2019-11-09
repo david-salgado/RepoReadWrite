@@ -31,7 +31,7 @@ referred. If it has no sense, "Base" is a empty character vector.}
 (default value FALSE).}
 
 \item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
-the  slot of class \link{VarNameCorresp} of the \link{DD} object.}
+the  slot of class \code{\link[StQ]{VNC}} of the \link{DD} object.}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 

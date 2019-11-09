@@ -23,6 +23,9 @@
 #' @export
 RepoXLSToRepoDD <- function(ExcelName){
     
+    IDDD <- Name <- QualType <- MetadataCode <- Type <- InFiles <- ValueDescription <- NULL
+    ValueRegExp <- UnitName <- table_column <- filter <- NULL
+    
     #if (!requireNamespace('openxlsx', quietly = TRUE)) stop('[RepoReadWrite::RepoXLSToRepoDD] Package openxlsx must be installed in the system.\n')
         
     # Read the contents of the xlsx file 

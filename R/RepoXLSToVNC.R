@@ -1,16 +1,16 @@
-#' @title Produce an object of class \link{VarNameCorresp} from an xls file
+#' @title Produce an object of class \code{\link[StQ]{VNC}} from an xls file
 #' 
-#' @description This function is a constructor for the class \link{VarNameCorresp} using the 
+#' @description This function is a constructor for the class \code{\link[StQ]{VNC}} using the 
 #' contents of a xls file.
 #' 
 #' \code{RepoXLSToVNC} transforms the content of a xls file into an object of class 
-#' \link{VarNameCorresp}. 
+#' \code{\link[StQ]{VNC}}. 
 #' 
 #' This function internally builds a \link{list} whose components are 
 #' \linkS4class{data.table} with a row per each variable and with the columns: \code{IDQual}, 
 #' \code{NonIDQual}, \code{IDDD} and \code{Unit1}. 
 #' These internal \linkS4class{data.table} are then used to initialize a 
-#' \link{VarNameCorresp} object.
+#' \code{\link[StQ]{VNC}} object.
 #' 
 #' The column \code{IDQual} contains the names of unit qualifiers.
 #' 
@@ -26,7 +26,7 @@
 #' 
 #' @param SheetNames Character vector with the names of the sheets in the file to read.
 #' 
-#' @return Object of class \link{VarNameCorresp}.
+#' @return Object of class \code{\link[StQ]{VNC}}.
 #' 
 #' @examples
 #' \dontrun{

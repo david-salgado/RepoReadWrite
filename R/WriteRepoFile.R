@@ -43,6 +43,8 @@ setMethod(
     signature = c("rawStQ"),
     function(object, Name, sep = '@@'){
         
+        ROW <- NULL
+        
         if (length(Name) != 1) {
             
             warning('\n[RepoReadWrite::WriteRepoFile] Only the first name will be used.\n')

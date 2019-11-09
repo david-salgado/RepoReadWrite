@@ -25,7 +25,7 @@
 #' (default value FALSE).
 #' 
 #' @param includeFI Logical vector of length 1 indicating whether ID variables will be included in
-#' the  slot of class \link{VarNameCorresp} of the \link{DD} object.
+#' the  slot of class \code{\link[StQ]{VNC}} of the \link{DD} object.
 #' 
 ##' @param perl Logical vector of length 1 indicating whether Perl is installed in the system or not.
 #' 
@@ -51,6 +51,9 @@
 RepoFileTorawStQList <- function(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod, Base,  
                                  Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = '@@',
                                  encoding = 'unknown'){
+    
+    StQ_Files <- IDDD <- Name <- QualType <- MetadataCode <- Type <- InFiles <- NULL
+    ValueDescription <- ValueRegExp <- Name <- UnitName <- table_column <- filter <- NULL
     
     ## Validation
     
