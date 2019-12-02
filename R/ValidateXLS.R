@@ -514,16 +514,47 @@ ValidateXLS <- function(ExcelName){
         
         sheet <- ExcelSheets.list[[sName]]
         if (dim(sheet)[1] == 0) next
-        DoubleDot <- as.logical(rowSums(as.matrix(sheet == '..')))
+        NumDoubleDot <- rowSums(as.matrix(sheet == '..'))
+        if (any(NumDoubleDot>1)) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' have more than one qualifier with double dots: ', paste0(sheet[NumDoubleDot>1][['UnitName']], collapse = ', '), '.'))
+            
+        }
+        DoubleDot <- as.logical(NumDoubleDot)
         DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
-        MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
-        WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
+        MetaUnitNames <- sheet[['UnitName']][grepl('[', sheet[['UnitName']], fixed = TRUE)]
+        # MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
         
+        WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
         if (length(WrongUnitNames) != 0) {
             
             stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed: ', paste0(WrongUnitNames, collapse = ', '), '.'))
             
         }
+        
+        LackDoubleDot <- setdiff(MetaUnitNames, DoubleDotUnitNames)
+        if (length(LackDoubleDot) != 0) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are MetaNames without double dots: ', paste0(LackDoubleDot, collapse = ', '), '.'))
+            
+        }
+        MatrixDoubleDot <- sheet[DoubleDot]
+        for(rown in seq_len(nrow(MatrixDoubleDot))){
+             
+            rownContent <- MatrixDoubleDot[rown]
+            init <- which(rownContent == '..')
+            ending <- which(names(rownContent) == 'UnitName') - 1
+            toCheck <- rownContent[, c(init:ending), with = FALSE]
+            WrongDefined[rown] <- any(toCheck != '..' & toCheck != '')
+           
+        }
+        
+        if (any(WrongDefined)) {
+            
+            stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed with some qualifier after double dots: ', paste0(MatrixDoubleDot[['UnitName']][WrongDefined], collapse = ', '), '.'))
+            
+        }
+
     }
     cat(' ok.\n')
     
@@ -589,7 +620,7 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
-    
+
     cat(paste0('\n[RepoReadWrite::validateXLS] The Excel file ', ExcelName, ' is valid.\n\n'))
     return(TRUE)
     
