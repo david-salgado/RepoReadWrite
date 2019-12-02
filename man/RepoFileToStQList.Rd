@@ -2,7 +2,7 @@
 % Please edit documentation in R/RepoFileToStQList.R
 \name{RepoFileToStQList}
 \alias{RepoFileToStQList}
-\title{Produce an object of class \link{StQList} from files with key-value pair structure}
+\title{Produce an object of class \code{\link[StQ]{StQList}} from files with key-value pair structure}
 \usage{
 RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
   Base, Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
@@ -30,7 +30,7 @@ referred. If it has no sense, "Base" is a empty character vector.}
 (default value FALSE).}
 
 \item{includeFI}{Logical vector of length 1 indicating whether ID variables will be included in
-the  slot of class \link{VarNameCorresp} of the \link{DD} object.}
+the  slot of class \code{\link[StQ]{VNC}} of the \link{DD} object.}
 
 \item{perl}{Logical vector of length 1 indicating whether Perl is installed in the system or not.}
 
@@ -42,10 +42,10 @@ Note: it is not used to re-encode the input, rather enables handling of encoded 
 native encoding.}
 }
 \value{
-Object of class \link{StQList}.
+Object of class \code{\link[StQ]{StQList}}.
 }
 \description{
-\code{RepoFileToStQList} returns an object of class \link{StQList} from files
+\code{RepoFileToStQList} returns an object of class \code{\link[StQ]{StQList}} from files
 with key-value pair structure.
 }
 \examples{

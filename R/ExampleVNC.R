@@ -1,4 +1,4 @@
-#' @title Object of class \code{\link[StQ]{VNC}}
+#' @title Object of class \code{\link[StQ]{VNC}}.
 #'
 #' @description \code{ExampleVNC} is an object of class \code{\link[StQ]{VNC}} with components
 #' \code{MicroData} and \code{Aggregates}.
@@ -28,6 +28,6 @@
 #'
 #' @usage data(ExampleVNC)
 #'
-#' @format Object of class \code{VarNameCorresp}. Its component \code{MicroData} has 15 rows and 7
+#' @format Object of class \code{\link[StQ]{VNC}}. Its component \code{MicroData} has 15 rows and 7
 #' columns and its component \code{Aggregates} has 3 rows and 6 columns.
 NULL

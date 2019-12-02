@@ -1,7 +1,7 @@
-#' @title Check compatibility of two xlsx files to create DDs
+#' @title Check compatibility of two xlsx files to create DD (Data Dictionaries).
 #' 
-#' @description This function checks the validity of the xlsx file which will be used to create the
-#'  data dictionary with XML format.
+#' @description This function checks the validity of the xlsx file used as GUI to create the data 
+#' dictionary with XML format.
 #' 
 #' @param oldVersion Character vector of length 1 with the name of the file with the old version of 
 #' the data dictionary.
@@ -21,8 +21,9 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
-#' is.validXLSX(ExcelName)
+#' ExcelName_old <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
+#' ExcelName_new <- 'T:/E30163/E30163.NombresVariables_V2.xlsx'
+#' is.compatibleXLSX(ExcelName_old, ExcelName_new)
 #' }
 #' 
 #' @include is.validXLSX.R
@@ -36,6 +37,7 @@
 #' @export
 is.compatibleXLSX <- function(oldVersion, newVersion, verbose = FALSE){
     
+    ..colNames <- IDDD <- ..qualCols <- NULL
     
     if (!is.validXLSX(oldVersion)) {
         

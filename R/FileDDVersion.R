@@ -1,18 +1,16 @@
-#' @title Return version number of associated DD file.
+#' @title Return version number of the associated DD file of the input file names.
 #'
 #' @description \code{FileDDVersion} returns the version number of the DD file 
-#' (data dictionary) corresponding to the input file name.
+#' (data dictionary) corresponding to the input file names.
 #'
 #' @param FileNames Character vector with the names of the files.
 #'  
-#' @return Integer vector with the DD number version of each filename.
+#' @return Character vector with the DD number version of each filename.
 #'
 #' @examples
-#' \dontrun{
 #' FileDDVersion('E30183.FF_V1.MM122014.D_3')
 #' FileDDVersion('T:/E30183.FF_B15_V1.MM122016.P_2')
 #' FileDDVersion(c('E30183.FF_V1.MM122014.D_3', 'T:/E30183.FF_B15_V10.MM122016.P_2'))
-#' }
 #' 
 #' @importFrom stringi stri_split_fixed
 #' 
@@ -26,7 +24,7 @@ FileDDVersion <- function(FileNames){
     invalidFileNames <- FileNames[regExIndex == -1]
     if(length(invalidFileNames) != 0) {
         
-        stop(paste0('[RepoReadWrite::FileDDVersion] The following FileNames are not valid:\n'), 
+        stop(paste0('[RepoReadWrite::FileDDVersion] The following file names are not valid:\n'), 
              paste0(invalidFileNames, collapse = ', '))
         
     }

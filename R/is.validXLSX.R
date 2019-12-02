@@ -1,7 +1,7 @@
-#' @title Check validity of xlsx file to create DD
+#' @title Check validity of an xlsx file to create an DD (Data Dictionary).
 #' 
-#' @description This function checks the validity of the xlsx file which will be used to create the
-#'  data dictionary with XML format.
+#' @description This function checks the validity of the xlsx file used as a GUI to create the data 
+#' dictionary with XML format.
 #' 
 #' @param ExcelName Character vector of length 1 with the name of the file to read.
 #' 
@@ -16,10 +16,9 @@
 #' @return \code{TRUE} or \code{FALSE}.
 #' 
 #' @examples
-#' \dontrun{
-#' ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
-#' is.validXLSX(ExcelName)
-#' }
+#' path <- system.file('extdata', package = 'RepoReadWrite')
+#' ExcelName <- 'E30103.NombresVariables_V1.xlsx'
+#' is.validXLSX(file.path(path, ExcelName), verbose = TRUE)
 #' 
 #' @import data.table
 #' 
@@ -30,6 +29,8 @@
 #' @export
 is.validXLSX <- function(ExcelName, verbose = FALSE){
     
+    Correct <- Length.y <- Length.x <- Variable <- UnitName <- NULL
+      
     # Global Variables
     SheetNames <- openxlsx::getSheetNames(ExcelName)
     varRootSheetNames <- c('ID', 'MicroData', 'ParaData', 'Aggregates', 'AggWeights', 'Other')
@@ -667,7 +668,7 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
       InFilesValues <- unique(unlist(lapply(InFiles, function(x){
         
           fileTypes <- unlist(strsplit(x, ','))
-          fileTypes <- trim(fileTypes)
+          fileTypes <- trimws(fileTypes)
       })))
       invalidInFilesValues <- InFilesValues[!InFilesValues %chin% c('FI', 'FG', 'FD', 'FF', 'FP', 'FL', 'FT')]
       if (length(invalidInFilesValues) > 0) {
