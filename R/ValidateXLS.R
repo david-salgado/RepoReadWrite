@@ -537,6 +537,7 @@ ValidateXLS <- function(ExcelName){
             
         }
         MatrixDoubleDot <- sheet[DoubleDot]
+        WrongDefined <- NULL
         for(rown in seq_len(nrow(MatrixDoubleDot))){
              
             rownContent <- MatrixDoubleDot[rown]
