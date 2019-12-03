@@ -18,6 +18,7 @@
 #' @examples
 #' path <- system.file('extdata', package = 'RepoReadWrite')
 #' ExcelName <- 'E30103.NombresVariables_V1.xlsx'
+#' cat(file.path(path, ExcelName))
 #' is.validXLSX(file.path(path, ExcelName), verbose = TRUE)
 #' 
 #' @import data.table

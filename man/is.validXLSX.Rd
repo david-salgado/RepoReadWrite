@@ -28,6 +28,7 @@ performs a sequence of checks over each sheet of the input xlsx file. These chec
 \examples{
 path <- system.file('extdata', package = 'RepoReadWrite')
 ExcelName <- 'E30103.NombresVariables_V1.xlsx'
+cat(file.path(path, ExcelName))
 is.validXLSX(file.path(path, ExcelName), verbose = TRUE)
 
 }

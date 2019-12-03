@@ -508,10 +508,13 @@ ValidateXLS <- function(ExcelName){
     cat(' ok.\n')
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for consistency of UnitNames with .. qualifiers ...')
+    DoubleDotQuals <- NULL
+    DotQuals <- NULL
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
         if (dim(sheet)[1] == 0) next
+        
         NumDoubleDot <- rowSums(as.matrix(sheet == '..'))
         if (any(NumDoubleDot>1)) {
             
@@ -544,7 +547,7 @@ ValidateXLS <- function(ExcelName){
             init <- which(rownContent == '..')
             ending <- which(names(rownContent) == 'UnitName') - 1
             toCheck <- rownContent[, c(init:ending), with = FALSE]
-            WrongDefined[rown] <- any(toCheck != '..' & toCheck != '')
+            WrongDefined[rown] <- any(toCheck != '..' & toCheck != '' & toCheck != '.')
            
         }
         
@@ -553,7 +556,20 @@ ValidateXLS <- function(ExcelName){
             stop(paste0('[RepoReadWrite::validateXLS] The following UnitNames in sheet ', sName, ' are malformed with some qualifier after double dots: ', paste0(MatrixDoubleDot[['UnitName']][WrongDefined], collapse = ', '), '.'))
             
         }
+        
+        NumDotCol <- colSums(as.matrix(sheet == '.'))
+        NumDoubleDotCol <- colSums(as.matrix(sheet == '..'))
+        DotNames <- names(NumDotCol)[NumDotCol >0]
+        DoubleDotNames <- names(NumDoubleDotCol)[NumDoubleDotCol >0]
+        
+        DoubleDotQuals <- unique(c(DoubleDotQuals, DoubleDotNames))
+        DotQuals <- unique(c(DotQuals, DotNames))
 
+    }
+    if(any(DoubleDotNames %in% DotNames)){
+        
+        stop(paste0('[RepoReadWrite::validateXLS] The following qualifiers are malformed with some variables with double dots and others with dot: ', paste0(DoubleDotNames[DoubleDotNames %in% DotNames], collapse = ', '), '.'))
+        
     }
     cat(' ok.\n')
     
