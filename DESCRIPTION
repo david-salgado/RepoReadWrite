@@ -1,6 +1,6 @@
 Package: RepoReadWrite
 Title: Read and write files from/to the microdata repository
-Version: 0.5.9
+Version: 0.5.10
 Author: David Salgado
 Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
 Description: This package contains the functions necessary to read and write

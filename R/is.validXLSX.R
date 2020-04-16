@@ -595,25 +595,71 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     if (verbose) cat(' ok.\n')
 ##    
     if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking correct syntax of columns UnitNames with .. qualifiers ...')
-    for (sName in varSheetNames) {
-        
-        if (verbose) cat(paste0('  ', sName, '...'))
+    DoubleDotQuals <- NULL
+    DotQuals <- NULL
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
         
         sheet <- ExcelSheets.list[[sName]]
         if (dim(sheet)[1] == 0) next
-        DoubleDot <- as.logical(rowSums(as.matrix(sheet == '..')))
-        DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
-        MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
-        WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
         
+        NumDoubleDot <- rowSums(as.matrix(sheet == '..'))
+        if (any(NumDoubleDot>1)) {
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following UnitNames in sheet ', sName, ' have more than one qualifier with double dots: ', paste0(sheet[NumDoubleDot>1][['UnitName']], collapse = ', '), '.'))
+            
+        }
+        DoubleDot <- as.logical(NumDoubleDot)
+        DoubleDotUnitNames <- sheet[DoubleDot][['UnitName']]
+        MetaUnitNames <- sheet[['UnitName']][grepl('[', sheet[['UnitName']], fixed = TRUE)]
+        # MetaUnitNames <- DoubleDotUnitNames[grepl('[', DoubleDotUnitNames, fixed = TRUE)]
+        
+        WrongUnitNames <- setdiff(DoubleDotUnitNames, MetaUnitNames)
         if (length(WrongUnitNames) != 0) {
             
             stop(paste0('[RepoReadWrite::is.validXLSX] The following UnitNames in sheet ', sName, ' are malformed: ', paste0(WrongUnitNames, collapse = ', '), ' (check square brackets).'))
             
         }
         
-        if (verbose) cat(' ok.\n')
+        LackDoubleDot <- setdiff(MetaUnitNames, DoubleDotUnitNames)
+        if (length(LackDoubleDot) != 0) {
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following UnitNames in sheet ', sName, ' are MetaNames without double dots: ', paste0(LackDoubleDot, collapse = ', '), '.'))
+            
+        }
+        MatrixDoubleDot <- sheet[DoubleDot]
+        WrongDefined <- NULL
+        for(rown in seq_len(nrow(MatrixDoubleDot))){
+            
+            rownContent <- MatrixDoubleDot[rown]
+            init <- which(rownContent == '..')
+            ending <- which(names(rownContent) == 'UnitName') - 1
+            toCheck <- rownContent[, c(init:ending), with = FALSE]
+            WrongDefined[rown] <- any(toCheck != '..' & toCheck != '' & toCheck != '.')
+            
+        }
+        
+        if (any(WrongDefined)) {
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following UnitNames in sheet ', sName, ' are malformed with some qualifier after double dots: ', paste0(MatrixDoubleDot[['UnitName']][WrongDefined], collapse = ', '), '.'))
+            
+        }
+        
+        NumDotCol <- colSums(as.matrix(sheet == '.'))
+        NumDoubleDotCol <- colSums(as.matrix(sheet == '..'))
+        DotNames <- names(NumDotCol)[NumDotCol >0]
+        DoubleDotNames <- names(NumDoubleDotCol)[NumDoubleDotCol >0]
+        
+        DoubleDotQuals <- unique(c(DoubleDotQuals, DoubleDotNames))
+        DotQuals <- unique(c(DotQuals, DotNames))
+        
     }
+    if(any(DoubleDotNames %in% DotNames)){
+        
+        stop(paste0('[RepoReadWrite::is.validXLSX] The following qualifiers are malformed with some variables with double dots and others with dot: ', paste0(DoubleDotNames[DoubleDotNames %in% DotNames], collapse = ', '), '.'))
+        
+    }
+    cat(' ok.\n')
+
     
     if (verbose) cat('Check manually the expression inside each square bracket!\n')
     

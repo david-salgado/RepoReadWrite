@@ -30,12 +30,12 @@ RepoFileVersion <- function(Path, FileNamePattern){
   if (length(FileNamePattern) != 1) stop('\n[RepoReadWrite::RepoFileVersion] The input parameter FileNamePattern must be a character vector of length 1.\n')
   
   FTpattern <- grep('FT_V', FileNamePattern)
-  if (length(FTpattern) != 0) {
-      
-      cat('\n[RepoReadWrite::RepoFileVersion] FT files do not have version number.\n')
-      return(character(0))
-      
-  }
+  # if (length(FTpattern) != 0) {
+  #     
+  #     cat('\n[RepoReadWrite::RepoFileVersion] FT files do not have version number.\n')
+  #     return(character(0))
+  #     
+  # }
   FLpattern <- grep('FL_V', FileNamePattern)
   if (length(FLpattern) != 0) {
       
@@ -48,7 +48,8 @@ RepoFileVersion <- function(Path, FileNamePattern){
   if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] Path not found.')
   Files <- Files[grep(FileNamePattern, Files)]
   if (length(Files) == 0) stop('[RepoReadWrite::RepoFileVersion] No files with this name pattern in this path.')
-  nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
+  #nVer <- unlist(lapply(as.list(Files), function(x){substr(x, nchar(x), nchar(x))}))
+  nVer <- as.numeric(sapply(strsplit(Files, "_"), function(x) x[length(x)]))
   output <- max(nVer)
   return(output)
   
