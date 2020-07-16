@@ -566,9 +566,9 @@ ValidateXLS <- function(ExcelName){
         DotQuals <- unique(c(DotQuals, DotNames))
 
     }
-    if(any(DoubleDotNames %in% DotNames)){
+    if(any(DoubleDotQuals %in% DotQuals)){
         
-        stop(paste0('[RepoReadWrite::validateXLS] The following qualifiers are malformed with some variables with double dots and others with dot: ', paste0(DoubleDotNames[DoubleDotNames %in% DotNames], collapse = ', '), '.'))
+        stop(paste0('[RepoReadWrite::validateXLS] The following qualifiers are malformed with some variables with double dots and others with dot: ', paste0(DoubleDotQuals[DoubleDotQuals %in% DotQuals], collapse = ', '), '.'))
         
     }
     cat(' ok.\n')
