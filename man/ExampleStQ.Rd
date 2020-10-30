@@ -4,8 +4,10 @@
 \name{ExampleStQ}
 \alias{ExampleStQ}
 \title{Object of class \code{\link[StQ]{StQ}}.}
-\format{Object of class \code{\link[StQ]{StQ}}. Its slot \code{Data} has 354458 rows and 4 
-columns.}
+\format{
+Object of class \code{\link[StQ]{StQ}}. Its slot \code{Data} has 354458 rows and 4 
+columns.
+}
 \usage{
 data(ExampleStQ)
 }

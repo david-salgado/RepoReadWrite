@@ -4,11 +4,13 @@
 \name{ExampleDD}
 \alias{ExampleDD}
 \title{Object of class \code{\link[StQ]{DD}}.}
-\format{Object of class \code{\link[StQ]{DD}}. Its slot \code{VNC} has two components of
+\format{
+Object of class \code{\link[StQ]{DD}}. Its slot \code{VNC} has two components of
 class \linkS4class{data.table}: \code{MicroData}, with 15 rows and 7 columns; and \code{Aggregates},
 with 3 rows and 6 columns. Its slot \code{MicroData} is a data.table of class 
 \linkS4class{data.table} with 13 rows and 7 columns and its slot \code{Aggregates} is a data.table of class
-\linkS4class{data.table} with 2 rows and 6 columns.}
+\linkS4class{data.table} with 2 rows and 6 columns.
+}
 \usage{
 data(ExampleDD)
 }

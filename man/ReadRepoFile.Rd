@@ -4,8 +4,15 @@
 \alias{ReadRepoFile}
 \title{Read a file with a key-value pair structure.}
 \usage{
-ReadRepoFile(FileName, DD, out = "StQ", perl = FALSE, sep = "@@",
-  encoding = "unknown", verbose = TRUE)
+ReadRepoFile(
+  FileName,
+  DD,
+  out = "StQ",
+  perl = FALSE,
+  sep = "@@",
+  encoding = "unknown",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{FileName}{Character vector of length 1 with the name of the file to read. The file will be 
@@ -41,7 +48,7 @@ input name.
 }
 \examples{
 \dontrun{
-#We assume that the key-value ASCII file \\code{E30183.FF_V1.MM032014.D_1} is in the administrator 
+#We assume that the key-value ASCII file \code{E30183.FF_V1.MM032014.D_1} is in the administrator 
 desktop (change accordingly otherwise): 
 ExcelName <- 'T:/E30163/E30163.NombresVariables_V1.xlsx'
 DD <- RepoXLSToDD(ExcelName)

@@ -4,9 +4,19 @@
 \alias{RepoFileToStQList}
 \title{Produce an object of class \code{\link[StQ]{StQList}} from files with key-value pair structure}
 \usage{
-RepoFileToStQList(SurveyCode, RepoPath, FileType, IniPeriod, FinPeriod,
-  Base, Rot = FALSE, includeFI = TRUE, perl = FALSE, sep = "@@",
-  encoding = "unknown")
+RepoFileToStQList(
+  SurveyCode,
+  RepoPath,
+  FileType,
+  IniPeriod,
+  FinPeriod,
+  Base,
+  Rot = FALSE,
+  includeFI = TRUE,
+  perl = FALSE,
+  sep = "@@",
+  encoding = "unknown"
+)
 }
 \arguments{
 \item{SurveyCode}{Character vector of length 1 with the code of each survey.}

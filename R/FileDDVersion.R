@@ -19,7 +19,7 @@ FileDDVersion <- function(FileNames){
     
     simplFileNames <- basename(FileNames)
     
-    regEx <- 'E[0-9]{5}\\.(DD|NombresVariables|FF|FD|FG|FL|FT|FI|FP)_(B[0-9]{2}_)*V[0-9]+'
+    regEx <- 'E[0-9]{5}\\.(DD|NombresVariables|FF|FD|FG|FL|FT|FI|FP)_([A-z0-9]*_)*V[0-9]+'
     regExIndex <- gregexpr(regEx, simplFileNames)
     invalidFileNames <- FileNames[regExIndex == -1]
     if(length(invalidFileNames) != 0) {
