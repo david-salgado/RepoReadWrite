@@ -95,6 +95,7 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType, Base, DorP = 'D'){
     output[idx] <- vers
     
   }
+  output <- paste0('.', DorP, '_', output)
   return(output)
 
 }
