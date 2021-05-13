@@ -66,27 +66,35 @@ RepoNextFileVerNumber <- function(Periods, Path, FileType, Base, DorP = 'D'){
       return(NextVer)
   }
   
-  nextVersions <- vector(mode = 'integer', length = length(Periods))
-  names(nextVersions) <- Periods
-  for (Per in Periods) {
+  
+  nextVersions.dt <- data.table(periods = unique(Periods))
+  
+  nextVersions.dt <- nextVersions.dt[
+    , nextVersion := {
+      perFiles <- Files[grep(paste0(periods, '.[', DorP, ']_'), Files)]
+      if (length(perFiles) == 0) out <- 1
+      if (length(perFiles) != 0) {
+      
+        out <- max(sapply(perFiles, function(fileName){
+        
+          as.integer(strsplit(fileName, split = paste0(periods, '.[', DorP, ']_'))[[1]][2]) + 1
+        
+        
+        }))
+      }; out}, by = periods]
+  
+  nextVersions <- nextVersions.dt$nextVersion
+  names(nextVersions) <- nextVersions.dt$periods
+  
+  output <- vector(mode = 'integer', length = length(Periods))
+  names(output) <- Periods
+  for(per in unique(Periods)){
     
-    perFiles <- Files[grep(paste0(Per, '.[', DorP, ']_'), Files)]
+    vers <- nextVersions.dt[periods == per]$nextVersion
+    idx <- which(names(output) == per)
+    output[idx] <- vers
     
-    if (length(perFiles) == 0) nextVersions[Per] <- 1
-    if (length(perFiles) != 0) {
-      
-      nextVersions[Per] <- max(sapply(perFiles, function(fileName){
-
-        as.integer(strsplit(fileName, split = paste0(Per, '.[', DorP, ']_'))[[1]][2]) + 1
-      
-      }))
-      
-    }
   }
-  
-  nextVersions <- paste0('.', DorP, '_', nextVersions)
-  names(nextVersions) <- Periods
-  
-  return(nextVersions)
-  
+  return(output)
+
 }

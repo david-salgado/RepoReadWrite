@@ -81,6 +81,7 @@ RepoDDToDD <- function(FileName, VNC){
     
     #EnFicheros <- unlist(lapply(UnitNames,function(x) {lapply(x, function(y) {xmlGetAttr(y,"EnFicheros")})}))
     values <- getNodeSet(doc, "//values")
+
     ValueRegExp <- unlist(lapply(values, function(x){as.data.table(xmlToDataFrame(x, stringsAsFactors = FALSE))[2]}))
     
     # Construimos un vector Qual que contenga los datos de Qual1, Qual2,... en ese orden
