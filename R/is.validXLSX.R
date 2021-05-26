@@ -554,6 +554,31 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     if (verbose) cat(' ok.\n')
     
     
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking that no IDDD of Type NUMBER has a mistaken TipoMicrodato ...')
+    
+    TypesIDDD   <- ExcelSheets.list[['VarSpec']][['Type']]
+    numberNames <- Name[which(TypesIDDD == "NUMBER")]
+    
+    for (sName in varSheetNames) {
+        
+        sheet <- ExcelSheets.list[[sName]]
+        numberSheet <- sheet[IDQual %in% numberNames | NonIDQual %in% numberNames | IDDD %in% numberNames]
+        if(nrow(numberSheet) > 0){
+            
+            NamesSheet <- ExtractNames(names(numberSheet))
+            TipoMicrodato_values <- numberSheet[, get(names(numberSheet)[which(NamesSheet == 'TipoMicrodato')])]
+            wrongUN <- numberSheet[TipoMicrodato_values %in% c("06.", "41."), UnitName]
+            if(length(wrongUN) > 0){
+                
+                stop(paste0('[RepoReadWrite::is.validXLSX] Qualifier TipoMicrodato has wrong value for NUMBER IDDD in UnitNames: ',
+                            paste(wrongUN, collapse = ", "), ' in sheet ', sName, '.'))
+            }
+
+        }
+    }
+    if (verbose) cat(' ok.\n')
+    
+    
     if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking absence of missing values in qualifier TipoMicrodato ...')
     for (sName in varSheetNames) {
         

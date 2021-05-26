@@ -153,6 +153,29 @@ ValidateXLS <- function(ExcelName){
         cat(' ok.\n')
     }
     
+    
+    cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
+    unitNames <- c()
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        localUnitName <- ExcelSheets.list[[sName]][['UnitName']]
+        localUnitName <- localUnitName[!is.na(localUnitName) & localUnitName != '']
+        unitNames <- c(unitNames, localUnitName)
+        
+    }
+    
+    unitNames <- unitNames[!unitNames %in% quals_UnitName]
+    dupUnitNames <- unitNames[duplicated(unitNames)]
+    
+    if (length(dupUnitNames) > 0) {
+        
+        stop(paste0('[RepoReadWrite::validateXLS] The following unitnames are duplicated: ', 
+                    paste0(dupUnitNames, collapse = ' ,'), '.\n')) 
+    }
+    
+    
+    cat(' ok.\n')
+    
     cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicated qualifiers in sheet...\n')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
         
@@ -466,6 +489,31 @@ ValidateXLS <- function(ExcelName){
         }
     }
     cat(' ok.\n')
+    
+    cat('\n[RepoReadWrite::validateXLS] Checking that no IDDD of Type NUMBER has a mistaken TipoMicrodato ...')
+    
+    TypesIDDD   <- ExcelSheets.list[['VarSpec']][['Type']]
+    numberNames <- Name[which(TypesIDDD == "NUMBER")]
+    
+    for (sName in varSheetNames) {
+        
+        sheet <- ExcelSheets.list[[sName]]
+        numberSheet <- sheet[IDQual %in% numberNames | NonIDQual %in% numberNames | IDDD %in% numberNames]
+        if(nrow(numberSheet) > 0){
+            
+            NamesSheet <- ExtractNames(names(numberSheet))
+            TipoMicrodato_values <- numberSheet[, get(names(numberSheet)[which(NamesSheet == 'TipoMicrodato')])]
+            wrongUN <- numberSheet[TipoMicrodato_values %in% c("06.", "41."), UnitName]
+            if(length(wrongUN) > 0){
+                
+                stop(paste0('[RepoReadWrite::validateXLS] Qualifier TipoMicrodato has wrong value for NUMBER IDDD in UnitNames: ',
+                            paste(wrongUN, collapse = ", "), ' in sheet ', sName, '.'))
+            }
+            
+        }
+    }
+    cat(' ok.\n')
+    
     
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for missing values in qualifier "TipoMicrodato" ...')
