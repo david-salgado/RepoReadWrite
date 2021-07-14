@@ -69,6 +69,46 @@ ValidateXLS <- function(ExcelName){
         
     }
     
+    quals_IDDD <- c()
+    idQuals_IDDD <- c()
+    nonIDQuals_IDDD <- c()
+    quals_UnitName <- c()
+    idQuals_UnitName <- c()
+    nonIDQuals_UnitName <- c()
+    for (sName in varSheetNames) {
+        
+        IDQual_IDDD <- ExcelSheets.list[[sName]][['IDQual']]
+        IDQual_IDDD <- IDQual_IDDD[!is.na(IDQual_IDDD) & IDQual_IDDD != '']
+        idQuals_IDDD <- c(idQuals_IDDD, IDQual_IDDD)
+        
+        IDQual_UnitName <- ExcelSheets.list[[sName]][IDQual %chin% IDQual_IDDD][['UnitName']]
+        IDQual_UnitName <- IDQual_UnitName[IDQual_UnitName != '']
+        names(IDQual_UnitName) <- ExcelSheets.list[[sName]][IDQual %chin% IDQual_IDDD][['IDQual']]
+        idQuals_UnitName <- c(idQuals_UnitName, IDQual_UnitName)
+        
+        
+        NonIDQual_IDDD <- ExcelSheets.list[[sName]][['NonIDQual']]
+        NonIDQual_IDDD <- NonIDQual_IDDD[!is.na(NonIDQual_IDDD) & NonIDQual_IDDD != '']
+        nonIDQuals_IDDD <- c(nonIDQuals_IDDD, NonIDQual_IDDD)
+        
+        NonIDQual_UnitName <- ExcelSheets.list[[sName]][NonIDQual %chin% NonIDQual_IDDD][['UnitName']]
+        NonIDQual_UnitName <- NonIDQual_UnitName[NonIDQual_UnitName != '']
+        nonIDQuals_UnitName <- c(nonIDQuals_UnitName, NonIDQual_UnitName)
+        
+        quals_IDDD <- c(quals_IDDD, IDQual_IDDD, NonIDQual_IDDD)
+        quals_UnitName <- c(quals_UnitName, IDQual_UnitName, NonIDQual_UnitName)
+    }
+    quals_IDDD <- unique(quals_IDDD)
+    quals_UnitName <- unique(quals_UnitName)
+    idQuals_IDDD <- unique(idQuals_IDDD)
+    
+    idQuals_UnitName_temp <- unique(idQuals_UnitName)
+    names(idQuals_UnitName_temp) <- names(idQuals_UnitName)[which(idQuals_UnitName_temp %in% idQuals_UnitName)] 
+    idQuals_UnitName <- idQuals_UnitName_temp
+    
+    nonIDQuals_IDDD <- unique(nonIDQuals_IDDD)
+    nonIDQuals_UnitName <- unique(nonIDQuals_UnitName)
+    
     cat('\n[RepoReadWrite::ValidateXLS] No duplicates in the sheet VarSpec...')
     Name <- ExcelSheets.list[['VarSpec']][['Name']]
     DupName <-  Name[duplicated(Name, by = key(Name))]
@@ -153,6 +193,17 @@ ValidateXLS <- function(ExcelName){
         cat(' ok.\n')
     }
     
+    cat('\n[RepoReadWrite::is.validXLS] Checking coherence in the UnitNames for each idQual...')
+    
+    idQual_incoherence <- names(idQuals_UnitName)[duplicated(names(idQuals_UnitName))]
+    if(length(idQual_incoherence) > 0){
+        
+        stop(paste0('[RepoReadWrite::is.validXLS] The following unitnames are assigned to the same idQual: ', 
+                    paste0(idQuals_UnitName[names(idQuals_UnitName) %in% idQual_incoherence], collapse = ', '), '.\n')) 
+        
+    }
+    cat(' ok.\n')
+    
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
     unitNames <- c()
@@ -170,7 +221,7 @@ ValidateXLS <- function(ExcelName){
     if (length(dupUnitNames) > 0) {
         
         stop(paste0('[RepoReadWrite::validateXLS] The following unitnames are duplicated: ', 
-                    paste0(dupUnitNames, collapse = ' ,'), '.\n')) 
+                    paste0(dupUnitNames, collapse = ', '), '.\n')) 
     }
     
     

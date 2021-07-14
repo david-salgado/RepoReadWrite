@@ -75,6 +75,7 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
         
         IDQual_UnitName <- ExcelSheets.list[[sName]][IDQual %chin% IDQual_IDDD][['UnitName']]
         IDQual_UnitName <- IDQual_UnitName[IDQual_UnitName != '']
+        names(IDQual_UnitName) <- ExcelSheets.list[[sName]][IDQual %chin% IDQual_IDDD][['IDQual']]
         idQuals_UnitName <- c(idQuals_UnitName, IDQual_UnitName)
         
         
@@ -92,7 +93,11 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     quals_IDDD <- unique(quals_IDDD)
     quals_UnitName <- unique(quals_UnitName)
     idQuals_IDDD <- unique(idQuals_IDDD)
-    idQuals_UnitName <- unique(idQuals_UnitName)
+    
+    idQuals_UnitName_temp <- unique(idQuals_UnitName)
+    names(idQuals_UnitName_temp) <- names(idQuals_UnitName)[which(idQuals_UnitName_temp %in% idQuals_UnitName)] 
+    idQuals_UnitName <- idQuals_UnitName_temp
+    
     nonIDQuals_IDDD <- unique(nonIDQuals_IDDD)
     nonIDQuals_UnitName <- unique(nonIDQuals_UnitName)
 
@@ -184,6 +189,17 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     }
     if (verbose) cat(' ok.\n')
     
+    if (verbose) cat('\n[RepoReadWrite::is.validXLS] Checking coherence in the UnitNames for each idQual...')
+    
+    idQual_incoherence <- names(idQuals_UnitName)[duplicated(names(idQuals_UnitName))]
+    if(length(idQual_incoherence) > 0){
+        
+        stop(paste0('[RepoReadWrite::is.validXLS] The following unitnames are assigned to the same idQual: ', 
+                    paste0(idQuals_UnitName[names(idQuals_UnitName) %in% idQual_incoherence], collapse = ', '), '.\n')) 
+        
+    }
+    if (verbose) cat(' ok.\n')
+    
     if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
     unitNames <- c()
 
@@ -201,7 +217,7 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     if (length(dupUnitNames) > 0) {
         
              stop(paste0('[RepoReadWrite::validateXLS] The following unitnames are duplicated: ', 
-                         paste0(dupUnitNames, collapse = ' ,'), '.\n')) 
+                         paste0(dupUnitNames, collapse = ', '), '.\n')) 
     }
     
     
