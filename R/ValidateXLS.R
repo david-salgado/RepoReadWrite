@@ -102,9 +102,9 @@ ValidateXLS <- function(ExcelName){
     quals_UnitName <- unique(quals_UnitName)
     idQuals_IDDD <- unique(idQuals_IDDD)
     
-    idQuals_UnitName_temp <- unique(idQuals_UnitName)
-    names(idQuals_UnitName_temp) <- names(idQuals_UnitName)[which(idQuals_UnitName_temp %in% idQuals_UnitName)] 
-    idQuals_UnitName <- idQuals_UnitName_temp
+    idQuals_UnitName.dt <- unique(data.table(idQuals_UnitName, names = names(idQuals_UnitName)))
+    idQuals_UnitName <- idQuals_UnitName.dt[, idQuals_UnitName]
+    names(idQuals_UnitName) <-  idQuals_UnitName.dt[, names]
     
     nonIDQuals_IDDD <- unique(nonIDQuals_IDDD)
     nonIDQuals_UnitName <- unique(nonIDQuals_UnitName)
