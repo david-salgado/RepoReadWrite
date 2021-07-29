@@ -672,6 +672,60 @@ ValidateXLS <- function(ExcelName){
     }
     cat(' ok.\n')
     
+    cat('\n[RepoReadWrite::is.validXLSX] Checking all UnitNames in DotQuals ...')
+    
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        sheet <- ExcelSheets.list[[sName]]
+        if (dim(sheet)[1] == 0) next
+        
+        subsetDot1 <- sheet[IDQual %in% DotQuals] 
+        subsetDot2 <- sheet[NonIDQual %in% DotQuals]
+        lackUnitName1 <- subsetDot1[UnitName == "", IDQual]
+        lackUnitName2 <- subsetDot2[UnitName == "", NonIDQual]
+        if(length(lackUnitName1) > 0){
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following IDQual in sheet ', sName, ' do not have UnitName: ',
+                        paste0(lackUnitName1, collapse = ", "), '.\n\n'))
+        }
+        if(length(lackUnitName2) > 0){
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following NonIDQual in sheet ', sName, ' do not have UnitName: ',
+                        paste0(lackUnitName2, collapse = ", "), '.\n\n'))
+        }
+        
+    }
+    cat(' ok.\n')
+    cat('\n[RepoReadWrite::is.validXLSX] Checking there are not values in DotQuals and DotDotQuals qualifiers ...')
+    
+    for (sName in setdiff(SheetNames, 'VarSpec')) {
+        
+        sheet <- ExcelSheets.list[[sName]]
+        if (dim(sheet)[1] == 0) next
+        
+        colsDot <- intersect(DotQuals, names(sheet))
+        subsetDot <- sheet[, ..colsDot, with = FALSE]
+        errorQual <- apply(subsetDot != "" & subsetDot != ".", 2, any)
+        
+        if(any(errorQual)){
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following DotQuals qualifiers in sheet ', sName, ' have values different from . : ',
+                        paste0(names(errorQual)[errorQual], collapse = ", "), '.\n\n'))
+        }
+        
+        # colsDotDot <- intersect(DoubleDotQuals, names(sheet))
+        # subsetDDot <- sheet[, ..colsDotDot, with = FALSE]
+        # errorQual <- apply(subsetDDot != "" & subsetDDot != "..", 2, any)
+        # 
+        # if(any(errorQual)){
+        #     
+        #     stop(paste0('[RepoReadWrite::is.validXLSX] The following DotDotQuals qualifiers in sheet ', sName, ' have values different from .. : ',
+        #                 paste0(names(errorQual)[errorQual], collapse = ", "), '.\n\n'))
+        # }
+        
+        
+    }
+    
     
     cat('\n[RepoReadWrite::ValidateXLS] Checking for duplicates in IDDD + Qualifiers ...')
     for (sName in setdiff(SheetNames, 'VarSpec')) {
