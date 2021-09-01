@@ -200,7 +200,7 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     }
     if (verbose) cat(' ok.\n')
     
-    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames (qualifiers not considered)...')
+    if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in UnitNames across Sheets (qualifiers not considered)...')
     unitNames <- c()
 
     for (sName in varSheetNames) {
@@ -221,6 +221,25 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     }
     
     
+    if (verbose) cat(' ok.\n')
+    
+    if (verbose) cat('\n[RepoReadWrite::is.validXLSX] Checking no duplication in UnitNames per Sheet (qualifiers not considered)...')
+    
+    
+    for (sName in varSheetNames) {
+        
+        localUnitName <- ExcelSheets.list[[sName]][['UnitName']]
+        localUnitName <- localUnitName[!is.na(localUnitName) & localUnitName != '']
+        dupUnitNames <- localUnitName[duplicated(localUnitName)]
+        
+        if (length(dupUnitNames) > 0) {
+            
+            stop(paste0('[RepoReadWrite::is.validXLSX] The following unitnames are duplicated: ', 
+                        paste0(dupUnitNames, collapse = ', '), ' in sheet:', sName, '.\n')) 
+        }
+        
+        
+    }
     if (verbose) cat(' ok.\n')
     
     if (verbose) cat('\n[RepoReadWrite::ValidateXLS] Checking no duplication in qualifiers in sheet...\n')
