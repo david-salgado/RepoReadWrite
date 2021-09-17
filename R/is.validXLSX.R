@@ -789,8 +789,12 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
             
             if(any(errorQual)){
                 
+                cols2 <- c(names(errorQual)[errorQual], "UnitName")
+                subsetDot2 <- sheet[, ..cols2, with = FALSE]
+                errorUN <- subsetDot2[, UnitName][apply(subsetDot != "" & subsetDot != ".", 1, any)]
                 stop(paste0('[RepoReadWrite::is.validXLSX] The following DotQuals qualifiers in sheet ', sName, ' have values different from . : ',
-                            paste0(names(errorQual)[errorQual], collapse = ", "), '.\n\n'))
+                            paste0(names(errorQual)[errorQual], collapse = ", "), ' found in the following UnitName:',
+                            paste0(errorUN, collapse = ", "),'.\n\n'))
             }
             
             # colsDotDot <- intersect(DoubleDotQuals, names(sheet))
