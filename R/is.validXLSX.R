@@ -206,12 +206,16 @@ is.validXLSX <- function(ExcelName, verbose = FALSE){
     for (sName in varSheetNames) {
         
         localUnitName <- ExcelSheets.list[[sName]][['UnitName']]
-        localUnitName <- localUnitName[!is.na(localUnitName) & localUnitName != '']
+        localUnitNames <- ExcelSheets.list[[sName]][, c("IDQual", "UnitName")][!is.na(UnitName) & UnitName != '']
+        localUnitName <- localUnitNames[IDQual == '', UnitName]
         unitNames <- c(unitNames, localUnitName)
 
     }
     
-    unitNames <- unitNames[!unitNames %in% quals_UnitName]
+    
+    
+    unitNames <- unitNames[!unitNames %in% setdiff(quals_UnitName, idQuals_UnitName)]
+    unitNames <- c(unitNames, idQuals_UnitName)
     dupUnitNames <- unitNames[duplicated(unitNames)]
 
     if (length(dupUnitNames) > 0) {
